@@ -116,8 +116,8 @@ bool Win32Window::CreateAndShow(const std::wstring& title,
   UINT dpi = FlutterDesktopGetDpiForMonitor(monitor);
   double scale_factor = dpi / 96.0;
 
-  HWND window = CreateWindowEx(
-      WS_EX_TOPMOST | WS_EX_TOOLWINDOW,
+  //HWND window = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW,
+  HWND window = CreateWindow(
       window_class, title.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE,
       Scale(origin.x, scale_factor), Scale(origin.y, scale_factor),
       Scale(size.width, scale_factor), Scale(size.height, scale_factor),
