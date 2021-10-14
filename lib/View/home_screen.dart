@@ -18,7 +18,11 @@ class HomeScreen extends StatelessWidget {
                 model.clearPlayers();
               },
             ),
-            const MapWidget(),
+            const SizedBox(
+              width: 1000,
+              height: 500,
+              child: MapWidget(),
+            )
           ],
         ),
       );

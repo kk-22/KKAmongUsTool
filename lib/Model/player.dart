@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 class Player {
+  static const int maxRound = 5;
+
   String name = "名前";
   PlayerColor color = PlayerColor.unknown;
-  List<Offset> offsets = <Offset>[]; // ターン毎の位置
+  List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
 }
 
 enum PlayerColor {
