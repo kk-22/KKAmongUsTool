@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
+import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 import 'package:provider/provider.dart';
 
 import 'player_registration_screen.dart';
@@ -17,13 +18,27 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 ElevatedButton(
-                  child: const Text('位置リセット'),
+                  child: const Text("マップ変更"),
+                  onPressed: () async {
+                    final String? mapPath = await showDialog<String>(
+                      context: context,
+                      builder: (context) {
+                        return const MapSelectionDialog();
+                      },
+                    );
+                    if (mapPath != null) {
+                      model.changeMap(mapPath);
+                    }
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("位置リセット"),
                   onPressed: () {
                     model.clearPlayerOffsets();
                   },
                 ),
                 ElevatedButton(
-                  child: const Text('プレイヤー登録'),
+                  child: const Text("プレイヤー登録"),
                   onPressed: () {
                     showDialog(
                       context: context,

@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
+import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<Player> _players = [];
-  String mapPath = "assets/map/4_Airship.png";
+  String mapPath = MapSelectionDialog.defaultMapPath;
   int currentRound = 0; // 表示中のラウンド
   int lastRound = 0; // 最終ラウンド
 
@@ -54,6 +55,11 @@ class HomeViewModel extends ChangeNotifier {
     } else {
       _players.add(Player(name, color));
     }
+    notifyListeners();
+  }
+
+  void changeMap(String path) {
+    mapPath = path;
     notifyListeners();
   }
 }
