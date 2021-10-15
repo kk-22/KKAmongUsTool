@@ -1,24 +1,46 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
+
 class Player {
   static const int maxRound = 5;
 
-  String name = "名前";
-  PlayerColor color = PlayerColor.unknown;
+  var name = "";
+  PlayerColor color;
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
+
+  Player(this.name, this.color) {
+    resetOffset();
+  }
+
+  void resetOffset() {
+    offsets = List.filled(Player.maxRound, Offset.zero);
+  }
 }
 
 enum PlayerColor {
-  unknown,
   red,
   blue,
+  green,
+  pink,
+  orange,
+  yellow,
+  black,
+  white,
+  purple,
+  brown,
+  cyan,
+  lime,
+  maroon,
+  rose,
+  banana,
+  grey,
+  tan,
+  coral,
 }
 
 extension PlayerColorExtension on PlayerColor {
-  static final _names = {
-    PlayerColor.unknown: "cyan",
-    PlayerColor.red: "cyan",
-    PlayerColor.blue: "cyan",
-  };
-  String get imageName => "assets/player/${_names[this]}.png";
+  static const int count = 18;
+
+  String get imageName => "assets/player/${describeEnum(this)}.png";
 }

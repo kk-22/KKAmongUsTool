@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
-import 'package:kk_amongus_tool/util/hwnd_util.dart';
 import 'package:provider/provider.dart';
+
+import 'player_registration_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,16 +17,20 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 ElevatedButton(
-                  child: const Text('clearボタン'),
+                  child: const Text('位置リセット'),
                   onPressed: () {
-                    model.clearPlayers();
+                    model.clearPlayerOffsets();
                   },
                 ),
                 ElevatedButton(
                   child: const Text('プレイヤー登録'),
                   onPressed: () {
-                    final hwnd = HwndUtil.findHwnd("Chrome_WidgetWin_1");
-                    HwndUtil.captureImage(hwnd);
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PlayerRegistrationScreen(model);
+                      },
+                    );
                   },
                 ),
               ],
