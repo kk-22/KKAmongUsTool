@@ -30,11 +30,12 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              width: 1000,
-              height: 500,
-              child: MapWidget(),
-            )
+            const Expanded(
+              child: SizedBox(
+                width: 1000,
+                child: MapWidget(),
+              ),
+            ),
           ],
         ),
       );
