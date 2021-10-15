@@ -21,14 +21,13 @@ class PlayerRegistrationScreen extends StatelessWidget {
             }),
           ),
         ),
-        const SizedBox(height: 50),
-        SizedBox(
-          width: 200,
-          child: ElevatedButton(
-            child: const Text('全名前リセット'),
-            onPressed: () {
-              viewModel.clearPlayerName();
-            },
+        const SizedBox(height: 20),
+        Center(
+          child: Text(
+            "プレイヤー数：${viewModel.numberOfPlayers()}",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],
