@@ -28,6 +28,7 @@ class MapWidget extends StatelessWidget {
             child: Draggable(
               child: PlayerWidget(player0),
               feedback: Material(
+                color: Colors.transparent,
                 child: PlayerWidget(player0),
               ),
               data: player0.name,
