@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/View/player_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
@@ -20,10 +21,7 @@ class MapWidget extends StatelessWidget {
       return Stack(
         key: globalKey,
         children: [
-          FittedBox(
-            fit: BoxFit.fitHeight,
-            child: Image.asset(model.mapPath),
-          ),
+          Image.asset(model.mapPath, fit: BoxFit.contain),
           Positioned(
             top: offset.dy,
             left: offset.dx,
