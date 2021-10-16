@@ -17,6 +17,8 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDied =
+        (player.diedRound ?? Player.maxRound) <= _viewModel.currentRound;
     return Column(
       children: [
         Container(
@@ -34,20 +36,40 @@ class PlayerWidget extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return PlayerStatusDialog(player, _viewModel);
+        Stack(
+          children: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return PlayerStatusDialog(player, _viewModel);
+                  },
+                );
               },
-            );
-          },
-          icon: Image.asset(
-            player.color.imageName,
-            fit: BoxFit.contain,
-            height: _charHeight,
-          ),
+              icon: Image.asset(
+                player.color.imageName,
+                fit: BoxFit.contain,
+                height: _charHeight,
+              ),
+            ),
+            Visibility(
+              visible: isDied && player.status == PlayerStatus.killed,
+              child: Image.asset(
+                "assets/icon/skull.png",
+                fit: BoxFit.contain,
+                height: _charHeight * 0.7,
+              ),
+            ),
+            Visibility(
+              visible: isDied && player.status == PlayerStatus.ejected,
+              child: Image.asset(
+                "assets/icon/cross.png",
+                fit: BoxFit.contain,
+                height: _charHeight,
+              ),
+            ),
+          ],
         ),
       ],
     );
