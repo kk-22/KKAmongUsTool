@@ -13,9 +13,10 @@ class PlayerRegistrationScreen extends StatelessWidget {
       children: [
         SizedBox(
           width: 900,
-          height: 200,
+          height: 250,
           child: GridView.count(
             crossAxisCount: 9,
+            childAspectRatio: 0.9,
             children: List.generate(PlayerColorExtension.count, (index) {
               return gridItem(index);
             }),
@@ -44,8 +45,8 @@ class PlayerRegistrationScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 25,
-          width: 80,
+          height: 35,
+          width: 100,
           child: TextField(
             controller: controller,
             decoration: const InputDecoration(
