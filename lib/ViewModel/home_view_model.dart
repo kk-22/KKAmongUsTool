@@ -25,6 +25,7 @@ class HomeViewModel extends ChangeNotifier {
       player.diedRound = null;
       player.resetOffset();
     }
+    currentRound = 0;
     notifyListeners();
   }
 
