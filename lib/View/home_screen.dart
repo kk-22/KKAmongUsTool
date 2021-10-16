@@ -15,11 +15,9 @@ class HomeScreen extends StatelessWidget {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       return Stack(
         children: [
-          const Expanded(
-            child: SizedBox(
-              width: 1000,
-              child: MapWidget(),
-            ),
+          const SizedBox(
+            width: 1000,
+            child: MapWidget(),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
