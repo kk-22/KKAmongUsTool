@@ -13,53 +13,52 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
-      return Center(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ElevatedButton(
-                  child: const Text("マップ変更"),
-                  onPressed: () async {
-                    final String? mapPath = await showDialog<String>(
-                      context: context,
-                      builder: (context) {
-                        return const MapSelectionDialog();
-                      },
-                    );
-                    if (mapPath != null) {
-                      model.changeMap(mapPath);
-                    }
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("位置リセット"),
-                  onPressed: () {
-                    model.clearPlayerInfo();
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("プレイヤー登録"),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return PlayerRegistrationScreen(model);
-                      },
-                    );
-                  },
-                ),
-                RoundSelectionWidget(model),
-              ],
+      return Stack(
+        children: [
+          const Expanded(
+            child: SizedBox(
+              width: 1000,
+              child: MapWidget(),
             ),
-            const Expanded(
-              child: SizedBox(
-                width: 1000,
-                child: MapWidget(),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                child: const Text("マップ変更"),
+                onPressed: () async {
+                  final String? mapPath = await showDialog<String>(
+                    context: context,
+                    builder: (context) {
+                      return const MapSelectionDialog();
+                    },
+                  );
+                  if (mapPath != null) {
+                    model.changeMap(mapPath);
+                  }
+                },
               ),
-            ),
-          ],
-        ),
+              ElevatedButton(
+                child: const Text("位置リセット"),
+                onPressed: () {
+                  model.clearPlayerInfo();
+                },
+              ),
+              ElevatedButton(
+                child: const Text("プレイヤー登録"),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return PlayerRegistrationScreen(model);
+                    },
+                  );
+                },
+              ),
+              RoundSelectionWidget(model),
+            ],
+          ),
+        ],
       );
     });
   }

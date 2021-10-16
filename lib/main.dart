@@ -18,11 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'provider demo',
       home: ChangeNotifierProvider<HomeViewModel>(
         create: (_) => HomeViewModel(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('KKAmongUsTool'),
-          ),
-          body: const HomeScreen(),
+        child: const Scaffold(
+          body: HomeScreen(),
         ),
       ),
     );

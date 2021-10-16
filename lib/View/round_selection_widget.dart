@@ -17,14 +17,15 @@ class RoundSelectionWidget extends StatefulWidget {
 class _RoundSelectionWidgetState extends State<RoundSelectionWidget> {
   var _isExpanding = false;
 
-  static const _minHeight = 20.0;
+  static const _minHeight = 28.0;
   static const _gridItemHeight = 30.0;
   static const _gridHeight = _gridItemHeight * 3;
   static const _maxHeight = _minHeight + _gridHeight;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: Colors.white,
       height: _isExpanding ? _maxHeight : _minHeight,
       width: 150,
       child: GestureDetector(
