@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
+import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
+import 'package:kk_amongus_tool/dialog/player_status_dialog.dart';
 
 class PlayerWidget extends StatelessWidget {
   // 幅は画像の幅。名前用Textの幅は可変。
@@ -8,8 +10,10 @@ class PlayerWidget extends StatelessWidget {
   static const double _charHeight = 30;
 
   final Player player;
+  final HomeViewModel _viewModel;
 
-  const PlayerWidget(this.player, {Key? key}) : super(key: key);
+  const PlayerWidget(this.player, this._viewModel, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +34,20 @@ class PlayerWidget extends StatelessWidget {
             ),
           ),
         ),
-        Image.asset(
-          player.color.imageName,
-          fit: BoxFit.contain,
-          height: _charHeight,
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return PlayerStatusDialog(player, _viewModel);
+              },
+            );
+          },
+          icon: Image.asset(
+            player.color.imageName,
+            fit: BoxFit.contain,
+            height: _charHeight,
+          ),
         ),
       ],
     );

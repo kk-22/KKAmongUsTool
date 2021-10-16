@@ -5,8 +5,11 @@ import 'package:flutter/foundation.dart';
 class Player {
   static const int maxRound = 15;
 
-  var name = "";
-  PlayerColor color;
+  String name;
+  final PlayerColor color;
+
+  var status = PlayerStatus.survive;
+  int? diedRound;
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
 
   Player(this.name, this.color) {
@@ -16,6 +19,12 @@ class Player {
   void resetOffset() {
     offsets = List.filled(Player.maxRound, Offset.zero);
   }
+}
+
+enum PlayerStatus {
+  survive,
+  killed,
+  ejected,
 }
 
 enum PlayerColor {

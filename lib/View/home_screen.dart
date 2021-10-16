@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 ElevatedButton(
                   child: const Text("位置リセット"),
                   onPressed: () {
-                    model.clearPlayerOffsets();
+                    model.clearPlayerInfo();
                   },
                 ),
                 ElevatedButton(

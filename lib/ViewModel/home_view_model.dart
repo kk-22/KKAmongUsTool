@@ -16,17 +16,19 @@ class HomeViewModel extends ChangeNotifier {
       Player("赤色", PlayerColor.red),
       Player("みどり", PlayerColor.green),
     ];
-    clearPlayerOffsets();
+    clearPlayerInfo();
   }
 
-  void clearPlayerOffsets() {
+  void clearPlayerInfo() {
     for (var player in _players) {
+      player.status = PlayerStatus.survive;
+      player.diedRound = null;
       player.resetOffset();
     }
     notifyListeners();
   }
 
-  void clearPlayerName() {
+  void removeAllPlayer() {
     _players.clear();
     notifyListeners();
   }
@@ -55,6 +57,20 @@ class HomeViewModel extends ChangeNotifier {
     } else {
       _players.add(Player(name, color));
     }
+    notifyListeners();
+  }
+
+  void changePlayerStatus(Player player, PlayerStatus status) {
+    switch (status) {
+      case PlayerStatus.survive:
+        player.diedRound = null;
+        break;
+      case PlayerStatus.killed:
+      case PlayerStatus.ejected:
+        player.diedRound = currentRound;
+        break;
+    }
+    player.status = status;
     notifyListeners();
   }
 
