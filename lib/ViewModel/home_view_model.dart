@@ -62,4 +62,9 @@ class HomeViewModel extends ChangeNotifier {
     mapPath = path;
     notifyListeners();
   }
+
+  void changeRound(int index) {
+    currentRound = index;
+    notifyListeners();
+  }
 }

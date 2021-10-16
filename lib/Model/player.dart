@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 
 class Player {
-  static const int maxRound = 5;
+  static const int maxRound = 15;
 
   var name = "";
   PlayerColor color;
