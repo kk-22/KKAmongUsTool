@@ -27,7 +27,7 @@ class _RoundSelectionWidgetState extends State<RoundSelectionWidget> {
     return Container(
       color: Colors.white,
       height: _isExpanding ? _maxHeight : _minHeight,
-      width: 150,
+      width: 130,
       child: GestureDetector(
         child: MouseRegion(
           onEnter: (_) => setState(() {
@@ -38,14 +38,16 @@ class _RoundSelectionWidgetState extends State<RoundSelectionWidget> {
           }),
           child: Column(
             children: [
-              FittedBox(
-                fit: BoxFit.fill,
-                child: Text(
-                  "ラウンド：${widget._viewModel.currentRound + 1}",
-                  style: TextStyle(
-                    decoration: _isExpanding ? TextDecoration.underline : null,
-                    color: Colors.blue,
-                    fontSize: 15,
+              SizedBox(
+                height: _minHeight,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Text(
+                    "ラウンド：${widget._viewModel.currentRound + 1}",
+                    style: TextStyle(
+                      decoration: _isExpanding ? TextDecoration.underline : null,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
               ),
@@ -70,7 +72,7 @@ class _RoundSelectionWidgetState extends State<RoundSelectionWidget> {
             child: Text(
               "${index + 1}",
               style: const TextStyle(
-                fontSize: 10,
+                fontSize: 9,
               ),
             ),
             onPressed: () {
