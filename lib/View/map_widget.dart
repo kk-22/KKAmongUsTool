@@ -7,19 +7,18 @@ import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MapWidget extends StatelessWidget {
-  const MapWidget({Key? key}) : super(key: key);
+  final GlobalKey _globalKey;
+  const MapWidget(this._globalKey) : super(key: _globalKey);
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey globalKey = GlobalKey();
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       List<Widget> list = List.generate(model.numberOfPlayers(), (index) {
-        return playerItem(index, model, globalKey);
+        return playerItem(index, model, _globalKey);
       });
       list.insert(0, Image.asset(model.mapPath, fit: BoxFit.contain));
 
       return Stack(
-        key: globalKey,
         children: list,
       );
     });
@@ -32,7 +31,7 @@ class MapWidget extends StatelessWidget {
     }
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
-      offset = Offset(10.0 + 50 * index, 30.0);
+      offset = Offset(10.0 + 50 * index, 580.0);
     }
     return Positioned(
       top: offset.dy,
