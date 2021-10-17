@@ -10,15 +10,50 @@ class PlayerCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counts = viewModel.numberOfPlayerEachStatus();
-    return Container(
-      width: 180,
-      color: Colors.green,
+    return SizedBox(
+      width: 150,
       child: Center(
-        child: Text(
-          "生:${counts[0]}　殺:${counts[1]}　追:${counts[2]}",
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        child: RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+            ),
+            children: [
+              const TextSpan(
+                text: "生:",
+              ),
+              TextSpan(
+                text: "${counts[0]}",
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const TextSpan(
+                text: " 殺:",
+              ),
+              TextSpan(
+                text: "${counts[1]}",
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const TextSpan(
+                text: " 追:",
+              ),
+              TextSpan(
+                text: "${counts[2]}",
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),
