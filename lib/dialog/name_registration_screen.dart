@@ -76,6 +76,8 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
   }
 
   Widget gridChild(FieldItem item) {
+    final iconFocus = FocusNode();
+    iconFocus.skipTraversal = true;
     return Column(
       children: [
         SizedBox(
@@ -96,6 +98,7 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
           height: 65,
           width: MediaQuery.of(context).size.width,
           child: IconButton(
+            focusNode: iconFocus,
             onPressed: () {
               if (item.controller.text.isEmpty) {
                 item.focusNode.requestFocus();
