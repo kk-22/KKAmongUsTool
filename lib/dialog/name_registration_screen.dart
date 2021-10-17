@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
-class NameRegistrationScreen extends StatelessWidget {
+class NameRegistrationScreen extends StatefulWidget {
   final HomeViewModel viewModel;
 
   const NameRegistrationScreen(this.viewModel, {Key? key}) : super(key: key);
 
+  @override
+  State<NameRegistrationScreen> createState() {
+    return _NameRegistrationScreenState();
+  }
+}
+
+class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -25,7 +32,7 @@ class NameRegistrationScreen extends StatelessWidget {
         const SizedBox(height: 20),
         Center(
           child: Text(
-            "プレイヤー数：${viewModel.numberOfPlayers()}",
+            "プレイヤー数：${widget.viewModel.numberOfPlayers()}",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -37,16 +44,16 @@ class NameRegistrationScreen extends StatelessWidget {
 
   Widget gridItem(int index) {
     final color = PlayerColor.values[index];
-    var player = viewModel.playerOfColor(color);
+    var player = widget.viewModel.playerOfColor(color);
     final controller = TextEditingController(text: player?.name ?? "");
     controller.addListener(() {
-      viewModel.changeName(controller.text, color);
+      widget.viewModel.changeName(controller.text, color);
     });
     return Column(
       children: [
         SizedBox(
           height: 35,
-          width: 100,
+          width: 90,
           child: TextField(
             controller: controller,
             decoration: const InputDecoration(
