@@ -37,7 +37,7 @@ class MapWidget extends StatelessWidget {
       Player player, int index, HomeViewModel model, GlobalKey globalKey) {
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
-      offset = Offset(10.0 + 50 * index, 580.0);
+      offset = Offset(10.0 + 50 * index, 530.0);
     }
     return Positioned(
       top: offset.dy,

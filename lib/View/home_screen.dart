@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../dialog/name_registration_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const fixedAreaHeight = 50.0;
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,45 +18,57 @@ class HomeScreen extends StatelessWidget {
       return Stack(
         children: [
           SizedBox(
+            height: fixedAreaHeight,
+            child: Row(
+              children: [
+
+              ],
+            ),
+          ),
+          Container(
             height: MediaQuery.of(context).size.height,
+            margin: const EdgeInsets.only(top: fixedAreaHeight),
             child: MapWidget(GlobalKey()),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ElevatedButton(
-                child: const Text("マップ変更"),
-                onPressed: () async {
-                  final String? mapPath = await showDialog<String>(
-                    context: context,
-                    builder: (context) {
-                      return const MapSelectionDialog();
-                    },
-                  );
-                  if (mapPath != null) {
-                    model.changeMap(mapPath);
-                  }
-                },
-              ),
-              ElevatedButton(
-                child: const Text("位置リセット"),
-                onPressed: () {
-                  model.clearPlayerInfo();
-                },
-              ),
-              ElevatedButton(
-                child: const Text("プレイヤー登録"),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return NameRegistrationScreen(model);
-                    },
-                  );
-                },
-              ),
-              RoundSelectionWidget(model),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: fixedAreaHeight),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ElevatedButton(
+                  child: const Text("マップ変更"),
+                  onPressed: () async {
+                    final String? mapPath = await showDialog<String>(
+                      context: context,
+                      builder: (context) {
+                        return const MapSelectionDialog();
+                      },
+                    );
+                    if (mapPath != null) {
+                      model.changeMap(mapPath);
+                    }
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("位置リセット"),
+                  onPressed: () {
+                    model.clearPlayerInfo();
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("プレイヤー登録"),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return NameRegistrationScreen(model);
+                      },
+                    );
+                  },
+                ),
+                RoundSelectionWidget(model),
+              ],
+            ),
           ),
         ],
       );
