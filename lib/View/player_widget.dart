@@ -7,7 +7,7 @@ class PlayerWidget extends StatelessWidget {
   // 幅は画像の幅。名前用Textの幅は可変。
   static const Size size = Size(40, _nameHeight + _charHeight);
   static const double _nameHeight = 23;
-  static const double _charHeight = 30;
+  static const double _charHeight = 24;
 
   final Player player;
   final HomeViewModel _viewModel;
@@ -24,7 +24,7 @@ class PlayerWidget extends StatelessWidget {
       children: [
         Container(
           height: _nameHeight,
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
           decoration: BoxDecoration(
             color: Colors.grey,
             border: Border.all(color: Colors.black),
@@ -32,7 +32,7 @@ class PlayerWidget extends StatelessWidget {
           child: Text(
             player.name,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.white,
             ),
           ),
@@ -40,6 +40,8 @@ class PlayerWidget extends StatelessWidget {
         Stack(
           children: [
             IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -56,18 +58,22 @@ class PlayerWidget extends StatelessWidget {
             ),
             Visibility(
               visible: isDied && player.status == PlayerStatus.killed,
-              child: Image.asset(
-                "assets/icon/skull.png",
-                fit: BoxFit.contain,
-                height: _charHeight * 0.7,
+              child: IgnorePointer(
+                child: Image.asset(
+                  "assets/icon/skull.png",
+                  fit: BoxFit.contain,
+                  height: _charHeight * 0.6,
+                ),
               ),
             ),
             Visibility(
               visible: isDied && player.status == PlayerStatus.ejected,
-              child: Image.asset(
-                "assets/icon/cross.png",
-                fit: BoxFit.contain,
-                height: _charHeight,
+              child: IgnorePointer(
+                child: Image.asset(
+                  "assets/icon/cross.png",
+                  fit: BoxFit.contain,
+                  height: _charHeight * 0.8,
+                ),
               ),
             ),
           ],
