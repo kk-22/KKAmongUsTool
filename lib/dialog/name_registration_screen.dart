@@ -41,6 +41,7 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
   void dispose() {
     for (var item in items) {
       item.controller.dispose();
+      item.focusNode.dispose();
     }
     super.dispose();
   }
@@ -94,9 +95,19 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
               item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
           height: 65,
           width: MediaQuery.of(context).size.width,
-          child: Image.asset(
-            item.color.imageName,
-            fit: BoxFit.contain,
+          child: IconButton(
+            onPressed: () {
+              if (item.controller.text.isEmpty) {
+                item.focusNode.requestFocus();
+                item.controller.text = "dummy";
+              } else {
+                item.controller.clear();
+              }
+            },
+            icon: Image.asset(
+              item.color.imageName,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       ],
