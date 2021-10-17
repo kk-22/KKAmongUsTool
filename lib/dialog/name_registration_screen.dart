@@ -14,26 +14,33 @@ class NameRegistrationScreen extends StatefulWidget {
 }
 
 class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
-  late List<TextEditingController> controllers;
+  late List<FieldItem> items;
 
   @override
   void initState() {
     super.initState();
-    controllers = PlayerColor.values.map((color) {
+    items = PlayerColor.values.map((color) {
       var player = widget.viewModel.playerOfColor(color);
       final controller = TextEditingController(text: player?.name ?? "");
       controller.addListener(() {
         widget.viewModel.changeName(controller.text, color);
         setState(() {});
       });
-      return controller;
+      final item = FieldItem(color, controller);
+      item.focusNode.addListener(() {
+        if (item.focusNode.hasFocus) {
+          controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
+        }
+      });
+      return item;
     }).toList();
   }
 
   @override
   void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
+    for (var item in items) {
+      item.controller.dispose();
     }
     super.dispose();
   }
@@ -49,7 +56,7 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
             crossAxisCount: 9,
             childAspectRatio: 0.9,
             children: List.generate(PlayerColorExtension.count, (index) {
-              return gridItem(index);
+              return gridChild(items[index]);
             }),
           ),
         ),
@@ -66,15 +73,15 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
     );
   }
 
-  Widget gridItem(int index) {
-    final color = PlayerColor.values[index];
+  Widget gridChild(FieldItem item) {
     return Column(
       children: [
         SizedBox(
           height: 35,
           width: 90,
           child: TextField(
-            controller: controllers[index],
+            controller: item.controller,
+            focusNode: item.focusNode,
             decoration: const InputDecoration(
               hintText: "name",
             ),
@@ -84,11 +91,19 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
         SizedBox(
           height: 65,
           child: Image.asset(
-            color.imageName,
+            item.color.imageName,
             fit: BoxFit.contain,
           ),
         ),
       ],
     );
   }
+}
+
+class FieldItem {
+  final PlayerColor color;
+  final TextEditingController controller;
+  final focusNode = FocusNode();
+
+  FieldItem(this.color, this.controller);
 }
