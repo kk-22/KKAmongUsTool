@@ -52,10 +52,10 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
       children: [
         SizedBox(
           width: 900,
-          height: 250,
+          height: 350,
           child: GridView.count(
-            crossAxisCount: 9,
-            childAspectRatio: 0.9,
+            crossAxisCount: 6,
+            childAspectRatio: 1,
             crossAxisSpacing: 1,
             children: List.generate(PlayerColorExtension.count, (index) {
               return gridChild(items[index]);
