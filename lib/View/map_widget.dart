@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class MapWidget extends StatelessWidget {
   final GlobalKey _globalKey;
+
   const MapWidget(this._globalKey) : super(key: _globalKey);
 
   @override
@@ -18,7 +19,13 @@ class MapWidget extends StatelessWidget {
       List<Widget> list = List.generate(players.length, (index) {
         return playerItem(players[index], index, model, _globalKey);
       });
-      list.insert(0, Image.asset(model.mapPath, fit: BoxFit.contain));
+      list.insert(
+          0,
+          Container(
+              color: Colors.black,
+              margin: const EdgeInsets.only(bottom: 100),
+              child: Center(
+                  child: Image.asset(model.mapPath, fit: BoxFit.contain))));
 
       return Stack(
         children: list,
@@ -26,7 +33,8 @@ class MapWidget extends StatelessWidget {
     });
   }
 
-  Widget playerItem(Player player, int index, HomeViewModel model, GlobalKey globalKey) {
+  Widget playerItem(
+      Player player, int index, HomeViewModel model, GlobalKey globalKey) {
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
       offset = Offset(10.0 + 50 * index, 580.0);
