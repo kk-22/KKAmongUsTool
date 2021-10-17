@@ -49,6 +49,18 @@ class HomeViewModel extends ChangeNotifier {
 
   int numberOfPlayers() => _players.length;
 
+  List<int> numberOfPlayerEachStatus() {
+    return [
+      _players
+          .where((element) => element.status == PlayerStatus.survive)
+          .length,
+      _players.where((element) => element.status == PlayerStatus.killed).length,
+      _players
+          .where((element) => element.status == PlayerStatus.ejected)
+          .length,
+    ];
+  }
+
   List<Player> survivingPlayers() =>
       _players.where((element) => element.isSurviving(currentRound)).toList();
 
