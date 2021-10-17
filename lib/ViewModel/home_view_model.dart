@@ -9,6 +9,8 @@ class HomeViewModel extends ChangeNotifier {
   int currentRound = 0; // 表示中のラウンド
   int lastRound = 0; // 最終ラウンド
 
+  List<Player> get allPlayer => _players;
+
   HomeViewModel() {
     // デバッグ用初期値
     _players = [

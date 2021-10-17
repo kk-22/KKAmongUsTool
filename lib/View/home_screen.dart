@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/View/player_counter.dart';
 import 'package:kk_amongus_tool/View/round_selection_widget.dart';
+import 'package:kk_amongus_tool/View/suspicion_graph_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 PlayerCounter(model),
+                SuspicionGraphWidget(model),
               ],
             ),
           ),
