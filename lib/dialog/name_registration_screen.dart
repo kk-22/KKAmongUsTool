@@ -14,6 +14,30 @@ class NameRegistrationScreen extends StatefulWidget {
 }
 
 class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
+  late List<TextEditingController> controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = PlayerColor.values.map((color) {
+      var player = widget.viewModel.playerOfColor(color);
+      final controller = TextEditingController(text: player?.name ?? "");
+      controller.addListener(() {
+        widget.viewModel.changeName(controller.text, color);
+        setState(() {});
+      });
+      return controller;
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -44,18 +68,13 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
 
   Widget gridItem(int index) {
     final color = PlayerColor.values[index];
-    var player = widget.viewModel.playerOfColor(color);
-    final controller = TextEditingController(text: player?.name ?? "");
-    controller.addListener(() {
-      widget.viewModel.changeName(controller.text, color);
-    });
     return Column(
       children: [
         SizedBox(
           height: 35,
           width: 90,
           child: TextField(
-            controller: controller,
+            controller: controllers[index],
             decoration: const InputDecoration(
               hintText: "name",
             ),
