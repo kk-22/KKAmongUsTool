@@ -5,7 +5,7 @@ import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 import 'package:provider/provider.dart';
 
-import '../dialog/player_registration_screen.dart';
+import '../dialog/name_registration_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return PlayerRegistrationScreen(model);
+                      return NameRegistrationScreen(model);
                     },
                   );
                 },

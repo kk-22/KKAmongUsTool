@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
-class PlayerRegistrationScreen extends StatelessWidget {
+class NameRegistrationScreen extends StatelessWidget {
   final HomeViewModel viewModel;
 
-  const PlayerRegistrationScreen(this.viewModel, {Key? key}) : super(key: key);
+  const NameRegistrationScreen(this.viewModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
