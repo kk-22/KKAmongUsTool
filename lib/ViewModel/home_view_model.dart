@@ -34,8 +34,8 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void movePlayer(int index, Offset offset) {
-    playerOfIndex(index)?.offsets[currentRound] = offset;
+  void movePlayer(Player player, Offset offset) {
+    player.offsets[currentRound] = offset;
     if (currentRound < lastRound) {
       lastRound = currentRound;
     }
@@ -48,6 +48,9 @@ class HomeViewModel extends ChangeNotifier {
   Player? playerOfIndex(int index) => _players[index];
 
   int numberOfPlayers() => _players.length;
+
+  List<Player> survivingPlayers() =>
+      _players.where((element) => element.isSurviving(currentRound)).toList();
 
   void changeName(String name, PlayerColor color) {
     var player = playerOfColor(color);

@@ -17,6 +17,7 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 現在のラウンドで死んだプレイヤーもtrueになる
     final isDied =
         (player.diedRound ?? Player.maxRound) <= _viewModel.currentRound;
     return Column(

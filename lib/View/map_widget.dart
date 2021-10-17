@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/View/player_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,9 @@ class MapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
-      List<Widget> list = List.generate(model.numberOfPlayers(), (index) {
-        return playerItem(index, model, _globalKey);
+      final players = model.survivingPlayers();
+      List<Widget> list = List.generate(players.length, (index) {
+        return playerItem(players[index], index, model, _globalKey);
       });
       list.insert(0, Image.asset(model.mapPath, fit: BoxFit.contain));
 
@@ -24,11 +26,7 @@ class MapWidget extends StatelessWidget {
     });
   }
 
-  Widget playerItem(int index, HomeViewModel model, GlobalKey globalKey) {
-    final player = model.playerOfIndex(index);
-    if (player == null) {
-      return const Text("No player");
-    }
+  Widget playerItem(Player player, int index, HomeViewModel model, GlobalKey globalKey) {
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
       offset = Offset(10.0 + 50 * index, 580.0);
@@ -52,7 +50,7 @@ class MapWidget extends StatelessWidget {
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
           final lastDy = min(
               box.size.height - PlayerWidget.size.height, max(0.0, offset.dy));
-          model.movePlayer(index, Offset(lastDx, lastDy));
+          model.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),
     );
