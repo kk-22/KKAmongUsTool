@@ -55,6 +55,7 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
           child: GridView.count(
             crossAxisCount: 9,
             childAspectRatio: 0.9,
+            crossAxisSpacing: 1,
             children: List.generate(PlayerColorExtension.count, (index) {
               return gridChild(items[index]);
             }),
@@ -88,8 +89,11 @@ class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
+        Container(
+          color:
+              item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
           height: 65,
+          width: MediaQuery.of(context).size.width,
           child: Image.asset(
             item.color.imageName,
             fit: BoxFit.contain,
