@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/View/home_screen.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
 class PlayerCounter extends StatelessWidget {
@@ -11,6 +12,7 @@ class PlayerCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     final counts = viewModel.numberOfPlayerEachStatus();
     return SizedBox(
+      height: HomeScreen.buttonBarHeight,
       width: 150,
       child: Center(
         child: RichText(

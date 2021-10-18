@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import '../dialog/name_registration_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const fixedAreaHeight = 50.0;
+  static const buttonBarHeight = 50.0;
 
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -20,29 +20,27 @@ class HomeScreen extends StatelessWidget {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       return Stack(
         children: [
-          SizedBox(
-            height: fixedAreaHeight,
-            child: Row(
-              children: [
-                PlayerCounter(model),
-                const SizedBox(
-                  width: 5,
-                ),
-                const KillTimerWidget(),
-                const SizedBox(
-                  width: 5,
-                ),
-                SuspicionGraphWidget(model),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PlayerCounter(model),
+              const SizedBox(
+                width: 5,
+              ),
+              const KillTimerWidget(),
+              const SizedBox(
+                width: 5,
+              ),
+              SuspicionGraphWidget(model),
+            ],
           ),
           Container(
             height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.only(top: fixedAreaHeight),
+            margin: const EdgeInsets.only(top: buttonBarHeight),
             child: MapWidget(GlobalKey()),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: fixedAreaHeight),
+            padding: const EdgeInsets.only(top: buttonBarHeight),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
