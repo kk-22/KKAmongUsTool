@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/View/player_counter.dart';
 import 'package:kk_amongus_tool/View/round_selection_widget.dart';
@@ -24,6 +25,13 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 PlayerCounter(model),
+                const SizedBox(
+                  width: 5,
+                ),
+                const KillTimerWidget(),
+                const SizedBox(
+                  width: 5,
+                ),
                 SuspicionGraphWidget(model),
               ],
             ),
