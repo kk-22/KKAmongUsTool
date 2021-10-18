@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class KillTimerWidget extends StatefulWidget {
   const KillTimerWidget({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class KillTimerWidget extends StatefulWidget {
 }
 
 class _KillTimerWidgetState extends State<KillTimerWidget> {
-  DateTime _time = DateTime.utc(0, 0, 0);
+  int _elapsedSec = 0;
   Timer? _timer;
 
   @override
@@ -23,7 +22,7 @@ class _KillTimerWidgetState extends State<KillTimerWidget> {
     return Column(
       children: [
         Text(
-          DateFormat.ms().format(_time),
+          "$_elapsedSec秒",
           style: const TextStyle(
             fontSize: 15,
           ),
@@ -38,7 +37,7 @@ class _KillTimerWidgetState extends State<KillTimerWidget> {
                 onPressed: isActive
                     ? null
                     : () {
-                        _time = DateTime.utc(0, 0, 0);
+                        _elapsedSec = 0;
                         startTimer();
                       },
                 icon: Image.asset(
@@ -77,7 +76,7 @@ class _KillTimerWidgetState extends State<KillTimerWidget> {
       const Duration(seconds: 1),
       (Timer timer) {
         setState(() {
-          _time = _time.add(const Duration(seconds: 1));
+          _elapsedSec++;
         });
       },
     );
