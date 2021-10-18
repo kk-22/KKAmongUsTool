@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
-import 'package:kk_amongus_tool/View/overlay_setting_widget.dart';
 import 'package:kk_amongus_tool/View/player_counter.dart';
 import 'package:kk_amongus_tool/View/round_selection_widget.dart';
 import 'package:kk_amongus_tool/View/suspicion_graph_widget.dart';
@@ -9,6 +9,8 @@ import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 import 'package:kk_amongus_tool/dialog/name_registration_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'cool_time_list.dart';
 
 class HomeScreen extends StatelessWidget {
   static const buttonBarHeight = 50.0;
@@ -71,7 +73,12 @@ class HomeScreen extends StatelessWidget {
             children: [
               PlayerCounter(model),
               partitionLine(),
-              const OverlaySettingWidget(),
+              Column(
+                children: const [
+                  CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
+                  CoolTimeList(CoolTimeType.kill, "　キル：", 10, 60, 5),
+                ],
+              ),
               partitionLine(),
               const KillTimerWidget(),
               partitionLine(),
