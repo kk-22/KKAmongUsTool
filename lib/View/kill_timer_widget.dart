@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/Model/game_setting.dart';
+import 'package:provider/provider.dart';
 
 class KillTimerWidget extends StatefulWidget {
   const KillTimerWidget({Key? key}) : super(key: key);
@@ -13,7 +15,9 @@ class KillTimerWidget extends StatefulWidget {
 }
 
 class _KillTimerWidgetState extends State<KillTimerWidget> {
-  int _elapsedSec = 0;
+  static const _startSec = -3;
+
+  int _elapsedSec = _startSec;
   Timer? _timer;
 
   @override
@@ -21,12 +25,32 @@ class _KillTimerWidgetState extends State<KillTimerWidget> {
     final isActive = _timer != null && _timer!.isActive;
     return Column(
       children: [
-        Text(
-          "$_elapsedSec秒",
-          style: const TextStyle(
-            fontSize: 15,
-          ),
-        ),
+        Consumer<GameSetting>(builder: (context, setting, child) {
+          final numberOfKills =
+              _elapsedSec ~/ setting.coolTimeSec(CoolTimeType.kill);
+          Color backgroundColor = Colors.white;
+          switch (numberOfKills) {
+            case 0:
+              break;
+            case 1:
+              backgroundColor = Colors.yellow;
+              break;
+            default:
+              backgroundColor = Colors.red;
+              break;
+          }
+          return Container(
+            width: 50,
+            color: backgroundColor,
+            alignment: Alignment.centerRight,
+            child: Text(
+              "$_elapsedSec秒",
+              style: const TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          );
+        }),
         SizedBox(
           height: 30,
           child: Row(
@@ -37,7 +61,7 @@ class _KillTimerWidgetState extends State<KillTimerWidget> {
                 onPressed: isActive
                     ? null
                     : () {
-                        _elapsedSec = 0;
+                        _elapsedSec = _startSec;
                         startTimer();
                       },
                 icon: Image.asset(
