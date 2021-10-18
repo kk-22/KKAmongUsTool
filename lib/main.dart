@@ -1,7 +1,9 @@
 //▼main.dart
 
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:provider/provider.dart';
+
 import 'View/home_screen.dart';
 import 'ViewModel/home_view_model.dart';
 
@@ -17,8 +19,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'provider demo',
-      home: ChangeNotifierProvider<HomeViewModel>(
-        create: (_) => HomeViewModel(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<HomeViewModel>(
+            create: (_) => HomeViewModel(),
+          ),
+          ChangeNotifierProvider<GameSetting>(
+            create: (_) => GameSetting(),
+          ),
+        ],
         child: const Scaffold(
           body: HomeScreen(),
         ),
