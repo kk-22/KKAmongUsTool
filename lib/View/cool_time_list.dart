@@ -9,7 +9,7 @@ class CoolTimeList extends StatefulWidget {
   final String title;
   final int min;
   final int max;
-  final int increment;
+  final double increment;
 
   const CoolTimeList(this.type, this.title, this.min, this.max, this.increment,
       {Key? key})
@@ -68,12 +68,12 @@ class _CoolTimeListState extends State<CoolTimeList> {
   }
 
   Widget valueList() {
-    int count = (widget.max - widget.min) ~/ widget.increment;
+    int count = (widget.max - widget.min) ~/ widget.increment + 1;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: count,
       itemBuilder: (context, index) {
-        final value = widget.min + widget.increment * index;
+        final value = widget.min + (widget.increment * index).toInt();
         return SizedBox(
           child: TextButton(
             child: Text(

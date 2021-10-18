@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class GameSetting with ChangeNotifier {
   final Map<CoolTimeType, int> _coolTimeSecs = {
-    CoolTimeType.button: 10,
-    CoolTimeType.kill: 10,
+    CoolTimeType.button: 15,
+    CoolTimeType.kill: 30,
   };
 
   int coolTimeSec(CoolTimeType type) {
