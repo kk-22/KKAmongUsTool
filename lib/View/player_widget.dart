@@ -4,7 +4,6 @@ import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:kk_amongus_tool/dialog/player_status_dialog.dart';
 
 class PlayerWidget extends StatelessWidget {
-  // 幅は画像の幅。名前用Textの幅は可変。
   static const Size size = Size(50, _nameHeight + _charHeight);
   static const double _nameHeight = 23;
   static const double _charHeight = 24;
@@ -25,7 +24,7 @@ class PlayerWidget extends StatelessWidget {
         Container(
           height: _nameHeight,
           alignment: Alignment.center,
-          width: 50,
+          width: size.width,
           decoration: BoxDecoration(
             color: Colors.grey,
             border: Border.all(color: Colors.black),
