@@ -11,6 +11,7 @@ class Player {
   var status = PlayerStatus.survive;
   int? diedRound;
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
+  Offset mappingOffset = Offset.zero;
 
   Player(this.name, this.color) {
     resetOffset();
@@ -21,6 +22,7 @@ class Player {
 
   void resetOffset() {
     offsets = List.filled(Player.maxRound, Offset.zero);
+    mappingOffset = Offset.zero;
   }
 }
 

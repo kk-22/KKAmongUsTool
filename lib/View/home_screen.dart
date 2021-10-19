@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               partitionLine(),
               const KillTimerWidget(),
               partitionLine(),
-              SuspicionGraphWidget(model),
+              Expanded(child: SuspicionGraphWidget()),
             ],
           ),
         ],

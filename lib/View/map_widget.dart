@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
+import 'package:kk_amongus_tool/View/home_screen.dart';
 import 'package:kk_amongus_tool/View/player_widget.dart';
+import 'package:kk_amongus_tool/View/suspicion_graph_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +64,13 @@ class MapWidget extends StatelessWidget {
           // マップ外に配置されないように位置を補正
           final lastDx = min(
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
-          final lastDy = min(box.size.height - PlayerWidget.size.height,
-              max(playerInitialY, offset.dy));
+          final lastDy = min(
+              box.size.height - PlayerWidget.size.height,
+              max(
+                  // マッピング領域に重ならないようにする
+                  SuspicionGraphWidget.widgetHeight -
+                      HomeScreen.buttonBarHeight,
+                  offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),

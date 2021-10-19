@@ -44,6 +44,11 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateSuspicion(Player player, Offset offset) {
+    player.mappingOffset = offset;
+    notifyListeners();
+  }
+
   Player? playerOfColor(PlayerColor color) =>
       _players.firstWhereOrNull((player) => player.color == color);
 
