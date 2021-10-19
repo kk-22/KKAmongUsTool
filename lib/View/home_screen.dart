@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
@@ -81,7 +82,7 @@ class HomeScreen extends StatelessWidget {
               Column(
                 children: const [
                   CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
-                  CoolTimeList(CoolTimeType.kill, "　キル：", 10, 60, 2.5),
+                  CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
                 ],
               ),
               partitionLine(),

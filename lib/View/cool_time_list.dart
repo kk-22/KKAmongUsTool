@@ -36,7 +36,7 @@ class _CoolTimeListState extends State<CoolTimeList> {
     final setting = Provider.of<GameSetting>(context, listen: false);
     return Container(
       color: Colors.white,
-      width: 90,
+      width: 85,
       child: GestureDetector(
         child: MouseRegion(
           onEnter: (_) => setState(() {
@@ -48,9 +48,11 @@ class _CoolTimeListState extends State<CoolTimeList> {
           child: Column(
             children: [
               SizedBox(
+                width: double.infinity,
                 height: _minHeight,
                 child: Text(
                   "${widget.title}${setting.coolTimeSec(widget.type)}秒",
+                  textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 15,
                     decoration:
