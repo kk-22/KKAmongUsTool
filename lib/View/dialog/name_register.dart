@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
-class NameRegistrationScreen extends StatefulWidget {
+class NameRegister extends StatefulWidget {
   final HomeViewModel viewModel;
 
-  const NameRegistrationScreen(this.viewModel, {Key? key}) : super(key: key);
+  const NameRegister(this.viewModel, {Key? key}) : super(key: key);
 
   @override
-  State<NameRegistrationScreen> createState() {
-    return _NameRegistrationScreenState();
+  State<NameRegister> createState() {
+    return _NameRegisterState();
   }
 }
 
-class _NameRegistrationScreenState extends State<NameRegistrationScreen> {
+class _NameRegisterState extends State<NameRegister> {
   late List<FieldItem> items;
 
   @override

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
-class PlayerStatusDialog extends StatelessWidget {
+class StatusChanger extends StatelessWidget {
   final Player _player;
   final HomeViewModel _viewModel;
 
-  const PlayerStatusDialog(this._player, this._viewModel, {Key? key})
+  const StatusChanger(this._player, this._viewModel, {Key? key})
       : super(key: key);
 
   @override

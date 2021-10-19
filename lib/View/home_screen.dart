@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
+import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
+import 'package:kk_amongus_tool/View/dialog/name_register.dart';
 import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/View/player_counter.dart';
 import 'package:kk_amongus_tool/View/round_selection_widget.dart';
 import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
-import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
-import 'package:kk_amongus_tool/dialog/name_registration_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'cool_time_list.dart';
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                     final String? mapPath = await showDialog<String>(
                       context: context,
                       builder: (context) {
-                        return const MapSelectionDialog();
+                        return const MapSelector();
                       },
                     );
                     if (mapPath != null) {
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return NameRegistrationScreen(model);
+                        return NameRegister(model);
                       },
                     );
                   },

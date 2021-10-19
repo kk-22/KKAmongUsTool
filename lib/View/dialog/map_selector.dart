@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MapSelectionDialog extends StatelessWidget {
+class MapSelector extends StatelessWidget {
   static const _maps = [
     "TheSkeld",
     "MIRA HQ",
@@ -11,7 +11,7 @@ class MapSelectionDialog extends StatelessWidget {
 
   static String _mapPath(name) => "assets/map/$name.png";
 
-  const MapSelectionDialog({Key? key}) : super(key: key);
+  const MapSelector({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

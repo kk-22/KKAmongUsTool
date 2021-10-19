@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
-import 'package:kk_amongus_tool/dialog/player_status_dialog.dart';
+import 'package:kk_amongus_tool/View/dialog/status_changer.dart';
 
 class PlayerWidget extends StatelessWidget {
   static const Size size = Size(50, _nameHeight + _charHeight);
@@ -55,7 +55,7 @@ class PlayerWidget extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return PlayerStatusDialog(player, _viewModel);
+                          return StatusChanger(player, _viewModel);
                         },
                       );
                     },

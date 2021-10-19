@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
-import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
+import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<Player> _players = [];
-  String mapPath = MapSelectionDialog.defaultMapPath;
+  String mapPath = MapSelector.defaultMapPath;
   int currentRound = 0; // 表示中のラウンド
   int lastRound = 0; // 最終ラウンド
 
