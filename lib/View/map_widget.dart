@@ -19,7 +19,7 @@ class MapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
-      final players = model.survivingPlayers();
+      final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
         return playerItem(players[index], index, model, _globalKey);
       });

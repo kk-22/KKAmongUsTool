@@ -17,7 +17,7 @@ class Player {
     resetOffset();
   }
 
-  // 現在のラウンドで死んだプレイヤーもレスポンスに含まれる
+  // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
   bool isSurviving(int round) => round <= (diedRound ?? maxRound);
 
   void resetOffset() {

@@ -38,9 +38,7 @@ class HomeViewModel extends ChangeNotifier {
 
   void movePlayer(Player player, Offset offset) {
     player.offsets[currentRound] = offset;
-    if (currentRound < lastRound) {
-      lastRound = currentRound;
-    }
+    _updateLastRoundIfNeeded();
     notifyListeners();
   }
 
@@ -68,8 +66,11 @@ class HomeViewModel extends ChangeNotifier {
     ];
   }
 
-  List<Player> survivingPlayers() =>
-      _players.where((element) => element.isSurviving(currentRound)).toList();
+  // 引数がfalseなら最終ラウンドの会議時点で生存しているプレイヤーのみ返す
+  List<Player> survivingPlayers(bool isCurrentRound) {
+    final round = isCurrentRound ? currentRound : lastRound + 1;
+    return _players.where((element) => element.isSurviving(round)).toList();
+  }
 
   void changeName(String name, PlayerColor color) {
     var player = playerOfColor(color);
@@ -94,6 +95,7 @@ class HomeViewModel extends ChangeNotifier {
         break;
     }
     player.status = status;
+    _updateLastRoundIfNeeded();
     notifyListeners();
   }
 
@@ -105,5 +107,11 @@ class HomeViewModel extends ChangeNotifier {
   void changeRound(int index) {
     currentRound = index;
     notifyListeners();
+  }
+
+  void _updateLastRoundIfNeeded() {
+    if (lastRound < currentRound) {
+      lastRound = currentRound;
+    }
   }
 }
