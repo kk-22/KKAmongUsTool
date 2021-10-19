@@ -58,26 +58,22 @@ class PlayerWidget extends StatelessWidget {
                 height: _charHeight,
               ),
             ),
-            Visibility(
-              visible: isDied && player.status == PlayerStatus.killed,
-              child: IgnorePointer(
+            if (isDied && player.status == PlayerStatus.killed)
+              IgnorePointer(
                 child: Image.asset(
                   "assets/icon/skull.png",
                   fit: BoxFit.contain,
                   height: _charHeight * 0.6,
                 ),
               ),
-            ),
-            Visibility(
-              visible: isDied && player.status == PlayerStatus.ejected,
-              child: IgnorePointer(
+            if (isDied && player.status == PlayerStatus.ejected)
+              IgnorePointer(
                 child: Image.asset(
                   "assets/icon/cross.png",
                   fit: BoxFit.contain,
                   height: _charHeight * 0.8,
                 ),
               ),
-            ),
           ],
         ),
       ],
