@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
-class RoundSelectionWidget extends StatefulWidget {
+class RoundSelector extends StatefulWidget {
   final HomeViewModel _viewModel;
 
-  const RoundSelectionWidget(this._viewModel, {Key? key}) : super(key: key);
+  const RoundSelector(this._viewModel, {Key? key}) : super(key: key);
 
   @override
-  State<RoundSelectionWidget> createState() {
-    return _RoundSelectionWidgetState();
+  State<RoundSelector> createState() {
+    return _RoundSelectorState();
   }
 }
 
-class _RoundSelectionWidgetState extends State<RoundSelectionWidget> {
+class _RoundSelectorState extends State<RoundSelector> {
   var _isExpanding = false;
 
   static const _minHeight = 28.0;

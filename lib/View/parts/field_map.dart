@@ -4,17 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/View/screen/home_screen.dart';
-import 'package:kk_amongus_tool/View/player_widget.dart';
-import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
+import 'package:kk_amongus_tool/View/parts/player_widget.dart';
+import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-class MapWidget extends StatelessWidget {
+class FieldMap extends StatelessWidget {
   static const playerInitialY = 60.0;
 
   final GlobalKey _globalKey;
 
-  const MapWidget(this._globalKey) : super(key: _globalKey);
+  const FieldMap(this._globalKey) : super(key: _globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +68,7 @@ class MapWidget extends StatelessWidget {
               box.size.height - PlayerWidget.size.height,
               max(
                   // マッピング領域に重ならないようにする
-                  SuspicionMappingWidget.widgetHeight -
-                      HomeScreen.buttonBarHeight,
+                  SuspicionMapping.widgetHeight - HomeScreen.buttonBarHeight,
                   offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
         },

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:provider/provider.dart';
 
-class KillTimerWidget extends StatefulWidget {
-  const KillTimerWidget({Key? key}) : super(key: key);
+class KillTimer extends StatefulWidget {
+  const KillTimer({Key? key}) : super(key: key);
 
   @override
-  State<KillTimerWidget> createState() {
-    return _KillTimerWidgetState();
+  State<KillTimer> createState() {
+    return _KillTimerState();
   }
 }
 
-class _KillTimerWidgetState extends State<KillTimerWidget> {
+class _KillTimerState extends State<KillTimer> {
   static const _startSec = -3;
 
   int _elapsedSec = _startSec;

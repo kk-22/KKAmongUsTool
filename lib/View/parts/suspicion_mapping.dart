@@ -3,18 +3,18 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
+import 'package:kk_amongus_tool/View/parts/player_widget.dart';
 import 'package:kk_amongus_tool/View/screen/home_screen.dart';
-import 'package:kk_amongus_tool/View/player_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-class SuspicionMappingWidget extends StatelessWidget {
+class SuspicionMapping extends StatelessWidget {
   static final widgetHeight = HomeScreen.buttonBarHeight + 2 + _stackHeight;
   static final _stackHeight = PlayerWidget.size.height * 3;
 
   final _mappingKey = GlobalKey();
 
-  SuspicionMappingWidget({Key? key}) : super(key: key);
+  SuspicionMapping({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

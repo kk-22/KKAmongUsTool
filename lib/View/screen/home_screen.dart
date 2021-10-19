@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
-import 'package:kk_amongus_tool/View/cool_time_list.dart';
+import 'package:kk_amongus_tool/View/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/View/dialog/name_register.dart';
-import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
-import 'package:kk_amongus_tool/View/map_widget.dart';
-import 'package:kk_amongus_tool/View/player_counter.dart';
-import 'package:kk_amongus_tool/View/round_selection_widget.dart';
-import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
+import 'package:kk_amongus_tool/View/parts/kill_timer.dart';
+import 'package:kk_amongus_tool/View/parts/field_map.dart';
+import 'package:kk_amongus_tool/View/parts/player_counter.dart';
+import 'package:kk_amongus_tool/View/parts/round_selector.dart';
+import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -27,12 +27,12 @@ class HomeScreen extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.only(top: buttonBarHeight),
-            child: MapWidget(GlobalKey()),
+            child: FieldMap(GlobalKey()),
           ),
           Padding(
             padding: const EdgeInsets.only(
                 top: buttonBarHeight + secondButtonBarHeight),
-            child: RoundSelectionWidget(model),
+            child: RoundSelector(model),
           ),
           Padding(
             padding: const EdgeInsets.only(top: buttonBarHeight),
@@ -85,9 +85,9 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               partitionLine(),
-              const KillTimerWidget(),
+              const KillTimer(),
               partitionLine(),
-              Expanded(child: SuspicionMappingWidget()),
+              Expanded(child: SuspicionMapping()),
             ],
           ),
         ],
