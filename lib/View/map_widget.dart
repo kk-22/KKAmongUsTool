@@ -51,10 +51,10 @@ class MapWidget extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(player, model),
+        child: PlayerWidget(player, model, false, true),
         feedback: Material(
           color: Colors.transparent,
-          child: PlayerWidget(player, model),
+          child: PlayerWidget(player, model, true, true),
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),

@@ -10,15 +10,20 @@ class PlayerWidget extends StatelessWidget {
 
   final Player player;
   final HomeViewModel _viewModel;
+  final bool disableButton;
+  final bool useCurrentRound;
 
-  const PlayerWidget(this.player, this._viewModel, {Key? key})
+  const PlayerWidget(
+      this.player, this._viewModel, this.disableButton, this.useCurrentRound,
+      {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // 現在のラウンドで死んだプレイヤーもtrueになる
-    final isDied =
-        (player.diedRound ?? Player.maxRound) <= _viewModel.currentRound;
+    final isDied = useCurrentRound
+        ? (player.diedRound ?? Player.maxRound) <= _viewModel.currentRound
+        : player.diedRound != null;
     return Column(
       children: [
         Container(
@@ -44,14 +49,16 @@ class PlayerWidget extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return PlayerStatusDialog(player, _viewModel);
-                  },
-                );
-              },
+              onPressed: disableButton
+                  ? null
+                  : () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return PlayerStatusDialog(player, _viewModel);
+                        },
+                      );
+                    },
               icon: Image.asset(
                 player.color.imageName,
                 fit: BoxFit.contain,

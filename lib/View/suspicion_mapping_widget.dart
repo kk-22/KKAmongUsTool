@@ -126,7 +126,7 @@ class SuspicionMappingWidget extends StatelessWidget {
               );
             }
             final playerIndex = (index < expandIndex ? index : index - 1);
-            return PlayerWidget(players[playerIndex], model);
+            return PlayerWidget(players[playerIndex], model, true, false);
           }),
         ),
       ]);
@@ -151,10 +151,10 @@ class SuspicionMappingWidget extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(player, model),
+        child: PlayerWidget(player, model, true, false),
         feedback: Material(
           color: Colors.transparent,
-          child: PlayerWidget(player, model),
+          child: PlayerWidget(player, model, true, false),
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),
