@@ -76,15 +76,30 @@ class SuspicionMappingWidget extends StatelessWidget {
     final ignoreMinX = parentWidth * 0.25;
     final ignoreMaxX = parentWidth * 0.75 - PlayerWidget.size.width;
     return Consumer<HomeViewModel>(builder: (context, model, child) {
-      final players = model.survivingPlayers(false).where((element) {
+      var players = model.survivingPlayers(false).where((element) {
         final dx = element.mappingOffset.dx;
         return 0 < dx && (dx < ignoreMinX || ignoreMaxX < dx);
       }).toList();
+
+      final maxPlayerCount = parentWidth ~/ PlayerWidget.size.width;
+      if (maxPlayerCount < players.length) {
+        // 中央に近いPlayerを取り除く
+        final centerDx = parentWidth / 2 - PlayerWidget.size.width / 2;
+        players.sort((a, b) {
+          return (centerDx - a.mappingOffset.dx)
+              .abs()
+              .compareTo((centerDx - b.mappingOffset.dx).abs());
+        });
+        players = players.sublist(players.length - maxPlayerCount);
+      }
+
       players.sort((a, b) => a.mappingOffset.dx.compareTo(b.mappingOffset.dx));
-      final count = min(parentWidth ~/ PlayerWidget.size.width, players.length);
       var expandIndex = players
           .indexWhere((element) => ignoreMaxX <= element.mappingOffset.dx);
-      if (expandIndex == -1) expandIndex = count; // 全プレイヤー黒位置のケース
+
+      final playerCount = min(maxPlayerCount, players.length);
+      if (expandIndex == -1) expandIndex = playerCount; // 全プレイヤー黒位置のケース
+
       return Stack(children: [
         Row(
           children: [
@@ -98,13 +113,13 @@ class SuspicionMappingWidget extends StatelessWidget {
               ),
             ),
             Container(
-              width: (count - expandIndex) * PlayerWidget.size.width,
+              width: (playerCount - expandIndex) * PlayerWidget.size.width,
               color: Colors.white,
             ),
           ],
         ),
         Row(
-          children: List.generate(count + 1, (index) {
+          children: List.generate(playerCount + 1, (index) {
             if (index == expandIndex) {
               return const Expanded(
                 child: SizedBox(),
