@@ -37,7 +37,7 @@ class PlayerWidget extends StatelessWidget {
           child: Text(
             player.name,
             maxLines: 1,
-            overflow: TextOverflow.visible,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 13,
               color: Colors.white,

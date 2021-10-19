@@ -14,10 +14,14 @@ class HomeViewModel extends ChangeNotifier {
   HomeViewModel() {
     // デバッグ用初期値
     _players = [
-      Player("cyan", PlayerColor.cyan),
+      Player("KK", PlayerColor.cyan),
       Player("赤色", PlayerColor.red),
       Player("みどり", PlayerColor.green),
+      Player("yellow", PlayerColor.yellow),
+      Player("TAN", PlayerColor.tan),
+      Player("むらさき色", PlayerColor.purple),
     ];
+    _players[0].isMyself = true;
     clearPlayerInfo();
   }
 
