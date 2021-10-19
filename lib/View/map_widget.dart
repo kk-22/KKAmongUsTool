@@ -8,6 +8,8 @@ import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MapWidget extends StatelessWidget {
+  static const playerInitialY = 60.0;
+
   final GlobalKey _globalKey;
 
   const MapWidget(this._globalKey) : super(key: _globalKey);
@@ -23,9 +25,10 @@ class MapWidget extends StatelessWidget {
           0,
           Container(
               color: Colors.black,
-              margin: const EdgeInsets.only(bottom: 100),
-              child: Center(
-                  child: Image.asset(model.mapPath, fit: BoxFit.contain))));
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(top: 140, right: 40),
+              alignment: Alignment.centerLeft,
+              child: Image.asset(model.mapPath, fit: BoxFit.contain)));
 
       return Stack(
         children: list,
@@ -37,7 +40,10 @@ class MapWidget extends StatelessWidget {
       Player player, int index, HomeViewModel model, GlobalKey globalKey) {
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
-      offset = Offset(10.0 + 50 * index, 530.0);
+      // プレイヤー初期位置
+      int numberOfLine = index ~/ 5;
+      offset =
+          Offset(10.0 + 50 * (index % 5), playerInitialY + 50 * numberOfLine);
     }
     return Positioned(
       top: offset.dy,
@@ -56,8 +62,8 @@ class MapWidget extends StatelessWidget {
           // マップ外に配置されないように位置を補正
           final lastDx = min(
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
-          final lastDy = min(
-              box.size.height - PlayerWidget.size.height, max(0.0, offset.dy));
+          final lastDy = min(box.size.height - PlayerWidget.size.height,
+              max(playerInitialY, offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),

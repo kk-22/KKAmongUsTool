@@ -14,6 +14,7 @@ import 'cool_time_list.dart';
 
 class HomeScreen extends StatelessWidget {
   static const buttonBarHeight = 50.0;
+  static const secondButtonBarHeight = 28.0;
 
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -27,6 +28,11 @@ class HomeScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.only(top: buttonBarHeight),
             child: MapWidget(GlobalKey()),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: buttonBarHeight + secondButtonBarHeight),
+            child: RoundSelectionWidget(model),
           ),
           Padding(
             padding: const EdgeInsets.only(top: buttonBarHeight),
@@ -64,7 +70,6 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-                RoundSelectionWidget(model),
               ],
             ),
           ),
