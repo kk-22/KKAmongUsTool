@@ -25,8 +25,9 @@ class SuspicionMappingWidget extends StatelessWidget {
         height: widgetHeight,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: HomeScreen.buttonBarHeight,
+              child: headerChart(constraints.maxWidth),
             ),
             Container(
               height: _stackHeight,
@@ -71,16 +72,63 @@ class SuspicionMappingWidget extends StatelessWidget {
     });
   }
 
+  Widget headerChart(double parentWidth) {
+    final ignoreMinX = parentWidth * 0.25;
+    final ignoreMaxX = parentWidth * 0.75 - PlayerWidget.size.width;
+    return Consumer<HomeViewModel>(builder: (context, model, child) {
+      final players = model.survivingPlayers().where((element) {
+        final dx = element.mappingOffset.dx;
+        return 0 < dx && (dx < ignoreMinX || ignoreMaxX < dx);
+      }).toList();
+      players.sort((a, b) => a.mappingOffset.dx.compareTo(b.mappingOffset.dx));
+      final count = min(parentWidth ~/ PlayerWidget.size.width, players.length);
+      var expandIndex = players
+          .indexWhere((element) => ignoreMaxX <= element.mappingOffset.dx);
+      if (expandIndex == -1) expandIndex = count; // 全プレイヤー黒位置のケース
+      return Stack(children: [
+        Row(
+          children: [
+            Container(
+              width: expandIndex * PlayerWidget.size.width,
+              color: Colors.black,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            Container(
+              width: (count - expandIndex) * PlayerWidget.size.width,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        Row(
+          children: List.generate(count + 1, (index) {
+            if (index == expandIndex) {
+              return const Expanded(
+                child: SizedBox(),
+              );
+            }
+            final playerIndex = (index < expandIndex ? index : index - 1);
+            return PlayerWidget(players[playerIndex], model);
+          }),
+        ),
+      ]);
+    });
+  }
+
   Widget playerItem(
       Player player, int index, HomeViewModel model, double parentWidth) {
     var offset = player.mappingOffset;
     if (offset == Offset.zero) {
       // プレイヤー初期位置
+      const betweenWidthRatio = 0.5;
       const numberOfRow = 5;
       final numberOfLine = index ~/ numberOfRow;
       offset = Offset(
-          parentWidth / 2 +
-              (PlayerWidget.size.width * 0.5) *
+          (parentWidth / 2 - PlayerWidget.size.width * betweenWidthRatio / 2) +
+              (PlayerWidget.size.width * betweenWidthRatio) *
                   (index % numberOfRow - numberOfRow / 2),
           PlayerWidget.size.height * numberOfLine);
     }
@@ -99,11 +147,12 @@ class SuspicionMappingWidget extends StatelessWidget {
           final box =
               _mappingKey.currentContext?.findRenderObject() as RenderBox;
           final offset = box.globalToLocal(details.offset);
-          // マッピング外に配置されないように位置を補正
+          // マッピング外に配置されないように位置を補正。
+          // 初期位置(Offset.zero)と同じにならないように、最小値は1.0とする。
           final lastDx = min(
-              box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
+              box.size.width - PlayerWidget.size.width, max(1.0, offset.dx));
           final lastDy = min(
-              box.size.height - PlayerWidget.size.height, max(0.0, offset.dy));
+              box.size.height - PlayerWidget.size.height, max(1.0, offset.dy));
           model.updateSuspicion(player, Offset(lastDx, lastDy));
         },
       ),
