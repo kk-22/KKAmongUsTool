@@ -4,7 +4,7 @@ import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
 import 'package:kk_amongus_tool/View/map_widget.dart';
 import 'package:kk_amongus_tool/View/player_counter.dart';
 import 'package:kk_amongus_tool/View/round_selection_widget.dart';
-import 'package:kk_amongus_tool/View/suspicion_graph_widget.dart';
+import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:kk_amongus_tool/dialog/map_selection_dialog.dart';
 import 'package:kk_amongus_tool/dialog/name_registration_screen.dart';
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               partitionLine(),
               const KillTimerWidget(),
               partitionLine(),
-              Expanded(child: SuspicionGraphWidget()),
+              Expanded(child: SuspicionMappingWidget()),
             ],
           ),
         ],

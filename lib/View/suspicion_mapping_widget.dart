@@ -8,13 +8,13 @@ import 'package:kk_amongus_tool/View/player_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-class SuspicionGraphWidget extends StatelessWidget {
+class SuspicionMappingWidget extends StatelessWidget {
   static final widgetHeight = HomeScreen.buttonBarHeight + 2 + _stackHeight;
   static final _stackHeight = PlayerWidget.size.height * 3;
 
   final _mappingKey = GlobalKey();
 
-  SuspicionGraphWidget({Key? key}) : super(key: key);
+  SuspicionMappingWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

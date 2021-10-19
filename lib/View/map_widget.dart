@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/View/home_screen.dart';
 import 'package:kk_amongus_tool/View/player_widget.dart';
-import 'package:kk_amongus_tool/View/suspicion_graph_widget.dart';
+import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +68,7 @@ class MapWidget extends StatelessWidget {
               box.size.height - PlayerWidget.size.height,
               max(
                   // マッピング領域に重ならないようにする
-                  SuspicionGraphWidget.widgetHeight -
+                  SuspicionMappingWidget.widgetHeight -
                       HomeScreen.buttonBarHeight,
                   offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
