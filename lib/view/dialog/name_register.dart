@@ -63,13 +63,25 @@ class _NameRegisterState extends State<NameRegister> {
           ),
         ),
         const SizedBox(height: 20),
-        Center(
-          child: Text(
-            "プレイヤー数：${widget.viewModel.numberOfPlayers()}",
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 100,
+              child: debugButton(),
             ),
-          ),
+            Center(
+              child: Text(
+                "プレイヤー数：${widget.viewModel.numberOfPlayers()}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 100,
+            ),
+          ],
         ),
       ],
     );
@@ -114,6 +126,46 @@ class _NameRegisterState extends State<NameRegister> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget debugButton() {
+    return ElevatedButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: const Text("デバッグ"),
+                children: <Widget>[
+                  // コンテンツ領域
+                  SimpleDialogOption(
+                    onPressed: () {
+                      for (var i = 0; i < 15; i++) {
+                        final item = items[i];
+                        if (item.controller.text.isEmpty) {
+                          item.controller.text = "デバッグ";
+                        }
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: const Text("15人登録"),
+                  ),
+                  SimpleDialogOption(
+                    onPressed: () {
+                      for (var i = 0; i < 15; i++) {
+                        final item = items[i];
+                        item.controller.clear();
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: const Text("全解除"),
+                  ),
+                ],
+              );
+            });
+      },
+      child: const Text("デバッグ"),
     );
   }
 }

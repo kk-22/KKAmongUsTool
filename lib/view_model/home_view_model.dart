@@ -31,11 +31,6 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeAllPlayer() {
-    _players.clear();
-    notifyListeners();
-  }
-
   void movePlayer(Player player, Offset offset) {
     player.offsets[currentRound] = offset;
     _updateLastRoundIfNeeded();
