@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:provider/provider.dart';
 
-import 'View/home_screen.dart';
+import 'View/screen/home_screen.dart';
 import 'ViewModel/home_view_model.dart';
 
 void main() {

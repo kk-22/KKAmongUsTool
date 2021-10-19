@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
+import 'package:kk_amongus_tool/View/cool_time_list.dart';
 import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/View/dialog/name_register.dart';
 import 'package:kk_amongus_tool/View/kill_timer_widget.dart';
@@ -10,8 +11,6 @@ import 'package:kk_amongus_tool/View/round_selection_widget.dart';
 import 'package:kk_amongus_tool/View/suspicion_mapping_widget.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
-
-import 'cool_time_list.dart';
 
 class HomeScreen extends StatelessWidget {
   static const buttonBarHeight = 50.0;

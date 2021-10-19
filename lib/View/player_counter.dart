@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/View/home_screen.dart';
+import 'package:kk_amongus_tool/View/screen/home_screen.dart';
 import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
 
 class PlayerCounter extends StatelessWidget {
