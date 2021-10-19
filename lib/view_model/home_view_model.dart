@@ -67,6 +67,16 @@ class HomeViewModel extends ChangeNotifier {
     return _players.where((element) => element.isSurviving(round)).toList();
   }
 
+  void changeMySelf(PlayerColor? nextColor, PlayerColor? prevColor) {
+    if (nextColor != null) {
+      playerOfColor(nextColor)?.isMyself = true;
+    }
+    if (prevColor != null) {
+      playerOfColor(prevColor)?.isMyself = false;
+    }
+    notifyListeners();
+  }
+
   void changeName(String name, PlayerColor color) {
     var player = playerOfColor(color);
     if (name.isEmpty) {

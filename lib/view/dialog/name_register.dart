@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
@@ -27,6 +28,7 @@ class _NameRegisterState extends State<NameRegister> {
         setState(() {});
       });
       final item = FieldItem(color, controller);
+      item.isMyself = player?.isMyself ?? false;
       item.focusNode.addListener(() {
         if (item.focusNode.hasFocus) {
           controller.selection = TextSelection(
@@ -52,10 +54,10 @@ class _NameRegisterState extends State<NameRegister> {
       children: [
         SizedBox(
           width: 900,
-          height: 350,
+          height: 410,
           child: GridView.count(
             crossAxisCount: 6,
-            childAspectRatio: 1,
+            childAspectRatio: 0.85,
             crossAxisSpacing: 1,
             children: List.generate(PlayerColorExtension.count, (index) {
               return gridChild(items[index]);
@@ -106,7 +108,7 @@ class _NameRegisterState extends State<NameRegister> {
         const SizedBox(height: 10),
         Container(
           color:
-              item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
+          item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
           height: 65,
           width: MediaQuery.of(context).size.width,
           child: IconButton(
@@ -123,6 +125,35 @@ class _NameRegisterState extends State<NameRegister> {
               item.color.imageName,
               fit: BoxFit.contain,
             ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+          child: Row(
+            children: [
+              const Text("自キャラ"),
+              Switch(
+                value: item.isMyself,
+                onChanged: item.controller.text.isEmpty
+                    ? null
+                    : (bool value) {
+                        setState(() {
+                          PlayerColor? prevColor, nextColor;
+                          if (value) {
+                            nextColor = item.color;
+                            final prevItem = items.firstWhereOrNull(
+                                (element) => element.isMyself);
+                            prevItem?.isMyself = false;
+                            prevColor = prevItem?.color;
+                          } else {
+                            prevColor = item.color;
+                          }
+                          item.isMyself = value;
+                          widget.viewModel.changeMySelf(nextColor, prevColor);
+                        });
+                      },
+              ),
+            ],
           ),
         ),
       ],
@@ -174,6 +205,7 @@ class FieldItem {
   final PlayerColor color;
   final TextEditingController controller;
   final focusNode = FocusNode();
+  var isMyself = false;
 
   FieldItem(this.color, this.controller);
 }

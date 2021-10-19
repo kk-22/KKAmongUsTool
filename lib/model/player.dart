@@ -8,6 +8,7 @@ class Player {
   String name;
   final PlayerColor color;
 
+  var isMyself = false;
   var status = PlayerStatus.survive;
   int? diedRound;
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置

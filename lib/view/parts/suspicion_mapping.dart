@@ -77,6 +77,7 @@ class SuspicionMapping extends StatelessWidget {
     final ignoreMaxX = parentWidth * 0.75 - PlayerWidget.size.width;
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       var players = model.survivingPlayers(false).where((element) {
+        if (element.isMyself) return false;
         final dx = element.mappingOffset.dx;
         return 0 < dx && (dx < ignoreMinX || ignoreMaxX < dx);
       }).toList();
