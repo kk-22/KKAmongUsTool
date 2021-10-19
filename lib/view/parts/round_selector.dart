@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
-import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 
 class RoundSelector extends StatefulWidget {
   final HomeViewModel _viewModel;

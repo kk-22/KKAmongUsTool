@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/View/parts/player_widget.dart';
 import 'package:kk_amongus_tool/View/screen/home_screen.dart';
-import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionMapping extends StatelessWidget {

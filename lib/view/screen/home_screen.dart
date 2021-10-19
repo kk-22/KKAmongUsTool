@@ -9,7 +9,7 @@ import 'package:kk_amongus_tool/View/parts/field_map.dart';
 import 'package:kk_amongus_tool/View/parts/player_counter.dart';
 import 'package:kk_amongus_tool/View/parts/round_selector.dart';
 import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
-import 'package:kk_amongus_tool/ViewModel/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
