@@ -9,7 +9,7 @@ import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionMapping extends StatelessWidget {
-  static final widgetHeight = HomeScreen.buttonBarHeight + 2 + _stackHeight;
+  static final widgetHeight = HomeScreen.overlayBarHeight + 2 + _stackHeight;
   static final _stackHeight = PlayerWidget.size.height * 3;
 
   final _mappingKey = GlobalKey();
@@ -26,7 +26,7 @@ class SuspicionMapping extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: HomeScreen.buttonBarHeight,
+              height: HomeScreen.overlayBarHeight,
               child: headerChart(constraints.maxWidth),
             ),
             Container(

@@ -10,7 +10,7 @@ class RouteController extends StatelessWidget {
   Widget build(BuildContext context) {
     final route = Provider.of<MovingRoute>(context, listen: false);
     return Container(
-      height: HomeScreen.secondButtonBarHeight,
+      height: HomeScreen.buttonBarHeight,
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

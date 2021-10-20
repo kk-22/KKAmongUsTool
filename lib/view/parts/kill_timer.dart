@@ -25,7 +25,7 @@ class _KillTimerState extends State<KillTimer> {
   Widget build(BuildContext context) {
     final isActive = _timer != null && _timer!.isActive;
     return Container(
-      height: HomeScreen.buttonBarHeight,
+      height: HomeScreen.overlayBarHeight,
       color: Colors.white,
       child: Column(
         children: [

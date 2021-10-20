@@ -11,11 +11,11 @@ import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FieldMap extends StatelessWidget {
-  static const playerInitialY = 60.0;
+  final _topPadding = SuspicionMapping.widgetHeight - HomeScreen.totalBarHeight;
 
   final GlobalKey _globalKey;
 
-  const FieldMap(this._globalKey) : super(key: _globalKey);
+  FieldMap(this._globalKey) : super(key: _globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class FieldMap extends StatelessWidget {
           Container(
               color: Colors.black,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 140, right: 40),
+              padding: EdgeInsets.only(top: _topPadding, right: 40),
               alignment: Alignment.centerLeft,
               child: Image.asset(model.mapPath, fit: BoxFit.contain)));
       list.insert(1, const RouteBoard());
@@ -39,14 +39,12 @@ class FieldMap extends StatelessWidget {
     });
   }
 
-  Widget playerItem(
-      Player player, int index, HomeViewModel model, GlobalKey globalKey) {
+  Widget playerItem(Player player, int index, HomeViewModel model, GlobalKey globalKey) {
     var offset = player.offsets[model.currentRound];
     if (offset == Offset.zero) {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
-      offset =
-          Offset(10.0 + 50 * (index % 5), playerInitialY + 50 * numberOfLine);
+      offset = Offset(10.0 + 50 * (index % 5), 10.0 + 50 * numberOfLine);
     }
     return Positioned(
       top: offset.dy,
@@ -65,12 +63,8 @@ class FieldMap extends StatelessWidget {
           // マップ外に配置されないように位置を補正
           final lastDx = min(
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
-          final lastDy = min(
-              box.size.height - PlayerWidget.size.height,
-              max(
-                  // マッピング領域に重ならないようにする
-                  SuspicionMapping.widgetHeight - HomeScreen.buttonBarHeight,
-                  offset.dy));
+          final lastDy = min(box.size.height - PlayerWidget.size.height,
+              max(_topPadding, offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),

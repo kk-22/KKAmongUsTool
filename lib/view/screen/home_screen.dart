@@ -15,8 +15,9 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const buttonBarWidth = 300.0;
-  static const buttonBarHeight = 50.0;
-  static const secondButtonBarHeight = 28.0;
+  static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
+  static const overlayBarHeight = 50.0;
+  static const buttonBarHeight = 28.0;
 
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -28,26 +29,28 @@ class HomeScreen extends StatelessWidget {
           // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
           Container(
             height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.only(top: buttonBarHeight),
+            margin: const EdgeInsets.only(
+                top: overlayBarHeight + buttonBarHeight * 2),
             child: FieldMap(GlobalKey()),
           ),
           Container(
             width: buttonBarWidth,
-            padding: const EdgeInsets.only(
-                top: buttonBarHeight + secondButtonBarHeight),
+            margin:
+                const EdgeInsets.only(top: overlayBarHeight + buttonBarHeight),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Expanded(child: RouteController()),
-                partitionLine(secondButtonBarHeight),
+                partitionLine(buttonBarHeight),
                 Expanded(child: RoundSelector(model)),
               ],
             ),
           ),
           Container(
             width: buttonBarWidth,
+            height: buttonBarHeight,
             color: Colors.white,
-            padding: const EdgeInsets.only(top: buttonBarHeight),
+            margin: const EdgeInsets.only(top: overlayBarHeight),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,14 +108,14 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PlayerCounter(model),
-                    partitionLine(buttonBarHeight),
+                    partitionLine(overlayBarHeight),
                     Column(
                       children: const [
                         CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
                         CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
                       ],
                     ),
-                    partitionLine(buttonBarHeight),
+                    partitionLine(overlayBarHeight),
                     const KillTimer(),
                   ],
                 ),

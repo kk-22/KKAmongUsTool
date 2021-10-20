@@ -24,7 +24,7 @@ class CoolTimeList extends StatefulWidget {
 class _CoolTimeListState extends State<CoolTimeList> {
   var _isExpanding = false;
 
-  static const _minHeight = HomeScreen.buttonBarHeight / 2;
+  static const _minHeight = HomeScreen.overlayBarHeight / 2;
 
   @override
   void initState() {
