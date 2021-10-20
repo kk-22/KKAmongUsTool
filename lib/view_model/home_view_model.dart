@@ -40,6 +40,7 @@ class HomeViewModel extends ChangeNotifier {
   void movePlayer(Player player, Offset offset) {
     player.offsets[currentRound] = offset;
     _updateLastRoundIfNeeded();
+    _movingRoute.selectingColor = player.color;
     notifyListeners();
   }
 

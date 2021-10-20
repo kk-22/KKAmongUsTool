@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kk_amongus_tool/model/moving_route.dart';
+import 'package:kk_amongus_tool/model/player.dart';
 import 'package:provider/provider.dart';
 
 class RouteBoard extends StatelessWidget {
@@ -41,18 +42,21 @@ class RoutePainter extends CustomPainter {
       ..strokeWidth = strokeWidth;
 
     for (final points in _route.paintList) {
+      paint.color = points.color.hexColor();
       // 一番最初にタップした地点に点を打つ。タップして離しただけの時に描画するため。
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(
-              center: points[0], width: strokeWidth, height: strokeWidth),
+              center: points.offsets[0],
+              width: strokeWidth,
+              height: strokeWidth),
           const Radius.circular(strokeWidth),
         ),
         paint,
       );
       // ひとかたまりの線の描画
-      for (var i = 0; i < points.length - 1; i++) {
-        canvas.drawLine(points[i], points[i + 1], paint);
+      for (var i = 0; i < points.offsets.length - 1; i++) {
+        canvas.drawLine(points.offsets[i], points.offsets[i + 1], paint);
       }
     }
   }
