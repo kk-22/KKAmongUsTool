@@ -34,20 +34,18 @@ class RoutePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const strokeWidth = 12.0;
-
+    const strokeWidth = 3.0;
     final paint = Paint()
-      ..color = Colors.yellow
       ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth;
 
-    for (final points in _route.paintList) {
-      paint.color = points.color.hexColor();
+    for (final route in _route.routeList) {
+      paint.color = route.color.hexColor();
       // 一番最初にタップした地点に点を打つ。タップして離しただけの時に描画するため。
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(
-              center: points.offsets[0],
+              center: route.offsets[0],
               width: strokeWidth,
               height: strokeWidth),
           const Radius.circular(strokeWidth),
@@ -55,8 +53,8 @@ class RoutePainter extends CustomPainter {
         paint,
       );
       // ひとかたまりの線の描画
-      for (var i = 0; i < points.offsets.length - 1; i++) {
-        canvas.drawLine(points.offsets[i], points.offsets[i + 1], paint);
+      for (var i = 0; i < route.offsets.length - 1; i++) {
+        canvas.drawLine(route.offsets[i], route.offsets[i + 1], paint);
       }
     }
   }

@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 
 class MovingRoute with ChangeNotifier {
+  List<Route> _routeList = <Route>[];
   List<Route> _undoList = <Route>[];
-  List<Route> _paintList = <Route>[];
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  List<Route> get undoList => _undoList;
+  List<Route> get routeList => _routeList;
 
-  List<Route> get paintList => _paintList;
+  List<Route> get undoList => _undoList;
 
   bool get isDragging => _isDragging;
 
   bool get canRedo => _undoList.isNotEmpty;
 
-  bool get canUndo => _paintList.isNotEmpty;
+  bool get canUndo => _routeList.isNotEmpty;
 
   set selectingColor(PlayerColor value) {
     _selectingColor = value;
@@ -29,10 +29,10 @@ class MovingRoute with ChangeNotifier {
     if (isDragging || !canUndo) {
       return;
     }
-    // paintListの最後をundoListへ移動
-    final _last = paintList.last;
-    _undoList = List.of(undoList)..add(_last);
-    _paintList = List.of(paintList)..removeLast();
+    // _routeListの最後を_undoListへ移動
+    final _last = _routeList.last;
+    _undoList.add(_last);
+    _routeList.removeLast();
     notifyListeners();
   }
 
@@ -40,18 +40,18 @@ class MovingRoute with ChangeNotifier {
     if (isDragging || !canRedo) {
       return;
     }
-    // undoListの最後を取って、paintListに追加する
+    // _undoListの最後を取って、_routeListに追加する
     final _last = _undoList.last;
-    _undoList = List.of(undoList)..removeLast();
-    _paintList = List.of(paintList)..add(_last);
+    _undoList.removeLast();
+    _routeList.add(_last);
     notifyListeners();
   }
 
   void clear() {
     if (!isDragging) {
       // 間違えた場合に戻せるようにundoに残す
-      _undoList = List.of(paintList.reversed);
-      _paintList = [];
+      _undoList = List.of(_routeList.reversed);
+      _routeList = [];
       notifyListeners();
     }
   }
@@ -60,8 +60,7 @@ class MovingRoute with ChangeNotifier {
     if (!isDragging) {
       _isDragging = true;
       _undoList = []; // redoできないようにする
-      _paintList = List.of(paintList)
-        ..add(Route([startPoint], _selectingColor)); // 新たに開始地点を追加
+      _routeList.add(Route([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
     }
   }
@@ -69,15 +68,13 @@ class MovingRoute with ChangeNotifier {
   void updatePaint(Offset nextPoint) {
     if (isDragging) {
       // 最終位置として追加
-      final paintList = List<Route>.of(_paintList);
-      final route = _paintList.lastOrNull ?? Route(<Offset>[], _selectingColor);
+      final route = _routeList.lastOrNull ?? Route(<Offset>[], _selectingColor);
       route.addOffset(nextPoint);
-      if (paintList.isEmpty) {
-        paintList.add(route);
+      if (_routeList.isEmpty) {
+        _routeList.add(route);
       } else {
-        paintList.last = route;
+        _routeList.last = route;
       }
-      _paintList = paintList;
       notifyListeners();
     }
   }
