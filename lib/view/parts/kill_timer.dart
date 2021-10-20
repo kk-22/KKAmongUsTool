@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/Model/game_setting.dart';
+import 'package:kk_amongus_tool/model/game_setting.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 

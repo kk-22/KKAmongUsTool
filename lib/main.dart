@@ -1,7 +1,7 @@
 //▼main.dart
 
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/Model/game_setting.dart';
+import 'package:kk_amongus_tool/model/game_setting.dart';
 import 'package:provider/provider.dart';
 
 import 'View/screen/home_screen.dart';

@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/Model/player.dart';
-import 'package:kk_amongus_tool/View/parts/player_widget.dart';
-import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
-import 'package:kk_amongus_tool/View/screen/home_screen.dart';
+import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/view/parts/player_widget.dart';
+import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
+import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';

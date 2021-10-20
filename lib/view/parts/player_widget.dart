@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/Model/player.dart';
+import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
-import 'package:kk_amongus_tool/View/dialog/status_changer.dart';
+import 'package:kk_amongus_tool/view/dialog/status_changer.dart';
 
 class PlayerWidget extends StatelessWidget {
   static const Size size = Size(50, _nameHeight + _charHeight);
