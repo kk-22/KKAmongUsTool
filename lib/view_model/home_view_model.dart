@@ -27,6 +27,10 @@ class HomeViewModel extends ChangeNotifier {
     clearPlayerInfo();
   }
 
+  void touchedPlayer(Player player) {
+    _movingRoute.selectingColor = player.color;
+  }
+
   void clearPlayerInfo() {
     for (var player in _players) {
       player.status = PlayerStatus.survive;
@@ -34,13 +38,14 @@ class HomeViewModel extends ChangeNotifier {
       player.resetOffset();
     }
     currentRound = 0;
+    _movingRoute.clear(false);
     notifyListeners();
   }
 
   void movePlayer(Player player, Offset offset) {
     player.offsets[currentRound] = offset;
     _updateLastRoundIfNeeded();
-    _movingRoute.selectingColor = player.color;
+    touchedPlayer(player);
     notifyListeners();
   }
 

@@ -47,10 +47,10 @@ class MovingRoute with ChangeNotifier {
     notifyListeners();
   }
 
-  void clear() {
+  void clear(bool keepUndo) {
     if (!isDragging) {
       // 間違えた場合に戻せるようにundoに残す
-      _undoList = List.of(_routeList.reversed);
+      _undoList = keepUndo ? List.of(_routeList.reversed) : [];
       _routeList = [];
       notifyListeners();
     }
