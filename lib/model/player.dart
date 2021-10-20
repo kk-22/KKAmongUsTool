@@ -64,7 +64,7 @@ extension PlayerColorExtension on PlayerColor {
       case PlayerColor.red:
         return const Color(0xffec1c24);
       case PlayerColor.blue:
-        return const Color(0xff00a8f3);
+        return const Color(0xff3f48cc);
       case PlayerColor.green:
         return const Color(0xff0ed145);
       case PlayerColor.pink:
