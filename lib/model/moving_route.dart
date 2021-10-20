@@ -34,7 +34,7 @@ class MovingRoute with ChangeNotifier {
       return;
     }
     // undoListの最後を取って、paintListに追加する
-    final _last = paintList.last;
+    final _last = _undoList.last;
     _undoList = List.of(undoList)..removeLast();
     _paintList = List.of(paintList)..add(_last);
     notifyListeners();
@@ -42,7 +42,8 @@ class MovingRoute with ChangeNotifier {
 
   void clear() {
     if (!isDragging) {
-      _undoList = [];
+      // 間違えた場合に戻せるようにundoに残す
+      _undoList = List.of(paintList.reversed);
       _paintList = [];
       notifyListeners();
     }

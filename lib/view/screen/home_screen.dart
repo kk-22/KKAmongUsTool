@@ -9,6 +9,7 @@ import 'package:kk_amongus_tool/View/parts/kill_timer.dart';
 import 'package:kk_amongus_tool/View/parts/player_counter.dart';
 import 'package:kk_amongus_tool/View/parts/round_selector.dart';
 import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
+import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,14 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
                 top: buttonBarHeight + secondButtonBarHeight),
-            child: RoundSelector(model),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RouteController(),
+                partitionLine(secondButtonBarHeight),
+                RoundSelector(model),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: buttonBarHeight),
@@ -77,16 +85,16 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PlayerCounter(model),
-              partitionLine(),
+              partitionLine(buttonBarHeight),
               Column(
                 children: const [
                   CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
                   CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
                 ],
               ),
-              partitionLine(),
+              partitionLine(buttonBarHeight),
               const KillTimer(),
-              partitionLine(),
+              partitionLine(buttonBarHeight),
               Expanded(child: SuspicionMapping()),
             ],
           ),
@@ -95,10 +103,10 @@ class HomeScreen extends StatelessWidget {
     });
   }
 
-  Widget partitionLine() {
+  Widget partitionLine(double height) {
     return Container(
       width: 5,
-      height: buttonBarHeight,
+      height: height,
       color: Colors.white,
       alignment: Alignment.center,
       child: const VerticalDivider(
