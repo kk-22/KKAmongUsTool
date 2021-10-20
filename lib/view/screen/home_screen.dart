@@ -14,6 +14,7 @@ import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const buttonBarWidth = 300.0;
   static const buttonBarHeight = 50.0;
   static const secondButtonBarHeight = 28.0;
 
@@ -30,25 +31,32 @@ class HomeScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: buttonBarHeight),
             child: FieldMap(GlobalKey()),
           ),
-          Padding(
+          Container(
+            width: buttonBarWidth,
             padding: const EdgeInsets.only(
                 top: buttonBarHeight + secondButtonBarHeight),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const RouteController(),
+                const Expanded(child: RouteController()),
                 partitionLine(secondButtonBarHeight),
-                RoundSelector(model),
+                Expanded(child: RoundSelector(model)),
               ],
             ),
           ),
-          Padding(
+          Container(
+            width: buttonBarWidth,
+            color: Colors.white,
             padding: const EdgeInsets.only(top: buttonBarHeight),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ElevatedButton(
-                  child: const Text("マップ変更"),
+                  child: const Text(
+                    "マップ変更",
+                    style: TextStyle(fontSize: 13),
+                  ),
                   onPressed: () async {
                     final String? mapPath = await showDialog<String>(
                       context: context,
@@ -62,13 +70,19 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
                 ElevatedButton(
-                  child: const Text("位置リセット"),
+                  child: const Text(
+                    "位置リセット",
+                    style: TextStyle(fontSize: 13),
+                  ),
                   onPressed: () {
                     model.clearPlayerInfo();
                   },
                 ),
                 ElevatedButton(
-                  child: const Text("プレイヤー登録"),
+                  child: const Text(
+                    "プレイヤー登録",
+                    style: TextStyle(fontSize: 13),
+                  ),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -84,17 +98,25 @@ class HomeScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PlayerCounter(model),
-              partitionLine(buttonBarHeight),
-              Column(
-                children: const [
-                  CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
-                  CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
-                ],
+              SizedBox(
+                width: buttonBarWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PlayerCounter(model),
+                    partitionLine(buttonBarHeight),
+                    Column(
+                      children: const [
+                        CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
+                        CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
+                      ],
+                    ),
+                    partitionLine(buttonBarHeight),
+                    const KillTimer(),
+                  ],
+                ),
               ),
-              partitionLine(buttonBarHeight),
-              const KillTimer(),
-              partitionLine(buttonBarHeight),
               Expanded(child: SuspicionMapping()),
             ],
           ),
@@ -105,7 +127,6 @@ class HomeScreen extends StatelessWidget {
 
   Widget partitionLine(double height) {
     return Container(
-      width: 5,
       height: height,
       color: Colors.white,
       alignment: Alignment.center,

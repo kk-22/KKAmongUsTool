@@ -13,6 +13,7 @@ class RouteController extends StatelessWidget {
       height: HomeScreen.secondButtonBarHeight,
       color: Colors.white,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
