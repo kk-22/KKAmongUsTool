@@ -5,6 +5,7 @@ import 'package:kk_amongus_tool/Model/game_setting.dart';
 import 'package:provider/provider.dart';
 
 import 'View/screen/home_screen.dart';
+import 'model/moving_route.dart';
 import 'view_model/home_view_model.dart';
 
 void main() {
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<GameSetting>(
             create: (_) => GameSetting(),
+          ),
+          ChangeNotifierProvider<MovingRoute>(
+            create: (_) => MovingRoute(),
           ),
         ],
         child: const Scaffold(
