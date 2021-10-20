@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/game_setting.dart';
-import 'package:kk_amongus_tool/View/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/View/dialog/name_register.dart';
-import 'package:kk_amongus_tool/View/parts/kill_timer.dart';
+import 'package:kk_amongus_tool/View/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/View/parts/field_map.dart';
+import 'package:kk_amongus_tool/View/parts/kill_timer.dart';
 import 'package:kk_amongus_tool/View/parts/player_counter.dart';
 import 'package:kk_amongus_tool/View/parts/round_selector.dart';
 import 'package:kk_amongus_tool/View/parts/suspicion_mapping.dart';
@@ -97,10 +97,14 @@ class HomeScreen extends StatelessWidget {
 
   Widget partitionLine() {
     return Container(
-      width: 1,
+      width: 5,
       height: buttonBarHeight,
-      margin: const EdgeInsets.symmetric(horizontal: 2),
-      color: Colors.black,
+      color: Colors.white,
+      alignment: Alignment.center,
+      child: const VerticalDivider(
+        width: 1,
+        color: Colors.black,
+      ),
     );
   }
 }

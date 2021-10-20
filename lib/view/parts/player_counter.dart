@@ -11,9 +11,10 @@ class PlayerCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counts = viewModel.numberOfPlayerEachStatus();
-    return SizedBox(
+    return Container(
       height: HomeScreen.buttonBarHeight,
       width: 150,
+      color: Colors.white,
       child: Center(
         child: RichText(
           text: TextSpan(
