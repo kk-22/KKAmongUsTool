@@ -9,11 +9,16 @@ import 'model/moving_route.dart';
 import 'view_model/home_view_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final _route = MovingRoute();
+  late final HomeViewModel _viewModel;
+
+  MyApp({Key? key}) : super(key: key) {
+    _viewModel = HomeViewModel(_route);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +27,10 @@ class MyApp extends StatelessWidget {
       title: 'provider demo',
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider<HomeViewModel>(
-            create: (_) => HomeViewModel(),
-          ),
+          ChangeNotifierProvider<HomeViewModel>.value(value: _viewModel),
+          ChangeNotifierProvider<MovingRoute>.value(value: _route),
           ChangeNotifierProvider<GameSetting>(
             create: (_) => GameSetting(),
-          ),
-          ChangeNotifierProvider<MovingRoute>(
-            create: (_) => MovingRoute(),
           ),
         ],
         child: const Scaffold(

@@ -2,8 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/Model/player.dart';
 import 'package:kk_amongus_tool/View/dialog/map_selector.dart';
+import 'package:kk_amongus_tool/model/moving_route.dart';
 
 class HomeViewModel extends ChangeNotifier {
+  final MovingRoute _movingRoute;
   List<Player> _players = [];
   String mapPath = MapSelector.defaultMapPath;
   int currentRound = 0; // 表示中のラウンド
@@ -11,7 +13,7 @@ class HomeViewModel extends ChangeNotifier {
 
   List<Player> get allPlayer => _players;
 
-  HomeViewModel() {
+  HomeViewModel(this._movingRoute) {
     // デバッグ用初期値
     _players = [
       Player("KK", PlayerColor.cyan),

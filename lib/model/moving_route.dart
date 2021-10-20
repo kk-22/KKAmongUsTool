@@ -2,11 +2,14 @@ import 'dart:core';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/player.dart';
 
 class MovingRoute with ChangeNotifier {
   List<List<Offset>> _undoList = <List<Offset>>[];
   List<List<Offset>> _paintList = <List<Offset>>[];
   bool _isDragging = false;
+
+  PlayerColor? _selectingColor;
 
   List<List<Offset>> get undoList => _undoList;
 
@@ -17,6 +20,10 @@ class MovingRoute with ChangeNotifier {
   bool get canRedo => _undoList.isNotEmpty;
 
   bool get canUndo => _paintList.isNotEmpty;
+
+  set selectingColor(PlayerColor value) {
+    _selectingColor = value;
+  }
 
   void undo() {
     if (isDragging || !canUndo) {
