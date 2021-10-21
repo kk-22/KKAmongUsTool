@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PlayerCounter(model),
+                    const PlayerCounter(),
                     partitionLine(overlayBarHeight),
                     Column(
                       children: const [

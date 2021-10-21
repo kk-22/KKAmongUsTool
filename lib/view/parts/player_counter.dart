@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PlayerCounter extends StatelessWidget {
-  final HomeViewModel viewModel;
-
-  const PlayerCounter(this.viewModel, {Key? key}) : super(key: key);
+  const PlayerCounter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final counts = viewModel.numberOfPlayerEachStatus();
     return Container(
       height: HomeScreen.overlayBarHeight,
       width: 150,
       color: Colors.white,
-      child: Center(
-        child: RichText(
+      alignment: Alignment.center,
+      child: Consumer<HomeViewModel>(builder: (context, model, child) {
+        final counts = model.numberOfPlayerEachStatus();
+        return RichText(
           text: TextSpan(
             style: const TextStyle(
               color: Colors.black,
@@ -58,8 +58,8 @@ class PlayerCounter extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
