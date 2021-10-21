@@ -50,17 +50,22 @@ class MovingRoute with ChangeNotifier {
     notifyListeners();
   }
 
-  void clear(bool keepUndo) {
-    if (!isDragging) {
-      // 間違えた場合に戻せるようにundoに残す
-      _currentRoundRoute.undoStrokes.clear();
-      if (keepUndo) {
-        _currentRoundRoute.undoStrokes
-            .addAll(_currentRoundRoute.strokes.reversed);
-      }
-      _currentRoundRoute.strokes.clear();
-      notifyListeners();
+  void clear(bool allRound) {
+    if (isDragging) {
+      return;
     }
+    if (allRound) {
+      for (var element in _roundRoutes) {
+        element.clear();
+      }
+    } else {
+      // 現在のラウンドだけ削除。間違えた場合に戻せるようにundoに残す
+      _currentRoundRoute.undoStrokes.clear();
+      _currentRoundRoute.undoStrokes
+          .addAll(_currentRoundRoute.strokes.reversed);
+      _currentRoundRoute.strokes.clear();
+    }
+    notifyListeners();
   }
 
   void addPaint(Offset startPoint) {
@@ -103,6 +108,11 @@ class MovingRoute with ChangeNotifier {
 class RoundRoute {
   final strokes = <OneStroke>[];
   final undoStrokes = <OneStroke>[];
+
+  void clear() {
+    strokes.clear();
+    undoStrokes.clear();
+  }
 }
 
 // 一筆書きの座標と色

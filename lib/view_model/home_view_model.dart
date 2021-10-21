@@ -36,7 +36,7 @@ class HomeViewModel extends ChangeNotifier {
       player.resetOffset();
     }
     _round.changeRound(0);
-    _movingRoute.clear(false);
+    _movingRoute.clear(true);
     notifyListeners();
   }
 
