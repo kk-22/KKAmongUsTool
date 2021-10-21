@@ -9,11 +9,13 @@ import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
+import 'package:kk_amongus_tool/view/parts/used_button.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const leftAreaWidth = 200.0;
   static const buttonBarWidth = 300.0;
   static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
   static const overlayBarHeight = 50.0;
@@ -23,30 +25,43 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
-        Container(
-          height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.only(
-              top: overlayBarHeight + buttonBarHeight * 2),
-          child: FieldMap(GlobalKey()),
+        const SizedBox(
+          width: leftAreaWidth,
+          child: UsedButton(),
         ),
-        Container(
-          width: buttonBarWidth,
-          margin:
-              const EdgeInsets.only(top: overlayBarHeight + buttonBarHeight),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        SizedBox(
+          width: MediaQuery.of(context).size.width - leftAreaWidth,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
             children: [
-              const Expanded(child: RouteController()),
-              partitionLine(buttonBarHeight),
-              const Expanded(child: RoundSelector()),
+              // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
+              Container(
+                height: MediaQuery.of(context).size.height,
+                margin: const EdgeInsets.only(
+                    top: overlayBarHeight + buttonBarHeight * 2),
+                child: FieldMap(GlobalKey()),
+              ),
+              Container(
+                width: buttonBarWidth,
+                margin: const EdgeInsets.only(
+                    top: overlayBarHeight + buttonBarHeight),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(child: RouteController()),
+                    partitionLine(buttonBarHeight),
+                    const Expanded(child: RoundSelector()),
+                  ],
+                ),
+              ),
+              blueButtonBar(context),
+              overlayBar(),
             ],
           ),
         ),
-        blueButtonBar(context),
-        overlayBar(),
       ],
     );
   }
@@ -76,7 +91,7 @@ class HomeScreen extends StatelessWidget {
               );
               if (mapPath != null) {
                 final setting =
-                    Provider.of<SettingViewModel>(context, listen: false);
+                Provider.of<SettingViewModel>(context, listen: false);
                 setting.changeMap(mapPath);
               }
             },
