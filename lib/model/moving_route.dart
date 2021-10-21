@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 
 class MovingRoute with ChangeNotifier {
-  List<OneStroke> _routeList = <OneStroke>[];
-  List<OneStroke> _undoList = <OneStroke>[];
+  final List<OneStroke> _routeList = <OneStroke>[];
+  final List<OneStroke> _undoList = <OneStroke>[];
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
@@ -50,8 +50,9 @@ class MovingRoute with ChangeNotifier {
   void clear(bool keepUndo) {
     if (!isDragging) {
       // 間違えた場合に戻せるようにundoに残す
-      _undoList = keepUndo ? List.of(_routeList.reversed) : [];
-      _routeList = [];
+      _undoList.clear();
+      if (keepUndo) _undoList.addAll(_routeList.reversed);
+      _routeList.clear();
       notifyListeners();
     }
   }
@@ -59,7 +60,7 @@ class MovingRoute with ChangeNotifier {
   void addPaint(Offset startPoint) {
     if (!isDragging) {
       _isDragging = true;
-      _undoList = []; // redoできないようにする
+      _undoList.clear(); // redoできないようにする
       _routeList.add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
     }
