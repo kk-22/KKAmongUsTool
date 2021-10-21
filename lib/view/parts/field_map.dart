@@ -22,8 +22,16 @@ class FieldMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<HomeViewModel, Round, GameSetting>(
-        builder: (context, model, round, setting, child) {
+    final mapImage = Consumer<GameSetting>(builder: (context, value, child) {
+      return Container(
+          color: Colors.black,
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.only(top: topPadding, right: 40),
+          alignment: Alignment.centerLeft,
+          child: Image.asset(value.mapPath, fit: BoxFit.contain));
+    });
+    return Consumer2<HomeViewModel, Round>(
+        builder: (context, model, round, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
         return ChangeNotifierProvider<Player>.value(
@@ -31,14 +39,7 @@ class FieldMap extends StatelessWidget {
           child: MapPlayerIcon(index, model, round, _globalKey),
         );
       });
-      list.insert(
-          0,
-          Container(
-              color: Colors.black,
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: topPadding, right: 40),
-              alignment: Alignment.centerLeft,
-              child: Image.asset(setting.mapPath, fit: BoxFit.contain)));
+      list.insert(0, mapImage);
       list.insert(1, const RouteBoard());
       return Stack(
         children: list,
