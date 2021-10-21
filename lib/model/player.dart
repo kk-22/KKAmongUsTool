@@ -21,6 +21,16 @@ class Player with ChangeNotifier {
   String get name => _name; // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
   bool isSurviving(int round) => round <= (diedRound ?? maxRound);
 
+  void move(int currentRound, Offset offset) {
+    offsets[currentRound] = offset;
+    notifyListeners();
+  }
+
+  void changeSuspicion(Offset offset) {
+    mappingOffset = offset;
+    notifyListeners();
+  }
+
   void resetOffset() {
     offsets = List.filled(Player.maxRound, Offset.zero);
     mappingOffset = Offset.zero;
@@ -28,6 +38,20 @@ class Player with ChangeNotifier {
 
   void rename(String newName) {
     _name = newName;
+    notifyListeners();
+  }
+
+  void changedStatus(PlayerStatus status, int currentRound) {
+    switch (status) {
+      case PlayerStatus.survive:
+        diedRound = null;
+        break;
+      case PlayerStatus.killed:
+      case PlayerStatus.ejected:
+        diedRound = currentRound;
+        break;
+    }
+    this.status = status;
     notifyListeners();
   }
 }

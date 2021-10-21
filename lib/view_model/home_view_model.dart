@@ -41,14 +41,14 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void movePlayer(Player player, Offset offset) {
-    player.offsets[_round.currentRound] = offset;
-    _round.updateLastRoundIfNeeded();
     touchedPlayer(player);
-    notifyListeners();
+    _round.updateLastRoundIfNeeded();
+    player.move(_round.currentRound, offset);
   }
 
   void updateSuspicion(Player player, Offset offset) {
-    player.mappingOffset = offset;
+    player.changeSuspicion(offset);
+    // `headerChart` の一覧に影響するためここで通知
     notifyListeners();
   }
 
@@ -84,6 +84,7 @@ class HomeViewModel extends ChangeNotifier {
     if (prevColor != null) {
       playerOfColor(prevColor)?.isMyself = false;
     }
+    // `headerChart` の一覧に影響するためここで通知
     notifyListeners();
   }
 
@@ -101,17 +102,9 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void changePlayerStatus(Player player, PlayerStatus status) {
-    switch (status) {
-      case PlayerStatus.survive:
-        player.diedRound = null;
-        break;
-      case PlayerStatus.killed:
-      case PlayerStatus.ejected:
-        player.diedRound = _round.currentRound;
-        break;
-    }
-    player.status = status;
+    player.changedStatus(status, _round.currentRound);
     _round.updateLastRoundIfNeeded();
+    // survivingPlayers メソッドの戻り値に影響するためここで通知
     notifyListeners();
   }
 }

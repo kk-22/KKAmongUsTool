@@ -13,11 +13,12 @@ import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FieldMap extends StatelessWidget {
-  final _topPadding = SuspicionMapping.widgetHeight - HomeScreen.totalBarHeight;
+  static final topPadding =
+      SuspicionMapping.widgetHeight - HomeScreen.totalBarHeight;
 
   final GlobalKey _globalKey;
 
-  FieldMap(this._globalKey) : super(key: _globalKey);
+  const FieldMap(this._globalKey) : super(key: _globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class FieldMap extends StatelessWidget {
       List<Widget> list = List.generate(players.length, (index) {
         return ChangeNotifierProvider<Player>.value(
           value: players[index],
-          child: playerItem(players[index], index, model, round, _globalKey),
+          child: MapPlayerIcon(index, model, round, _globalKey),
         );
       });
       list.insert(
@@ -35,7 +36,7 @@ class FieldMap extends StatelessWidget {
           Container(
               color: Colors.black,
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: _topPadding, right: 40),
+              padding: EdgeInsets.only(top: topPadding, right: 40),
               alignment: Alignment.centerLeft,
               child: Image.asset(setting.mapPath, fit: BoxFit.contain)));
       list.insert(1, const RouteBoard());
@@ -44,9 +45,21 @@ class FieldMap extends StatelessWidget {
       );
     });
   }
+}
 
-  Widget playerItem(Player player, int index, HomeViewModel model, Round round,
-      GlobalKey globalKey) {
+class MapPlayerIcon extends StatelessWidget {
+  final int index;
+  final HomeViewModel model;
+  final Round round;
+  final GlobalKey mapKey;
+
+  const MapPlayerIcon(this.index, this.model, this.round, this.mapKey,
+      {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final player = Provider.of<Player>(context);
     var offset = player.offsets[round.currentRound];
     if (offset == Offset.zero) {
       // プレイヤー初期位置
@@ -68,13 +81,13 @@ class FieldMap extends StatelessWidget {
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),
         onDragEnd: (details) {
-          final box = globalKey.currentContext?.findRenderObject() as RenderBox;
+          final box = mapKey.currentContext?.findRenderObject() as RenderBox;
           final offset = box.globalToLocal(details.offset);
           // マップ外に配置されないように位置を補正
           final lastDx = min(
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
           final lastDy = min(box.size.height - PlayerWidget.size.height,
-              max(_topPadding, offset.dy));
+              max(FieldMap.topPadding, offset.dy));
           model.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),
