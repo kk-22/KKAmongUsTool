@@ -39,7 +39,7 @@ class RoutePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth;
 
-    for (final route in _route.strokes) {
+    for (final route in _route.roundStrokes) {
       paint.color = route.color.hexColor();
       // 一番最初にタップした地点に点を打つ。タップして離しただけの時に描画するため。
       canvas.drawRRect(
