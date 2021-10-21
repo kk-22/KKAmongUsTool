@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 
 class MovingRoute with ChangeNotifier {
-  List<Route> _routeList = <Route>[];
-  List<Route> _undoList = <Route>[];
+  List<OneStroke> _routeList = <OneStroke>[];
+  List<OneStroke> _undoList = <OneStroke>[];
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  List<Route> get routeList => _routeList;
+  List<OneStroke> get routeList => _routeList;
 
-  List<Route> get undoList => _undoList;
+  List<OneStroke> get undoList => _undoList;
 
   bool get isDragging => _isDragging;
 
@@ -60,7 +60,7 @@ class MovingRoute with ChangeNotifier {
     if (!isDragging) {
       _isDragging = true;
       _undoList = []; // redoできないようにする
-      _routeList.add(Route([startPoint], _selectingColor)); // 新たに開始地点を追加
+      _routeList.add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
     }
   }
@@ -68,7 +68,8 @@ class MovingRoute with ChangeNotifier {
   void updatePaint(Offset nextPoint) {
     if (isDragging) {
       // 最終位置として追加
-      final route = _routeList.lastOrNull ?? Route(<Offset>[], _selectingColor);
+      final route =
+          _routeList.lastOrNull ?? OneStroke(<Offset>[], _selectingColor);
       route.addOffset(nextPoint);
       if (_routeList.isEmpty) {
         _routeList.add(route);
@@ -85,11 +86,12 @@ class MovingRoute with ChangeNotifier {
   }
 }
 
-class Route {
+// 一筆書きの座標と色
+class OneStroke {
   final List<Offset> offsets;
   final PlayerColor color;
 
-  Route(this.offsets, this.color);
+  OneStroke(this.offsets, this.color);
 
   void addOffset(Offset offset) {
     offsets.add(offset);
