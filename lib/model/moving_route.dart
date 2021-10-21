@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 
 class MovingRoute with ChangeNotifier {
-  final List<OneStroke> _routeList = <OneStroke>[];
-  final List<OneStroke> _undoList = <OneStroke>[];
+  final List<OneStroke> _strokes = <OneStroke>[];
+  final List<OneStroke> _undoStrokes = <OneStroke>[];
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  List<OneStroke> get routeList => _routeList;
+  List<OneStroke> get strokes => _strokes;
 
-  List<OneStroke> get undoList => _undoList;
+  List<OneStroke> get undoStrokes => _undoStrokes;
 
   bool get isDragging => _isDragging;
 
-  bool get canRedo => _undoList.isNotEmpty;
+  bool get canRedo => _undoStrokes.isNotEmpty;
 
-  bool get canUndo => _routeList.isNotEmpty;
+  bool get canUndo => _strokes.isNotEmpty;
 
   set selectingColor(PlayerColor value) {
     _selectingColor = value;
@@ -29,10 +29,10 @@ class MovingRoute with ChangeNotifier {
     if (isDragging || !canUndo) {
       return;
     }
-    // _routeListの最後を_undoListへ移動
-    final _last = _routeList.last;
-    _undoList.add(_last);
-    _routeList.removeLast();
+    // _strokes の最後を _undoStrokes へ移動
+    final _last = _strokes.last;
+    _undoStrokes.add(_last);
+    _strokes.removeLast();
     notifyListeners();
   }
 
@@ -40,19 +40,19 @@ class MovingRoute with ChangeNotifier {
     if (isDragging || !canRedo) {
       return;
     }
-    // _undoListの最後を取って、_routeListに追加する
-    final _last = _undoList.last;
-    _undoList.removeLast();
-    _routeList.add(_last);
+    // _undoStrokes の最後を取って、 _strokes に追加する
+    final _last = _undoStrokes.last;
+    _undoStrokes.removeLast();
+    _strokes.add(_last);
     notifyListeners();
   }
 
   void clear(bool keepUndo) {
     if (!isDragging) {
       // 間違えた場合に戻せるようにundoに残す
-      _undoList.clear();
-      if (keepUndo) _undoList.addAll(_routeList.reversed);
-      _routeList.clear();
+      _undoStrokes.clear();
+      if (keepUndo) _undoStrokes.addAll(_strokes.reversed);
+      _strokes.clear();
       notifyListeners();
     }
   }
@@ -60,8 +60,8 @@ class MovingRoute with ChangeNotifier {
   void addPaint(Offset startPoint) {
     if (!isDragging) {
       _isDragging = true;
-      _undoList.clear(); // redoできないようにする
-      _routeList.add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
+      _undoStrokes.clear(); // redoできないようにする
+      _strokes.add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
     }
   }
@@ -69,13 +69,13 @@ class MovingRoute with ChangeNotifier {
   void updatePaint(Offset nextPoint) {
     if (isDragging) {
       // 最終位置として追加
-      final route =
-          _routeList.lastOrNull ?? OneStroke(<Offset>[], _selectingColor);
-      route.addOffset(nextPoint);
-      if (_routeList.isEmpty) {
-        _routeList.add(route);
+      final stroke =
+          _strokes.lastOrNull ?? OneStroke(<Offset>[], _selectingColor);
+      stroke.addOffset(nextPoint);
+      if (_strokes.isEmpty) {
+        _strokes.add(stroke);
       } else {
-        _routeList.last = route;
+        _strokes.last = stroke;
       }
       notifyListeners();
     }
