@@ -1,19 +1,19 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/model/round.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/model/moving_route.dart';
 
 class HomeViewModel extends ChangeNotifier {
+  final Round _round;
   final MovingRoute _movingRoute;
   List<Player> _players = [];
   String mapPath = MapSelector.defaultMapPath;
-  int currentRound = 0; // 表示中のラウンド
-  int lastRound = 0; // 最終ラウンド
 
   List<Player> get allPlayer => _players;
 
-  HomeViewModel(this._movingRoute) {
+  HomeViewModel(this._round, this._movingRoute) {
     // デバッグ用初期値
     _players = [
       Player("KK", PlayerColor.cyan),
@@ -37,14 +37,14 @@ class HomeViewModel extends ChangeNotifier {
       player.diedRound = null;
       player.resetOffset();
     }
-    currentRound = 0;
+    _round.changeRound(0);
     _movingRoute.clear(false);
     notifyListeners();
   }
 
   void movePlayer(Player player, Offset offset) {
-    player.offsets[currentRound] = offset;
-    _updateLastRoundIfNeeded();
+    player.offsets[_round.currentRound] = offset;
+    _round.updateLastRoundIfNeeded();
     touchedPlayer(player);
     notifyListeners();
   }
@@ -75,7 +75,7 @@ class HomeViewModel extends ChangeNotifier {
 
   // 引数がfalseなら最終ラウンドの会議時点で生存しているプレイヤーのみ返す
   List<Player> survivingPlayers(bool isCurrentRound) {
-    final round = isCurrentRound ? currentRound : lastRound + 1;
+    final round = isCurrentRound ? _round.currentRound : _round.lastRound + 1;
     return _players.where((element) => element.isSurviving(round)).toList();
   }
 
@@ -108,27 +108,16 @@ class HomeViewModel extends ChangeNotifier {
         break;
       case PlayerStatus.killed:
       case PlayerStatus.ejected:
-        player.diedRound = currentRound;
+        player.diedRound = _round.currentRound;
         break;
     }
     player.status = status;
-    _updateLastRoundIfNeeded();
+    _round.updateLastRoundIfNeeded();
     notifyListeners();
   }
 
   void changeMap(String path) {
     mapPath = path;
     notifyListeners();
-  }
-
-  void changeRound(int index) {
-    currentRound = index;
-    notifyListeners();
-  }
-
-  void _updateLastRoundIfNeeded() {
-    if (lastRound < currentRound) {
-      lastRound = currentRound;
-    }
   }
 }

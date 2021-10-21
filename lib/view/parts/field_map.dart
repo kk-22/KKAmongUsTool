@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/model/round.dart';
+import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
-import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +20,11 @@ class FieldMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeViewModel>(builder: (context, model, child) {
+    return Consumer2<HomeViewModel, Round>(
+        builder: (context, model, round, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
-        return playerItem(players[index], index, model, _globalKey);
+        return playerItem(players[index], index, model, round, _globalKey);
       });
       list.insert(
           0,
@@ -39,8 +41,9 @@ class FieldMap extends StatelessWidget {
     });
   }
 
-  Widget playerItem(Player player, int index, HomeViewModel model, GlobalKey globalKey) {
-    var offset = player.offsets[model.currentRound];
+  Widget playerItem(Player player, int index, HomeViewModel model, Round round,
+      GlobalKey globalKey) {
+    var offset = player.offsets[round.currentRound];
     if (offset == Offset.zero) {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
@@ -50,10 +53,10 @@ class FieldMap extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(player, model, false, true),
+        child: PlayerWidget(player, model, round.currentRound, false),
         feedback: Material(
           color: Colors.transparent,
-          child: PlayerWidget(player, model, true, true),
+          child: PlayerWidget(player, model, round.currentRound, true),
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),

@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const Expanded(child: RouteController()),
                 partitionLine(buttonBarHeight),
-                Expanded(child: RoundSelector(model)),
+                const Expanded(child: RoundSelector()),
               ],
             ),
           ),

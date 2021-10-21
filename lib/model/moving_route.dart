@@ -3,22 +3,26 @@ import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/model/round.dart';
 
 class MovingRoute with ChangeNotifier {
-  final _rounds = List.filled(Player.maxRound, RoundRoute());
+  final Round _round;
+  final _roundRoutes = List.filled(Player.maxRound, RoundRoute());
   bool _isDragging = false;
-
-  final int showingRound = 0;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  List<OneStroke> get roundStrokes => _rounds[showingRound].strokes;
+  MovingRoute(this._round);
+
+  List<OneStroke> get roundStrokes => _currentRoundRoute.strokes;
 
   bool get isDragging => _isDragging;
 
-  bool get canRedo => _rounds[showingRound].undoStrokes.isNotEmpty;
+  bool get canRedo => _currentRoundRoute.undoStrokes.isNotEmpty;
 
-  bool get canUndo => _rounds[showingRound].strokes.isNotEmpty;
+  bool get canUndo => _currentRoundRoute.strokes.isNotEmpty;
+
+  RoundRoute get _currentRoundRoute => _roundRoutes[_round.currentRound];
 
   set selectingColor(PlayerColor value) {
     _selectingColor = value;
@@ -29,9 +33,9 @@ class MovingRoute with ChangeNotifier {
       return;
     }
     // _strokes の最後を _undoStrokes へ移動
-    final _last = _rounds[showingRound].strokes.last;
-    _rounds[showingRound].undoStrokes.add(_last);
-    _rounds[showingRound].strokes.removeLast();
+    final _last = _currentRoundRoute.strokes.last;
+    _currentRoundRoute.undoStrokes.add(_last);
+    _currentRoundRoute.strokes.removeLast();
     notifyListeners();
   }
 
@@ -40,22 +44,21 @@ class MovingRoute with ChangeNotifier {
       return;
     }
     // _undoStrokes の最後を取って、 _strokes に追加する
-    final _last = _rounds[showingRound].undoStrokes.last;
-    _rounds[showingRound].undoStrokes.removeLast();
-    _rounds[showingRound].strokes.add(_last);
+    final _last = _currentRoundRoute.undoStrokes.last;
+    _currentRoundRoute.undoStrokes.removeLast();
+    _currentRoundRoute.strokes.add(_last);
     notifyListeners();
   }
 
   void clear(bool keepUndo) {
     if (!isDragging) {
       // 間違えた場合に戻せるようにundoに残す
-      _rounds[showingRound].undoStrokes.clear();
+      _currentRoundRoute.undoStrokes.clear();
       if (keepUndo) {
-        _rounds[showingRound]
-            .undoStrokes
-            .addAll(_rounds[showingRound].strokes.reversed);
+        _currentRoundRoute.undoStrokes
+            .addAll(_currentRoundRoute.strokes.reversed);
       }
-      _rounds[showingRound].strokes.clear();
+      _currentRoundRoute.strokes.clear();
       notifyListeners();
     }
   }
@@ -63,9 +66,8 @@ class MovingRoute with ChangeNotifier {
   void addPaint(Offset startPoint) {
     if (!isDragging) {
       _isDragging = true;
-      _rounds[showingRound].undoStrokes.clear(); // redoできないようにする
-      _rounds[showingRound]
-          .strokes
+      _currentRoundRoute.undoStrokes.clear(); // redoできないようにする
+      _currentRoundRoute.strokes
           .add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
     }
@@ -74,13 +76,13 @@ class MovingRoute with ChangeNotifier {
   void updatePaint(Offset nextPoint) {
     if (isDragging) {
       // 最終位置として追加
-      final stroke = _rounds[showingRound].strokes.lastOrNull ??
+      final stroke = _currentRoundRoute.strokes.lastOrNull ??
           OneStroke(<Offset>[], _selectingColor);
       stroke.addOffset(nextPoint);
-      if (_rounds[showingRound].strokes.isEmpty) {
-        _rounds[showingRound].strokes.add(stroke);
+      if (_currentRoundRoute.strokes.isEmpty) {
+        _currentRoundRoute.strokes.add(stroke);
       } else {
-        _rounds[showingRound].strokes.last = stroke;
+        _currentRoundRoute.strokes.last = stroke;
       }
       notifyListeners();
     }

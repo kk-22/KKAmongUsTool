@@ -10,20 +10,18 @@ class PlayerWidget extends StatelessWidget {
 
   final Player player;
   final HomeViewModel _viewModel;
+  final int _currentRound;
   final bool disableButton;
-  final bool useCurrentRound;
 
   const PlayerWidget(
-      this.player, this._viewModel, this.disableButton, this.useCurrentRound,
+      this.player, this._viewModel, this._currentRound, this.disableButton,
       {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // 現在のラウンドで死んだプレイヤーもtrueになる
-    final isDied = useCurrentRound
-        ? (player.diedRound ?? Player.maxRound) <= _viewModel.currentRound
-        : player.diedRound != null;
+    final isDied = (player.diedRound ?? Player.maxRound) <= _currentRound;
     return Column(
       children: [
         Container(

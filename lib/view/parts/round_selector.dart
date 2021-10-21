@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/model/round.dart';
+import 'package:provider/provider.dart';
 
 class RoundSelector extends StatefulWidget {
-  final HomeViewModel _viewModel;
-
-  const RoundSelector(this._viewModel, {Key? key}) : super(key: key);
+  const RoundSelector({Key? key}) : super(key: key);
 
   @override
   State<RoundSelector> createState() {
@@ -42,13 +41,16 @@ class _RoundSelectorState extends State<RoundSelector> {
                 height: _minHeight,
                 child: FittedBox(
                   fit: BoxFit.fill,
-                  child: Text(
-                    "ラウンド：${widget._viewModel.currentRound + 1}",
-                    style: TextStyle(
-                      decoration: _isExpanding ? TextDecoration.underline : null,
-                      color: Colors.blue,
-                    ),
-                  ),
+                  child: Consumer<Round>(builder: (context, model, child) {
+                    return Text(
+                      "ラウンド：${model.currentRound + 1}",
+                      style: TextStyle(
+                        decoration:
+                            _isExpanding ? TextDecoration.underline : null,
+                        color: Colors.blue,
+                      ),
+                    );
+                  }),
                 ),
               ),
               Visibility(
@@ -63,6 +65,7 @@ class _RoundSelectorState extends State<RoundSelector> {
   }
 
   Widget roundList() {
+    final round = Provider.of<Round>(context, listen: false);
     return GridView.count(
       crossAxisCount: Player.maxRound ~/ 3,
       children: List.generate(Player.maxRound, (index) {
@@ -76,7 +79,7 @@ class _RoundSelectorState extends State<RoundSelector> {
               ),
             ),
             onPressed: () {
-              widget._viewModel.changeRound(index);
+              round.changeRound(index);
             },
           ),
         );
