@@ -4,7 +4,7 @@ import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/model/round.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class PlayerViewModel extends ChangeNotifier {
   final Round _round;
   final MovingRoute _movingRoute;
   List<Player> _players = [];
@@ -18,7 +18,7 @@ class HomeViewModel extends ChangeNotifier {
 
   int numberOfPlayers() => _players.length;
 
-  HomeViewModel(this._round, this._movingRoute) {
+  PlayerViewModel(this._round, this._movingRoute) {
     // デバッグ用初期値
     _players = [
       Player("KK", PlayerColor.cyan),

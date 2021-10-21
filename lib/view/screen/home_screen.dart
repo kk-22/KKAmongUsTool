@@ -10,7 +10,7 @@ import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<HomeViewModel>(context, listen: false);
+    final playerModel = Provider.of<PlayerViewModel>(context, listen: false);
     return Stack(
       children: [
         // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 13),
                 ),
                 onPressed: () {
-                  model.clearPlayerInfo();
+                  playerModel.clearPlayerInfo();
                 },
               ),
               ElevatedButton(
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return NameRegister(model);
+                      return NameRegister(playerModel);
                     },
                   );
                 },

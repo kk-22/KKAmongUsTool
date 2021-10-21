@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/dialog/status_changer.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PlayerWidget extends StatelessWidget {
@@ -9,7 +9,7 @@ class PlayerWidget extends StatelessWidget {
   static const double _nameHeight = 23;
   static const double _charHeight = 24;
 
-  final HomeViewModel _viewModel;
+  final PlayerViewModel _viewModel;
   final int _currentRound;
   final bool disableButton;
 

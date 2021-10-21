@@ -9,7 +9,7 @@ import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FieldMap extends StatelessWidget {
@@ -30,7 +30,7 @@ class FieldMap extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Image.asset(value.mapPath, fit: BoxFit.contain));
     });
-    return Consumer2<HomeViewModel, Round>(
+    return Consumer2<PlayerViewModel, Round>(
         builder: (context, model, round, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
@@ -50,7 +50,7 @@ class FieldMap extends StatelessWidget {
 
 class MapPlayerIcon extends StatelessWidget {
   final int index;
-  final HomeViewModel model;
+  final PlayerViewModel model;
   final Round round;
   final GlobalKey mapKey;
 

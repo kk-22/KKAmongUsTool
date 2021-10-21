@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PlayerCounter extends StatelessWidget {
@@ -14,7 +14,7 @@ class PlayerCounter extends StatelessWidget {
       width: 150,
       color: Colors.white,
       alignment: Alignment.center,
-      child: Consumer<HomeViewModel>(builder: (context, model, child) {
+      child: Consumer<PlayerViewModel>(builder: (context, model, child) {
         final counts = model.numberOfPlayerEachStatus();
         return RichText(
           text: TextSpan(

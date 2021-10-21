@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 
 class NameRegister extends StatefulWidget {
-  final HomeViewModel viewModel;
+  final PlayerViewModel _playerModel;
 
-  const NameRegister(this.viewModel, {Key? key}) : super(key: key);
+  const NameRegister(this._playerModel, {Key? key}) : super(key: key);
 
   @override
   State<NameRegister> createState() {
@@ -21,10 +21,10 @@ class _NameRegisterState extends State<NameRegister> {
   void initState() {
     super.initState();
     items = PlayerColor.values.map((color) {
-      var player = widget.viewModel.playerOfColor(color);
+      var player = widget._playerModel.playerOfColor(color);
       final controller = TextEditingController(text: player?.name ?? "");
       controller.addListener(() {
-        widget.viewModel.changeName(controller.text, color);
+        widget._playerModel.changeName(controller.text, color);
         setState(() {});
       });
       final item = FieldItem(color, controller);
@@ -74,7 +74,7 @@ class _NameRegisterState extends State<NameRegister> {
             ),
             Center(
               child: Text(
-                "プレイヤー数：${widget.viewModel.numberOfPlayers()}",
+                "プレイヤー数：${widget._playerModel.numberOfPlayers()}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -149,7 +149,8 @@ class _NameRegisterState extends State<NameRegister> {
                             prevColor = item.color;
                           }
                           item.isMyself = value;
-                          widget.viewModel.changeMySelf(nextColor, prevColor);
+                          widget._playerModel
+                              .changeMySelf(nextColor, prevColor);
                         });
                       },
               ),

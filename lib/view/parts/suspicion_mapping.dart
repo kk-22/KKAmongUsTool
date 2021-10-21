@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
-import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionMapping extends StatelessWidget {
@@ -55,7 +55,8 @@ class SuspicionMapping extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Consumer<HomeViewModel>(builder: (context, model, child) {
+              child:
+                  Consumer<PlayerViewModel>(builder: (context, model, child) {
                 final players = model.allPlayer;
                 return Stack(
                   key: _mappingKey,
@@ -78,7 +79,7 @@ class SuspicionMapping extends StatelessWidget {
   Widget headerChart(double parentWidth) {
     final ignoreMinX = parentWidth * 0.25;
     final ignoreMaxX = parentWidth * 0.75 - PlayerWidget.size.width;
-    return Consumer<HomeViewModel>(builder: (context, model, child) {
+    return Consumer<PlayerViewModel>(builder: (context, model, child) {
       var players = model.survivingPlayers(false).where((element) {
         if (element.isMyself) return false;
         final dx = element.mappingOffset.dx;
@@ -141,7 +142,7 @@ class SuspicionMapping extends StatelessWidget {
   }
 
   Widget playerItem(
-      Player player, int index, HomeViewModel model, double parentWidth) {
+      Player player, int index, PlayerViewModel model, double parentWidth) {
     var offset = player.mappingOffset;
     if (offset == Offset.zero) {
       // プレイヤー初期位置
