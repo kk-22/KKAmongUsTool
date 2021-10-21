@@ -11,6 +11,13 @@ class HomeViewModel extends ChangeNotifier {
 
   List<Player> get allPlayer => _players;
 
+  Player? playerOfColor(PlayerColor color) =>
+      _players.firstWhereOrNull((player) => player.color == color);
+
+  Player? playerOfIndex(int index) => _players[index];
+
+  int numberOfPlayers() => _players.length;
+
   HomeViewModel(this._round, this._movingRoute) {
     // デバッグ用初期値
     _players = [
@@ -25,10 +32,6 @@ class HomeViewModel extends ChangeNotifier {
     clearPlayerInfo();
   }
 
-  void touchedPlayer(Player player) {
-    _movingRoute.selectingColor = player.color;
-  }
-
   void clearPlayerInfo() {
     for (var player in _players) {
       player.status = PlayerStatus.survive;
@@ -38,6 +41,10 @@ class HomeViewModel extends ChangeNotifier {
     _round.changeRound(0);
     _movingRoute.clear(true);
     notifyListeners();
+  }
+
+  void touchedPlayer(Player player) {
+    _movingRoute.selectingColor = player.color;
   }
 
   void movePlayer(Player player, Offset offset) {
@@ -51,13 +58,6 @@ class HomeViewModel extends ChangeNotifier {
     // `headerChart` の一覧に影響するためここで通知
     notifyListeners();
   }
-
-  Player? playerOfColor(PlayerColor color) =>
-      _players.firstWhereOrNull((player) => player.color == color);
-
-  Player? playerOfIndex(int index) => _players[index];
-
-  int numberOfPlayers() => _players.length;
 
   List<int> numberOfPlayerEachStatus() {
     return [
