@@ -9,12 +9,10 @@ class PlayerWidget extends StatelessWidget {
   static const double _nameHeight = 23;
   static const double _charHeight = 24;
 
-  final PlayerViewModel _playerModel;
   final int _currentRound;
   final bool disableButton;
 
-  const PlayerWidget(this._playerModel, this._currentRound, this.disableButton,
-      {Key? key})
+  const PlayerWidget(this._currentRound, this.disableButton, {Key? key})
       : super(key: key);
 
   @override
@@ -50,11 +48,13 @@ class PlayerWidget extends StatelessWidget {
               onPressed: disableButton
                   ? null
                   : () {
-                _playerModel.touchedPlayer(player);
+                      final playerModel =
+                          Provider.of<PlayerViewModel>(context, listen: false);
+                      playerModel.touchedPlayer(player);
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return StatusChanger(player, _playerModel);
+                          return StatusChanger(player, playerModel);
                         },
                       );
                     },

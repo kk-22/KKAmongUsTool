@@ -133,7 +133,7 @@ class SuspicionMapping extends StatelessWidget {
             final playerIndex = (index < expandIndex ? index : index - 1);
             return ChangeNotifierProvider<Player>.value(
               value: players[playerIndex],
-              child: PlayerWidget(model, Player.maxRound, true),
+              child: const PlayerWidget(Player.maxRound, true),
             );
           }),
         ),
@@ -159,12 +159,12 @@ class SuspicionMapping extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(model, Player.maxRound, true),
+        child: const PlayerWidget(Player.maxRound, true),
         feedback: Material(
           color: Colors.transparent,
           child: ChangeNotifierProvider<Player>.value(
             value: player,
-            child: PlayerWidget(model, Player.maxRound, true),
+            child: const PlayerWidget(Player.maxRound, true),
           ),
         ),
         data: player.name,

@@ -51,11 +51,12 @@ class FieldMap extends StatelessWidget {
 
 class MapPlayerIcon extends StatelessWidget {
   final int index;
-  final PlayerViewModel model;
+  final PlayerViewModel _playerModel;
   final RoundViewModel _roundModel;
   final GlobalKey mapKey;
 
-  const MapPlayerIcon(this.index, this.model, this._roundModel, this.mapKey,
+  const MapPlayerIcon(
+      this.index, this._playerModel, this._roundModel, this.mapKey,
       {Key? key})
       : super(key: key);
 
@@ -72,12 +73,12 @@ class MapPlayerIcon extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(model, _roundModel.currentRound, false),
+        child: PlayerWidget(_roundModel.currentRound, false),
         feedback: Material(
           color: Colors.transparent,
           child: ChangeNotifierProvider<Player>.value(
             value: player,
-            child: PlayerWidget(model, _roundModel.currentRound, true),
+            child: PlayerWidget(_roundModel.currentRound, true),
           ),
         ),
         data: player.name,
@@ -90,7 +91,7 @@ class MapPlayerIcon extends StatelessWidget {
               box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
           final lastDy = min(box.size.height - PlayerWidget.size.height,
               max(FieldMap.topPadding, offset.dy));
-          model.movePlayer(player, Offset(lastDx, lastDy));
+          _playerModel.movePlayer(player, Offset(lastDx, lastDy));
         },
       ),
     );
