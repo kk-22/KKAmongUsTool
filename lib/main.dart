@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'View/screen/home_screen.dart';
 import 'model/moving_route.dart';
-import 'model/round.dart';
+import 'view_model/round_view_model.dart';
 import 'view_model/player_view_model.dart';
 
 void main() {
@@ -14,13 +14,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final _round = Round();
+  final _roundModel = RoundViewModel();
   late final MovingRoute _route;
   late final PlayerViewModel _playerModel;
 
   MyApp({Key? key}) : super(key: key) {
-    _route = MovingRoute(_round);
-    _playerModel = PlayerViewModel(_round, _route);
+    _route = MovingRoute(_roundModel);
+    _playerModel = PlayerViewModel(_roundModel, _route);
   }
 
   @override
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
-          ChangeNotifierProvider<Round>.value(value: _round),
+          ChangeNotifierProvider<RoundViewModel>.value(value: _roundModel),
           ChangeNotifierProvider<MovingRoute>.value(value: _route),
           ChangeNotifierProvider<SettingViewModel>(
             create: (_) => SettingViewModel(),

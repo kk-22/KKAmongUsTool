@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 
-class Round with ChangeNotifier {
+class RoundViewModel with ChangeNotifier {
   int _currentRound = 0; // 表示中のラウンド
   int _lastRound = 0;
 

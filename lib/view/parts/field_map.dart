@@ -2,14 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FieldMap extends StatelessWidget {
@@ -31,7 +31,7 @@ class FieldMap extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Image.asset(value.mapPath, fit: BoxFit.contain));
     });
-    return Consumer2<PlayerViewModel, Round>(
+    return Consumer2<PlayerViewModel, RoundViewModel>(
         builder: (context, model, round, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
@@ -52,17 +52,17 @@ class FieldMap extends StatelessWidget {
 class MapPlayerIcon extends StatelessWidget {
   final int index;
   final PlayerViewModel model;
-  final Round round;
+  final RoundViewModel _roundModel;
   final GlobalKey mapKey;
 
-  const MapPlayerIcon(this.index, this.model, this.round, this.mapKey,
+  const MapPlayerIcon(this.index, this.model, this._roundModel, this.mapKey,
       {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final player = Provider.of<Player>(context);
-    var offset = player.offsets[round.currentRound];
+    var offset = player.offsets[_roundModel.currentRound];
     if (offset == Offset.zero) {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
@@ -72,12 +72,12 @@ class MapPlayerIcon extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(model, round.currentRound, false),
+        child: PlayerWidget(model, _roundModel.currentRound, false),
         feedback: Material(
           color: Colors.transparent,
           child: ChangeNotifierProvider<Player>.value(
             value: player,
-            child: PlayerWidget(model, round.currentRound, true),
+            child: PlayerWidget(model, _roundModel.currentRound, true),
           ),
         ),
         data: player.name,

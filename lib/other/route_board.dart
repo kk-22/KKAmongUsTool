@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RouteBoard extends StatelessWidget {
@@ -18,7 +18,7 @@ class RouteBoard extends StatelessWidget {
         onPanStart: (details) => route.addPaint(details.localPosition),
         onPanUpdate: (details) => route.updatePaint(details.localPosition),
         onPanEnd: (_) => route.endPaint(),
-        child: Consumer2<MovingRoute, Round>(
+        child: Consumer2<MovingRoute, RoundViewModel>(
             builder: (context, movingRoute, round, child) {
           return CustomPaint(
             painter: RoutePainter(movingRoute),

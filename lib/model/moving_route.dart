@@ -3,16 +3,16 @@ import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class MovingRoute with ChangeNotifier {
-  final Round _round;
+  final RoundViewModel _roundModel;
   final _roundRoutes = List<RoundRoute>.generate(10, (index) => RoundRoute());
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  MovingRoute(this._round);
+  MovingRoute(this._roundModel);
 
   List<OneStroke> get roundStrokes => _currentRoundRoute.strokes;
 
@@ -22,7 +22,7 @@ class MovingRoute with ChangeNotifier {
 
   bool get canUndo => _currentRoundRoute.strokes.isNotEmpty;
 
-  RoundRoute get _currentRoundRoute => _roundRoutes[_round.currentRound];
+  RoundRoute get _currentRoundRoute => _roundRoutes[_roundModel.currentRound];
 
   set selectingColor(PlayerColor value) {
     _selectingColor = value;

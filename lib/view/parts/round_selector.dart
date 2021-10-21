@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RoundSelector extends StatefulWidget {
@@ -41,7 +41,8 @@ class _RoundSelectorState extends State<RoundSelector> {
                 height: _minHeight,
                 child: FittedBox(
                   fit: BoxFit.fill,
-                  child: Consumer<Round>(builder: (context, model, child) {
+                  child: Consumer<RoundViewModel>(
+                      builder: (context, model, child) {
                     return Text(
                       "ラウンド：${model.currentRound + 1}",
                       style: TextStyle(
@@ -65,7 +66,7 @@ class _RoundSelectorState extends State<RoundSelector> {
   }
 
   Widget roundList() {
-    final round = Provider.of<Round>(context, listen: false);
+    final roundModel = Provider.of<RoundViewModel>(context, listen: false);
     return GridView.count(
       crossAxisCount: Player.maxRound ~/ 3,
       children: List.generate(Player.maxRound, (index) {
@@ -79,7 +80,7 @@ class _RoundSelectorState extends State<RoundSelector> {
               ),
             ),
             onPressed: () {
-              round.changeRound(index);
+              roundModel.changeRound(index);
             },
           ),
         );

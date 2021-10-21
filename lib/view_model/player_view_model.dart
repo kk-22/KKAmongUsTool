@@ -2,10 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class PlayerViewModel extends ChangeNotifier {
-  final Round _round;
+  final RoundViewModel _roundModel;
   final MovingRoute _movingRoute;
   List<Player> _players = [];
 
@@ -18,7 +18,7 @@ class PlayerViewModel extends ChangeNotifier {
 
   int numberOfPlayers() => _players.length;
 
-  PlayerViewModel(this._round, this._movingRoute) {
+  PlayerViewModel(this._roundModel, this._movingRoute) {
     // デバッグ用初期値
     _players = [
       Player("KK", PlayerColor.cyan),
@@ -38,7 +38,7 @@ class PlayerViewModel extends ChangeNotifier {
       player.diedRound = null;
       player.resetOffset();
     }
-    _round.changeRound(0);
+    _roundModel.changeRound(0);
     _movingRoute.clear(true);
     notifyListeners();
   }
@@ -49,8 +49,8 @@ class PlayerViewModel extends ChangeNotifier {
 
   void movePlayer(Player player, Offset offset) {
     touchedPlayer(player);
-    _round.updateLastRoundIfNeeded();
-    player.move(_round.currentRound, offset);
+    _roundModel.updateLastRoundIfNeeded();
+    player.move(_roundModel.currentRound, offset);
   }
 
   void updateSuspicion(Player player, Offset offset) {
@@ -73,7 +73,8 @@ class PlayerViewModel extends ChangeNotifier {
 
   // 引数がfalseなら最終ラウンドの会議時点で生存しているプレイヤーのみ返す
   List<Player> survivingPlayers(bool isCurrentRound) {
-    final round = isCurrentRound ? _round.currentRound : _round.lastRound + 1;
+    final round =
+        isCurrentRound ? _roundModel.currentRound : _roundModel.lastRound + 1;
     return _players.where((element) => element.isSurviving(round)).toList();
   }
 
@@ -102,8 +103,8 @@ class PlayerViewModel extends ChangeNotifier {
   }
 
   void changePlayerStatus(Player player, PlayerStatus status) {
-    player.changedStatus(status, _round.currentRound);
-    _round.updateLastRoundIfNeeded();
+    player.changedStatus(status, _roundModel.currentRound);
+    _roundModel.updateLastRoundIfNeeded();
     // survivingPlayers メソッドの戻り値に影響するためここで通知
     notifyListeners();
   }
