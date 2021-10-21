@@ -7,7 +7,7 @@ import 'package:kk_amongus_tool/model/round.dart';
 
 class MovingRoute with ChangeNotifier {
   final Round _round;
-  final _roundRoutes = List.filled(Player.maxRound, RoundRoute());
+  final _roundRoutes = List<RoundRoute>.generate(10, (index) => RoundRoute());
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
