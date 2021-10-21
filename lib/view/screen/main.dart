@@ -1,13 +1,13 @@
 //▼main.dart
 
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
+import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
-import 'View/screen/home_screen.dart';
-import 'view_model/player_view_model.dart';
-import 'view_model/round_view_model.dart';
-import 'view_model/route_view_model.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(MyApp());
