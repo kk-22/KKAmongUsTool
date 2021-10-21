@@ -43,17 +43,6 @@ class RoutePainter extends CustomPainter {
 
     for (final route in _route.roundStrokes) {
       paint.color = route.color.hexColor();
-      // 一番最初にタップした地点に点を打つ。タップして離しただけの時に描画するため。
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromCenter(
-              center: route.offsets[0],
-              width: strokeWidth,
-              height: strokeWidth),
-          const Radius.circular(strokeWidth),
-        ),
-        paint,
-      );
       // ひとかたまりの線の描画
       for (var i = 0; i < route.offsets.length - 1; i++) {
         canvas.drawLine(route.offsets[i], route.offsets[i + 1], paint);

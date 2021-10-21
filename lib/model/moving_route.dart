@@ -66,7 +66,6 @@ class MovingRoute with ChangeNotifier {
   void addPaint(Offset startPoint) {
     if (!isDragging) {
       _isDragging = true;
-      _currentRoundRoute.undoStrokes.clear(); // redoできないようにする
       _currentRoundRoute.strokes
           .add(OneStroke([startPoint], _selectingColor)); // 新たに開始地点を追加
       notifyListeners();
@@ -90,6 +89,12 @@ class MovingRoute with ChangeNotifier {
 
   void endPaint() {
     _isDragging = false;
+    if (_currentRoundRoute.strokes.last.offsets.length == 1) {
+      // 1点のタップのみなら、経路を無かった事にする
+      _currentRoundRoute.strokes.removeLast();
+    } else {
+      _currentRoundRoute.undoStrokes.clear(); // redoできないようにする
+    }
     notifyListeners();
   }
 }
