@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/game_setting.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/model/round.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
@@ -22,7 +22,8 @@ class FieldMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapImage = Consumer<GameSetting>(builder: (context, value, child) {
+    final mapImage =
+        Consumer<SettingViewModel>(builder: (context, value, child) {
       return Container(
           color: Colors.black,
           width: MediaQuery.of(context).size.width,

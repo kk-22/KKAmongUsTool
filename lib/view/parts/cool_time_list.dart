@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/game_setting.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +33,7 @@ class _CoolTimeListState extends State<CoolTimeList> {
 
   @override
   Widget build(BuildContext context) {
-    final setting = Provider.of<GameSetting>(context, listen: false);
+    final setting = Provider.of<SettingViewModel>(context, listen: false);
     return Container(
       color: Colors.white,
       width: 85,
@@ -85,7 +85,8 @@ class _CoolTimeListState extends State<CoolTimeList> {
               ),
             ),
             onPressed: () {
-              final setting = Provider.of<GameSetting>(context, listen: false);
+              final setting =
+                  Provider.of<SettingViewModel>(context, listen: false);
               setting.updateCoolTimeSec(widget.type, value);
               setState(() {});
             },

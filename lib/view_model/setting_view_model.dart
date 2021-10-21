@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 
-class GameSetting with ChangeNotifier {
+class SettingViewModel with ChangeNotifier {
   final Map<CoolTimeType, int> _coolTimeSecs = {
     CoolTimeType.button: 15,
     CoolTimeType.kill: 30,

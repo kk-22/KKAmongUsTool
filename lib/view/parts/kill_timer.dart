@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/game_setting.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class _KillTimerState extends State<KillTimer> {
       color: Colors.white,
       child: Column(
         children: [
-          Consumer<GameSetting>(builder: (context, setting, child) {
+          Consumer<SettingViewModel>(builder: (context, setting, child) {
             final numberOfKills =
                 _elapsedSec ~/ setting.coolTimeSec(CoolTimeType.kill);
             Color backgroundColor = Colors.white;

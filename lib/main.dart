@@ -1,7 +1,7 @@
 //▼main.dart
 
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/game_setting.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'View/screen/home_screen.dart';
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
           ChangeNotifierProvider<Round>.value(value: _round),
           ChangeNotifierProvider<MovingRoute>.value(value: _route),
-          ChangeNotifierProvider<GameSetting>(
-            create: (_) => GameSetting(),
+          ChangeNotifierProvider<SettingViewModel>(
+            create: (_) => SettingViewModel(),
           ),
         ],
         child: const Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/game_setting.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/view/dialog/name_register.dart';
 import 'package:kk_amongus_tool/view/parts/cool_time_list.dart';
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   );
                   if (mapPath != null) {
                     final setting =
-                        Provider.of<GameSetting>(context, listen: false);
+                        Provider.of<SettingViewModel>(context, listen: false);
                     setting.changeMap(mapPath);
                   }
                 },
