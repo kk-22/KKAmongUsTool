@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
+import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RouteBoard extends StatelessWidget {
@@ -10,7 +10,7 @@ class RouteBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final route = Provider.of<MovingRoute>(context, listen: false);
+    final route = Provider.of<RouteViewModel>(context, listen: false);
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -18,7 +18,7 @@ class RouteBoard extends StatelessWidget {
         onPanStart: (details) => route.addPaint(details.localPosition),
         onPanUpdate: (details) => route.updatePaint(details.localPosition),
         onPanEnd: (_) => route.endPaint(),
-        child: Consumer2<MovingRoute, RoundViewModel>(
+        child: Consumer2<RouteViewModel, RoundViewModel>(
             builder: (context, movingRoute, round, child) {
           return CustomPaint(
             painter: RoutePainter(movingRoute),
@@ -30,7 +30,7 @@ class RouteBoard extends StatelessWidget {
 }
 
 class RoutePainter extends CustomPainter {
-  final MovingRoute _route;
+  final RouteViewModel _route;
 
   RoutePainter(this._route);
 

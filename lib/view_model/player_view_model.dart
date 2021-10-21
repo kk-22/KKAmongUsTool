@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
+import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 
 class PlayerViewModel extends ChangeNotifier {
   final RoundViewModel _roundModel;
-  final MovingRoute _movingRoute;
+  final RouteViewModel _movingRoute;
   List<Player> _players = [];
 
   List<Player> get allPlayer => _players;

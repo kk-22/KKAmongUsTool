@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
+import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RouteController extends StatelessWidget {
@@ -8,7 +8,7 @@ class RouteController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final route = Provider.of<MovingRoute>(context, listen: false);
+    final route = Provider.of<RouteViewModel>(context, listen: false);
     return Container(
       height: HomeScreen.buttonBarHeight,
       color: Colors.white,

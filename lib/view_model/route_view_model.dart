@@ -3,16 +3,17 @@ import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/model/route.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
-class MovingRoute with ChangeNotifier {
+class RouteViewModel with ChangeNotifier {
   final RoundViewModel _roundModel;
   final _roundRoutes = List<RoundRoute>.generate(10, (index) => RoundRoute());
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
 
-  MovingRoute(this._roundModel);
+  RouteViewModel(this._roundModel);
 
   List<OneStroke> get roundStrokes => _currentRoundRoute.strokes;
 
@@ -101,28 +102,5 @@ class MovingRoute with ChangeNotifier {
       _currentRoundRoute.undoStrokes.clear(); // redoできないようにする
     }
     notifyListeners();
-  }
-}
-
-// ラウンド内での移動経路
-class RoundRoute {
-  final strokes = <OneStroke>[];
-  final undoStrokes = <OneStroke>[];
-
-  void clear() {
-    strokes.clear();
-    undoStrokes.clear();
-  }
-}
-
-// 一筆書きの座標と色
-class OneStroke {
-  final List<Offset> offsets;
-  final PlayerColor color;
-
-  OneStroke(this.offsets, this.color);
-
-  void addOffset(Offset offset) {
-    offsets.add(offset);
   }
 }
