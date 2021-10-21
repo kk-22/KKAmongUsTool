@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/model/round.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
@@ -56,14 +55,13 @@ class SuspicionMapping extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Consumer2<HomeViewModel, Round>(
-                  builder: (context, model, round, child) {
+              child: Consumer<HomeViewModel>(builder: (context, model, child) {
                 final players = model.allPlayer;
                 return Stack(
                   key: _mappingKey,
                   children: List.generate(players.length, (index) {
-                    return playerItem(players[index], index, model, round,
-                        constraints.maxWidth);
+                    return playerItem(
+                        players[index], index, model, constraints.maxWidth);
                   }),
                 );
               }),
@@ -137,8 +135,8 @@ class SuspicionMapping extends StatelessWidget {
     });
   }
 
-  Widget playerItem(Player player, int index, HomeViewModel model, Round round,
-      double parentWidth) {
+  Widget playerItem(
+      Player player, int index, HomeViewModel model, double parentWidth) {
     var offset = player.mappingOffset;
     if (offset == Offset.zero) {
       // プレイヤー初期位置
@@ -155,10 +153,10 @@ class SuspicionMapping extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(player, model, round.currentRound, true),
+        child: PlayerWidget(player, model, Player.maxRound, true),
         feedback: Material(
           color: Colors.transparent,
-          child: PlayerWidget(player, model, round.currentRound, true),
+          child: PlayerWidget(player, model, Player.maxRound, true),
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),
