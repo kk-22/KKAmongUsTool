@@ -1,15 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/moving_route.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/model/round.dart';
-import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
-import 'package:kk_amongus_tool/model/moving_route.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final Round _round;
   final MovingRoute _movingRoute;
   List<Player> _players = [];
-  String mapPath = MapSelector.defaultMapPath;
 
   List<Player> get allPlayer => _players;
 
@@ -113,11 +111,6 @@ class HomeViewModel extends ChangeNotifier {
     }
     player.status = status;
     _round.updateLastRoundIfNeeded();
-    notifyListeners();
-  }
-
-  void changeMap(String path) {
-    mapPath = path;
     notifyListeners();
   }
 }

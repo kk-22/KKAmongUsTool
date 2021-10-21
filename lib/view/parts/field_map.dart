@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/game_setting.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/model/round.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
@@ -20,8 +21,8 @@ class FieldMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<HomeViewModel, Round>(
-        builder: (context, model, round, child) {
+    return Consumer3<HomeViewModel, Round, GameSetting>(
+        builder: (context, model, round, setting, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
         return playerItem(players[index], index, model, round, _globalKey);
@@ -33,7 +34,7 @@ class FieldMap extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top: _topPadding, right: 40),
               alignment: Alignment.centerLeft,
-              child: Image.asset(model.mapPath, fit: BoxFit.contain)));
+              child: Image.asset(setting.mapPath, fit: BoxFit.contain)));
       list.insert(1, const RouteBoard());
       return Stack(
         children: list,

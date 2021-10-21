@@ -68,7 +68,9 @@ class HomeScreen extends StatelessWidget {
                       },
                     );
                     if (mapPath != null) {
-                      model.changeMap(mapPath);
+                      final setting =
+                          Provider.of<GameSetting>(context, listen: false);
+                      setting.changeMap(mapPath);
                     }
                   },
                 ),
