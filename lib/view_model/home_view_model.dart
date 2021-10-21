@@ -91,12 +91,13 @@ class HomeViewModel extends ChangeNotifier {
     var player = playerOfColor(color);
     if (name.isEmpty) {
       _players.remove(player);
+      notifyListeners();
     } else if (player != null) {
-      player.name = name;
+      player.rename(name);
     } else {
       _players.add(Player(name, color));
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void changePlayerStatus(Player player, PlayerStatus status) {

@@ -25,7 +25,10 @@ class FieldMap extends StatelessWidget {
         builder: (context, model, round, setting, child) {
       final players = model.survivingPlayers(true);
       List<Widget> list = List.generate(players.length, (index) {
-        return playerItem(players[index], index, model, round, _globalKey);
+        return ChangeNotifierProvider<Player>.value(
+          value: players[index],
+          child: playerItem(players[index], index, model, round, _globalKey),
+        );
       });
       list.insert(
           0,
@@ -54,10 +57,13 @@ class FieldMap extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: PlayerWidget(player, model, round.currentRound, false),
+        child: PlayerWidget(model, round.currentRound, false),
         feedback: Material(
           color: Colors.transparent,
-          child: PlayerWidget(player, model, round.currentRound, true),
+          child: ChangeNotifierProvider<Player>.value(
+            value: player,
+            child: PlayerWidget(model, round.currentRound, true),
+          ),
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),

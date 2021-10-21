@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/dialog/status_changer.dart';
 import 'package:kk_amongus_tool/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PlayerWidget extends StatelessWidget {
   static const Size size = Size(50, _nameHeight + _charHeight);
   static const double _nameHeight = 23;
   static const double _charHeight = 24;
 
-  final Player player;
   final HomeViewModel _viewModel;
   final int _currentRound;
   final bool disableButton;
 
-  const PlayerWidget(
-      this.player, this._viewModel, this._currentRound, this.disableButton,
+  const PlayerWidget(this._viewModel, this._currentRound, this.disableButton,
       {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final player = Provider.of<Player>(context);
     // 現在のラウンドで死んだプレイヤーもtrueになる
     final isDied = (player.diedRound ?? Player.maxRound) <= _currentRound;
     return Column(

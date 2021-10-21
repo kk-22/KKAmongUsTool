@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 
-class Player {
+class Player with ChangeNotifier {
   static const int maxRound = 15;
 
-  String name;
+  String _name;
   final PlayerColor color;
 
   var isMyself = false;
@@ -14,16 +14,21 @@ class Player {
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
   Offset mappingOffset = Offset.zero;
 
-  Player(this.name, this.color) {
+  Player(this._name, this.color) {
     resetOffset();
   }
 
-  // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
+  String get name => _name; // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
   bool isSurviving(int round) => round <= (diedRound ?? maxRound);
 
   void resetOffset() {
     offsets = List.filled(Player.maxRound, Offset.zero);
     mappingOffset = Offset.zero;
+  }
+
+  void rename(String newName) {
+    _name = newName;
+    notifyListeners();
   }
 }
 
