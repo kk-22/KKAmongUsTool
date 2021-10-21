@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -68,8 +67,8 @@ class _RoundSelectorState extends State<RoundSelector> {
   Widget roundList() {
     final roundModel = Provider.of<RoundViewModel>(context, listen: false);
     return GridView.count(
-      crossAxisCount: Player.maxRound ~/ 3,
-      children: List.generate(Player.maxRound, (index) {
+      crossAxisCount: RoundViewModel.maxRound ~/ 3,
+      children: List.generate(RoundViewModel.maxRound, (index) {
         return SizedBox(
           height: _gridItemHeight,
           child: TextButton(

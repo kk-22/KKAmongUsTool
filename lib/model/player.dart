@@ -1,10 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class Player with ChangeNotifier {
-  static const int maxRound = 15;
-
   String _name;
   final PlayerColor color;
 
@@ -19,7 +18,8 @@ class Player with ChangeNotifier {
   }
 
   String get name => _name; // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
-  bool isSurviving(int round) => round <= (diedRound ?? maxRound);
+  bool isSurviving(int round) =>
+      round <= (diedRound ?? RoundViewModel.maxRound);
 
   void move(int currentRound, Offset offset) {
     offsets[currentRound] = offset;
@@ -32,7 +32,7 @@ class Player with ChangeNotifier {
   }
 
   void resetOffset() {
-    offsets = List.filled(Player.maxRound, Offset.zero);
+    offsets = List.filled(RoundViewModel.maxRound, Offset.zero);
     mappingOffset = Offset.zero;
   }
 

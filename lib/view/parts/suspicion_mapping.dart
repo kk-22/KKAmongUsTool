@@ -6,6 +6,7 @@ import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionMapping extends StatelessWidget {
@@ -133,7 +134,7 @@ class SuspicionMapping extends StatelessWidget {
             final playerIndex = (index < expandIndex ? index : index - 1);
             return ChangeNotifierProvider<Player>.value(
               value: players[playerIndex],
-              child: const PlayerWidget(Player.maxRound, true),
+              child: const PlayerWidget(RoundViewModel.maxRound, true),
             );
           }),
         ),
@@ -159,12 +160,12 @@ class SuspicionMapping extends StatelessWidget {
       top: offset.dy,
       left: offset.dx,
       child: Draggable(
-        child: const PlayerWidget(Player.maxRound, true),
+        child: const PlayerWidget(RoundViewModel.maxRound, true),
         feedback: Material(
           color: Colors.transparent,
           child: ChangeNotifierProvider<Player>.value(
             value: player,
-            child: const PlayerWidget(Player.maxRound, true),
+            child: const PlayerWidget(RoundViewModel.maxRound, true),
           ),
         ),
         data: player.name,

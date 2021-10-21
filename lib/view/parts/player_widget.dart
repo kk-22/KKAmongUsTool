@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/dialog/status_changer.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PlayerWidget extends StatelessWidget {
@@ -19,7 +20,8 @@ class PlayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final player = Provider.of<Player>(context);
     // 現在のラウンドで死んだプレイヤーもtrueになる
-    final isDied = (player.diedRound ?? Player.maxRound) <= _currentRound;
+    final isDied =
+        (player.diedRound ?? RoundViewModel.maxRound) <= _currentRound;
     return Column(
       children: [
         Container(
