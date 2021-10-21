@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/view/dialog/name_register.dart';
 import 'package:kk_amongus_tool/view/parts/cool_time_list.dart';
@@ -11,6 +10,7 @@ import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,7 +23,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerModel = Provider.of<PlayerViewModel>(context, listen: false);
     return Stack(
       children: [
         // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
@@ -46,85 +45,94 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        blueButtonBar(context),
+        overlayBar(),
+      ],
+    );
+  }
+
+  Widget blueButtonBar(BuildContext context) {
+    final playerModel = Provider.of<PlayerViewModel>(context, listen: false);
+    return Container(
+      width: buttonBarWidth,
+      height: buttonBarHeight,
+      color: Colors.white,
+      margin: const EdgeInsets.only(top: overlayBarHeight),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElevatedButton(
+            child: const Text(
+              "マップ変更",
+              style: TextStyle(fontSize: 13),
+            ),
+            onPressed: () async {
+              final String? mapPath = await showDialog<String>(
+                context: context,
+                builder: (context) {
+                  return const MapSelector();
+                },
+              );
+              if (mapPath != null) {
+                final setting =
+                    Provider.of<SettingViewModel>(context, listen: false);
+                setting.changeMap(mapPath);
+              }
+            },
+          ),
+          ElevatedButton(
+            child: const Text(
+              "位置リセット",
+              style: TextStyle(fontSize: 13),
+            ),
+            onPressed: () {
+              playerModel.clearPlayerInfo();
+            },
+          ),
+          ElevatedButton(
+            child: const Text(
+              "プレイヤー登録",
+              style: TextStyle(fontSize: 13),
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return NameRegister(playerModel);
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget overlayBar() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
           width: buttonBarWidth,
-          height: buttonBarHeight,
-          color: Colors.white,
-          margin: const EdgeInsets.only(top: overlayBarHeight),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton(
-                child: const Text(
-                  "マップ変更",
-                  style: TextStyle(fontSize: 13),
-                ),
-                onPressed: () async {
-                  final String? mapPath = await showDialog<String>(
-                    context: context,
-                    builder: (context) {
-                      return const MapSelector();
-                    },
-                  );
-                  if (mapPath != null) {
-                    final setting =
-                        Provider.of<SettingViewModel>(context, listen: false);
-                    setting.changeMap(mapPath);
-                  }
-                },
+              const PlayerCounter(),
+              partitionLine(overlayBarHeight),
+              Column(
+                children: const [
+                  CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
+                  CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
+                ],
               ),
-              ElevatedButton(
-                child: const Text(
-                  "位置リセット",
-                  style: TextStyle(fontSize: 13),
-                ),
-                onPressed: () {
-                  playerModel.clearPlayerInfo();
-                },
-              ),
-              ElevatedButton(
-                child: const Text(
-                  "プレイヤー登録",
-                  style: TextStyle(fontSize: 13),
-                ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return NameRegister(playerModel);
-                    },
-                  );
-                },
-              ),
+              partitionLine(overlayBarHeight),
+              const KillTimer(),
             ],
           ),
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: buttonBarWidth,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const PlayerCounter(),
-                  partitionLine(overlayBarHeight),
-                  Column(
-                    children: const [
-                      CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
-                      CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
-                    ],
-                  ),
-                  partitionLine(overlayBarHeight),
-                  const KillTimer(),
-                ],
-              ),
-            ),
-            Expanded(child: SuspicionMapping()),
-          ],
-        ),
+        Expanded(child: SuspicionMapping()),
       ],
     );
   }
