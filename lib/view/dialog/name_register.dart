@@ -53,7 +53,7 @@ class _NameRegisterState extends State<NameRegister> {
     return SimpleDialog(
       children: [
         SizedBox(
-          width: 900,
+          width: 660,
           height: 410,
           child: GridView.count(
             crossAxisCount: 6,
