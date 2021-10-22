@@ -29,6 +29,7 @@ class Player with ChangeNotifier {
     diedRound = null;
     _usedButtonOrder = null;
     resetOffset();
+    notifyListeners();
   }
 
   void move(int currentRound, Offset offset) {
