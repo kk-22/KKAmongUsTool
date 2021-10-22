@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/view/dialog/name_register.dart';
+import 'package:kk_amongus_tool/view/parts/button_history.dart';
 import 'package:kk_amongus_tool/view/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/view/parts/field_map.dart';
 import 'package:kk_amongus_tool/view/parts/kill_timer.dart';
@@ -9,7 +10,6 @@ import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
-import 'package:kk_amongus_tool/view/parts/used_button.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
       children: [
         const SizedBox(
           width: leftAreaWidth,
-          child: UsedButton(),
+          child: ButtonHistory(),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width - leftAreaWidth,
@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
               );
               if (mapPath != null) {
                 final setting =
-                Provider.of<SettingViewModel>(context, listen: false);
+                    Provider.of<SettingViewModel>(context, listen: false);
                 setting.changeMap(mapPath);
               }
             },

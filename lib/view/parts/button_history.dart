@@ -6,8 +6,8 @@ import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
-class UsedButton extends StatelessWidget {
-  const UsedButton({Key? key}) : super(key: key);
+class ButtonHistory extends StatelessWidget {
+  const ButtonHistory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
