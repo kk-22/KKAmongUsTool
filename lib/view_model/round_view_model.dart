@@ -12,6 +12,12 @@ class RoundViewModel with ChangeNotifier {
 
   int get lastRound => _lastRound; // 最終ラウンド
 
+  void reset() {
+    _currentRound = 0;
+    _lastRound = 0;
+    notifyListeners();
+  }
+
   void changeRound(int index) {
     _currentRound = index;
     notifyListeners();
@@ -21,5 +27,6 @@ class RoundViewModel with ChangeNotifier {
     if (_lastRound < _currentRound) {
       _lastRound = _currentRound;
     }
+    notifyListeners();
   }
 }

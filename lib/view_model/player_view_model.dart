@@ -36,7 +36,7 @@ class PlayerViewModel extends ChangeNotifier {
     for (var player in _players) {
       player.resetWithNewRound();
     }
-    _roundModel.changeRound(0);
+    _roundModel.reset();
     _movingRoute.clear(true);
     notifyListeners();
   }
