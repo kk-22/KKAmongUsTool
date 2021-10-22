@@ -9,6 +9,7 @@ class PlayerViewModel extends ChangeNotifier {
   final RouteViewModel _movingRoute;
   List<Player> _players = [];
 
+  // インスタンスをそのまま返すため、呼び出し元でsortメソッドはNG
   List<Player> get allPlayer => _players;
 
   Player? playerOfColor(PlayerColor color) =>

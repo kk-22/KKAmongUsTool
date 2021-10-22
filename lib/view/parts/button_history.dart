@@ -12,7 +12,7 @@ class ButtonHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerModel = Provider.of<PlayerViewModel>(context);
-    final players = playerModel.allPlayer;
+    final players = List.of(playerModel.allPlayer);
     players.sort((a, b) {
       final status = a.status.index.compareTo(b.status.index);
       if (status != 0) return status;
