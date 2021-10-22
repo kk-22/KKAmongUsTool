@@ -6,7 +6,7 @@ class RoundViewModel with ChangeNotifier {
   static const int maxRound = 15;
 
   int _currentRound = 0; // 表示中のラウンド
-  int _lastRound = 0;
+  int _lastRound = -1;
 
   int get currentRound => _currentRound;
 
@@ -14,7 +14,7 @@ class RoundViewModel with ChangeNotifier {
 
   void reset() {
     _currentRound = 0;
-    _lastRound = 0;
+    _lastRound = -1;
     notifyListeners();
   }
 

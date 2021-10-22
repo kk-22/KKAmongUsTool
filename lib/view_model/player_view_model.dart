@@ -73,7 +73,7 @@ class PlayerViewModel extends ChangeNotifier {
   // 引数がfalseなら最終ラウンドの会議時点で生存しているプレイヤーのみ返す
   List<Player> survivingPlayers(bool isCurrentRound) {
     final round =
-        isCurrentRound ? _roundModel.currentRound : _roundModel.lastRound + 1;
+        isCurrentRound ? _roundModel.currentRound : RoundViewModel.maxRound;
     return _players.where((element) => element.isSurviving(round)).toList();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
@@ -42,7 +44,7 @@ class _RoundSelectorState extends State<RoundSelector> {
                   fit: BoxFit.fill,
                   child: Consumer<RoundViewModel>(
                       builder: (context, model, child) {
-                    return Text(
+                        return Text(
                       "ラウンド：${model.currentRound + 1}",
                       style: TextStyle(
                         decoration:
@@ -53,10 +55,8 @@ class _RoundSelectorState extends State<RoundSelector> {
                   }),
                 ),
               ),
-              Visibility(
-                visible: _isExpanding,
-                child: SizedBox(height: _gridHeight, child: roundList()),
-              ),
+              if (_isExpanding)
+                SizedBox(height: _gridHeight, child: roundList()),
             ],
           ),
         ),
@@ -65,10 +65,11 @@ class _RoundSelectorState extends State<RoundSelector> {
   }
 
   Widget roundList() {
-    final roundModel = Provider.of<RoundViewModel>(context, listen: false);
+    final roundModel = Provider.of<RoundViewModel>(context);
+    final count = min(roundModel.lastRound + 2, RoundViewModel.maxRound);
     return GridView.count(
       crossAxisCount: RoundViewModel.maxRound ~/ 3,
-      children: List.generate(RoundViewModel.maxRound, (index) {
+      children: List.generate(count, (index) {
         return SizedBox(
           height: _gridItemHeight,
           child: TextButton(
