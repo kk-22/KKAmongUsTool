@@ -10,6 +10,7 @@ class Player with ChangeNotifier {
   var isMyself = false;
   var status = PlayerStatus.survive;
   int? diedRound;
+  int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
   Offset mappingOffset = Offset.zero;
 
@@ -18,8 +19,17 @@ class Player with ChangeNotifier {
   }
 
   String get name => _name; // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
+  int? get usedButtonOrder => _usedButtonOrder;
+
   bool isSurviving(int round) =>
       round <= (diedRound ?? RoundViewModel.maxRound);
+
+  void resetWithNewRound() {
+    status = PlayerStatus.survive;
+    diedRound = null;
+    _usedButtonOrder = null;
+    resetOffset();
+  }
 
   void move(int currentRound, Offset offset) {
     offsets[currentRound] = offset;
@@ -52,6 +62,11 @@ class Player with ChangeNotifier {
         break;
     }
     this.status = status;
+    notifyListeners();
+  }
+
+  void useButton(int? order) {
+    _usedButtonOrder = order;
     notifyListeners();
   }
 }

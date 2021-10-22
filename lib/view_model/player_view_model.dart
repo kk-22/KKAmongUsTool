@@ -29,14 +29,12 @@ class PlayerViewModel extends ChangeNotifier {
       Player("むらさき色", PlayerColor.purple),
     ];
     _players[0].isMyself = true;
-    clearPlayerInfo();
+    resetRound();
   }
 
-  void clearPlayerInfo() {
+  void resetRound() {
     for (var player in _players) {
-      player.status = PlayerStatus.survive;
-      player.diedRound = null;
-      player.resetOffset();
+      player.resetWithNewRound();
     }
     _roundModel.changeRound(0);
     _movingRoute.clear(true);

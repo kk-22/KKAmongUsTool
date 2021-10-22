@@ -98,11 +98,11 @@ class HomeScreen extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text(
-              "位置リセット",
+              "全リセット",
               style: TextStyle(fontSize: 13),
             ),
             onPressed: () {
-              playerModel.clearPlayerInfo();
+              playerModel.resetRound();
             },
           ),
           ElevatedButton(

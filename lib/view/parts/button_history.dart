@@ -11,36 +11,61 @@ class ButtonHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playModel = Provider.of<PlayerViewModel>(context);
-    final players = playModel.allPlayer;
-    return Container(
-      color: Colors.blue,
-      child: GridView.count(
-        crossAxisCount: 5,
-        childAspectRatio: 0.4,
-        crossAxisSpacing: 1,
-        children: List.generate(
-          players.length,
-          (index) {
-            return ChangeNotifierProvider<Player>.value(
-              value: players[index],
-              child: const PlayerButton(),
-            );
-          },
-        ),
+    final playerModel = Provider.of<PlayerViewModel>(context);
+    final players = playerModel.allPlayer;
+    return GridView.count(
+      crossAxisCount: 5,
+      childAspectRatio: 0.5,
+      crossAxisSpacing: 1,
+      children: List.generate(
+        players.length,
+        (index) {
+          return ChangeNotifierProvider<Player>.value(
+            value: players[index],
+            child: PlayerButton(playerModel),
+          );
+        },
       ),
     );
   }
 }
 
 class PlayerButton extends StatelessWidget {
-  const PlayerButton({Key? key}) : super(key: key);
+  final PlayerViewModel _playerModel;
+
+  const PlayerButton(this._playerModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final player = Provider.of<Player>(context);
+    final order = player.usedButtonOrder;
     return Column(
-      children: const [
-        PlayerWidget(RoundViewModel.maxRound, true),
+      children: [
+        const PlayerWidget(RoundViewModel.maxRound, true),
+        if (order == null)
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              final usedCount = _playerModel.allPlayer
+                  .where((element) => element.usedButtonOrder != null)
+                  .length;
+              player.useButton(usedCount);
+            },
+            icon: Image.asset("assets/icon/emergency_button.png"),
+          )
+        else
+          TextButton(
+            onPressed: () {
+              // 間違えて押した場合用に元に戻す
+              player.useButton(null);
+            },
+            child: Text(
+              "${order + 1}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
       ],
     );
   }

@@ -35,7 +35,7 @@ class PlayerWidget extends StatelessWidget {
           child: Text(
             player.name,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.clip, // ellipsis だと表示される文字がさらに減る
             style: const TextStyle(
               fontSize: 13,
               color: Colors.white,
