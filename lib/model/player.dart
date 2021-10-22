@@ -9,7 +9,7 @@ class Player with ChangeNotifier {
 
   var isMyself = false;
   var status = PlayerStatus.survive;
-  int? diedRound;
+  DeathInfo? _deathInfo;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
   Offset mappingOffset = Offset.zero;
@@ -21,12 +21,14 @@ class Player with ChangeNotifier {
   String get name => _name; // 引数のラウンドで死んだプレイヤーもレスポンスに含まれる
   int? get usedButtonOrder => _usedButtonOrder;
 
+  int? get diedRound => _deathInfo?.round;
+
   bool isSurviving(int round) =>
       round <= (diedRound ?? RoundViewModel.maxRound);
 
   void resetWithNewRound() {
     status = PlayerStatus.survive;
-    diedRound = null;
+    _deathInfo = null;
     _usedButtonOrder = null;
     resetOffset();
     notifyListeners();
@@ -55,11 +57,11 @@ class Player with ChangeNotifier {
   void changedStatus(PlayerStatus status, int currentRound) {
     switch (status) {
       case PlayerStatus.survive:
-        diedRound = null;
+        _deathInfo = null;
         break;
       case PlayerStatus.killed:
       case PlayerStatus.ejected:
-        diedRound = currentRound;
+      _deathInfo = DeathInfo(currentRound);
         break;
     }
     this.status = status;
@@ -144,4 +146,11 @@ extension PlayerColorExtension on PlayerColor {
         return const Color(0xffff9888);
     }
   }
+}
+
+class DeathInfo with ChangeNotifier {
+  final int round;
+  final List<Player> suspectPlayers = <Player>[];
+
+  DeathInfo(this.round);
 }
