@@ -44,7 +44,7 @@ class _RoundSelectorState extends State<RoundSelector> {
                   fit: BoxFit.fill,
                   child: Consumer<RoundViewModel>(
                       builder: (context, model, child) {
-                        return Text(
+                    return Text(
                       "ラウンド：${model.currentRound + 1}",
                       style: TextStyle(
                         decoration:
@@ -70,15 +70,19 @@ class _RoundSelectorState extends State<RoundSelector> {
     return GridView.count(
       crossAxisCount: RoundViewModel.maxRound ~/ 3,
       children: List.generate(count, (index) {
+        final isSelected = roundModel.currentRound == index;
         return SizedBox(
           height: _gridItemHeight,
           child: TextButton(
             child: Text(
               "${index + 1}",
-              style: const TextStyle(
-                fontSize: 9,
+              style: TextStyle(
+                color: (isSelected) ? Colors.white : Colors.blue,
               ),
             ),
+            style: (isSelected)
+                ? TextButton.styleFrom(backgroundColor: Colors.blue)
+                : TextButton.styleFrom(),
             onPressed: () {
               roundModel.changeRound(index);
             },
