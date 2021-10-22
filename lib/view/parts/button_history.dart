@@ -22,9 +22,10 @@ class ButtonHistory extends StatelessWidget {
     });
 
     return GridView.count(
-      crossAxisCount: 5,
-      childAspectRatio: 0.5,
+      crossAxisCount: 8,
+      childAspectRatio: 0.8,
       crossAxisSpacing: 1,
+      shrinkWrap: true,
       children: List.generate(
         players.length,
         (index) {

@@ -6,6 +6,7 @@ import 'package:kk_amongus_tool/view/parts/button_history.dart';
 import 'package:kk_amongus_tool/view/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/view/parts/field_map.dart';
 import 'package:kk_amongus_tool/view/parts/kill_timer.dart';
+import 'package:kk_amongus_tool/view/parts/killed_list.dart';
 import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
@@ -15,7 +16,7 @@ import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const leftAreaWidth = 200.0;
+  static const leftAreaWidth = 500.0;
   static const buttonBarWidth = 300.0;
   static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
   static const overlayBarHeight = 50.0;
@@ -28,9 +29,15 @@ class HomeScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
+        SizedBox(
           width: leftAreaWidth,
-          child: ButtonHistory(),
+          child: Column(
+            children: const [
+              ButtonHistory(),
+              Divider(color: Colors.black),
+              Expanded(child: KilledList()),
+            ],
+          ),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width - leftAreaWidth,
