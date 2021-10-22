@@ -13,6 +13,14 @@ class ButtonHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final playerModel = Provider.of<PlayerViewModel>(context);
     final players = playerModel.allPlayer;
+    players.sort((a, b) {
+      final status = a.status.index.compareTo(b.status.index);
+      if (status != 0) return status;
+      if (a.usedButtonOrder == null) return -1;
+      if (b.usedButtonOrder == null) return 1;
+      return a.usedButtonOrder!.compareTo(b.usedButtonOrder!);
+    });
+
     return GridView.count(
       crossAxisCount: 5,
       childAspectRatio: 0.5,
@@ -42,7 +50,19 @@ class PlayerButton extends StatelessWidget {
     return Column(
       children: [
         const PlayerWidget(RoundViewModel.maxRound, true),
-        if (order == null)
+        if (order != null)
+          TextButton(
+            onPressed: () {
+              // 間違えて押した場合用に元に戻す
+              _playerModel.resetButtonOrder(player);
+            },
+            child: Text(
+              "${order + 1}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          )
+        else if (player.diedRound == null)
           IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
@@ -55,17 +75,7 @@ class PlayerButton extends StatelessWidget {
             icon: Image.asset("assets/icon/emergency_button.png"),
           )
         else
-          TextButton(
-            onPressed: () {
-              // 間違えて押した場合用に元に戻す
-              player.useButton(null);
-            },
-            child: Text(
-              "${order + 1}",
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
+          const Icon(Icons.clear),
       ],
     );
   }

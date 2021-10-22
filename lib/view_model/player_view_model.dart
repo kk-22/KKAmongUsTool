@@ -106,4 +106,14 @@ class PlayerViewModel extends ChangeNotifier {
     // survivingPlayers メソッドの戻り値に影響するためここで通知
     notifyListeners();
   }
+
+  void resetButtonOrder(Player player) {
+    player.useButton(null);
+    final usedPlayers = allPlayer
+        .where((element) => element.usedButtonOrder != null)
+        .sorted((a, b) => a.usedButtonOrder!.compareTo(b.usedButtonOrder!));
+    for (var i = 0; i < usedPlayers.length; i++) {
+      usedPlayers[i].useButton(i);
+    }
+  }
 }
