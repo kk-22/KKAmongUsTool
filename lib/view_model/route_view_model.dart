@@ -8,7 +8,8 @@ import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class RouteViewModel with ChangeNotifier {
   final RoundViewModel _roundModel;
-  final _roundRoutes = List<RoundRoute>.generate(10, (index) => RoundRoute());
+  final _roundRoutes = List<RoundRoute>.generate(
+      RoundViewModel.maxRound, (index) => RoundRoute());
   bool _isDragging = false;
 
   PlayerColor _selectingColor = PlayerColor.white;
