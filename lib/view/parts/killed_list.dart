@@ -32,17 +32,9 @@ class KilledList extends StatelessWidget {
           return ChangeNotifierProvider<Player>.value(
             value: killedPlayers[index],
             builder: (context, child) {
-              final killedPlayer = killedPlayers[index];
+              final killedPlayer = Provider.of<Player>(context);
               final killedRound = killedPlayer.diedRound!;
-              final killers = playerModel.allPlayer.where((player) {
-                if (player.status == PlayerStatus.killed) return false;
-                if (player.diedRound != null &&
-                    player.diedRound! < killedRound) {
-                  // キルより前に追放されたインポスターを除外
-                  return false;
-                }
-                return true;
-              }).toList();
+              final killers = killersOf(killedPlayer, playerModel);
               return Row(
                 children: [
                   const SizedBox(
@@ -64,12 +56,25 @@ class KilledList extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: killers.length,
                       itemBuilder: (context, index) {
+                        final killer = killers[index];
+                        final isWhite = killedPlayer.deathInfo!.whitePlayers
+                            .contains(killer);
+
                         return SizedBox(
-                          width: 30,
-                          child: ChangeNotifierProvider<Player>.value(
-                            value: killers[index],
-                            child: const PlayerWidget(
-                                RoundViewModel.maxRound, true),
+                          width: 40,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              killedPlayer.toggleWhiteList(killer);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              primary: isWhite ? Colors.white : Colors.black,
+                            ),
+                            child: ChangeNotifierProvider<Player>.value(
+                              value: killer,
+                              child: const PlayerWidget(
+                                  RoundViewModel.maxRound, true),
+                            ),
                           ),
                         );
                       },
@@ -82,5 +87,25 @@ class KilledList extends StatelessWidget {
         },
       ),
     );
+  }
+
+  killersOf(Player killedPlayer, PlayerViewModel playerModel) {
+    final killers = playerModel.allPlayer.where((player) {
+      if (player.status == PlayerStatus.killed) return false;
+      if (player.diedRound != null &&
+          player.diedRound! < killedPlayer.diedRound!) {
+        // キルより前に追放されたインポスターを除外
+        return false;
+      }
+      return true;
+    }).toList();
+    killers.sort((a, b) {
+      if (killedPlayer.deathInfo!.whitePlayers.contains(a)) return 1;
+      if (killedPlayer.deathInfo!.whitePlayers.contains(b)) return -1;
+      if (a.status == PlayerStatus.ejected) return -1;
+      if (b.status == PlayerStatus.ejected) return 1;
+      return 0;
+    });
+    return killers;
   }
 }

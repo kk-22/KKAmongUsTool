@@ -11,7 +11,7 @@ class Player with ChangeNotifier {
   DeathInfo? _deathInfo;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
-  Offset mappingOffset = Offset.zero;
+  Offset mappingOffset = Offset.zero; // 初期値は0なため、ソート不可
 
   Player(this._name, this.color) {
     resetOffset();
@@ -24,6 +24,8 @@ class Player with ChangeNotifier {
       _deathInfo == null ? PlayerStatus.survive : _deathInfo!.status;
 
   int? get diedRound => _deathInfo?.round;
+
+  DeathInfo? get deathInfo => _deathInfo;
 
   bool isSurviving(int round) =>
       round <= (diedRound ?? RoundViewModel.maxRound);
@@ -70,6 +72,15 @@ class Player with ChangeNotifier {
 
   void useButton(int? order) {
     _usedButtonOrder = order;
+    notifyListeners();
+  }
+
+  void toggleWhiteList(Player player) {
+    if (deathInfo!.whitePlayers.contains(player)) {
+      deathInfo!.whitePlayers.remove(player);
+    } else {
+      deathInfo!.whitePlayers.add(player);
+    }
     notifyListeners();
   }
 }
@@ -151,6 +162,7 @@ extension PlayerColorExtension on PlayerColor {
 class DeathInfo with ChangeNotifier {
   final PlayerStatus status;
   final int round;
+  final List<Player> whitePlayers = <Player>[]; // キルができないプレイヤー
 
   DeathInfo(this.status, this.round);
 }
