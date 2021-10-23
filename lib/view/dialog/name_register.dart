@@ -173,10 +173,14 @@ class _NameRegisterState extends State<NameRegister> {
                   // コンテンツ領域
                   SimpleDialogOption(
                     onPressed: () {
-                      for (var i = 0; i < 15; i++) {
-                        final item = items[i];
+                      var count = widget._playerModel.numberOfPlayers();
+                      for (final item in items) {
                         if (item.controller.text.isEmpty) {
                           item.controller.text = "デバッグ";
+                          count++;
+                          if (15 <= count) {
+                            break;
+                          }
                         }
                       }
                       Navigator.pop(context);
@@ -185,7 +189,7 @@ class _NameRegisterState extends State<NameRegister> {
                   ),
                   SimpleDialogOption(
                     onPressed: () {
-                      for (var i = 0; i < 15; i++) {
+                      for (var i = 0; i < PlayerColor.values.length; i++) {
                         final item = items[i];
                         item.controller.clear();
                       }
