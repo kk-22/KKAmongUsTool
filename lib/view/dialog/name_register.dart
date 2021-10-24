@@ -90,8 +90,8 @@ class _NameRegisterState extends State<NameRegister> {
   }
 
   Widget gridChild(FieldItem item) {
-    final iconFocus = FocusNode();
-    iconFocus.skipTraversal = true;
+    final skipFocus = FocusNode();
+    skipFocus.skipTraversal = true;
     return Column(
       children: [
         SizedBox(
@@ -112,7 +112,7 @@ class _NameRegisterState extends State<NameRegister> {
           height: 65,
           width: MediaQuery.of(context).size.width,
           child: IconButton(
-            focusNode: iconFocus,
+            focusNode: skipFocus,
             onPressed: () {
               if (item.controller.text.isEmpty) {
                 item.focusNode.requestFocus();
@@ -134,6 +134,7 @@ class _NameRegisterState extends State<NameRegister> {
               const Text("自キャラ"),
               Switch(
                 value: item.isMyself,
+                focusNode: skipFocus,
                 onChanged: item.controller.text.isEmpty
                     ? null
                     : (bool value) {
