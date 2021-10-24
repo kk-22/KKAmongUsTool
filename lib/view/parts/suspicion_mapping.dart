@@ -147,10 +147,7 @@ class SuspicionMapping extends StatelessWidget {
   Widget playerItem(
       Player player, int index, PlayerViewModel model, double parentWidth) {
     var offset = player.mappingRatioOffset;
-    if (offset != Player.defaultRatioOffset) {
-      offset = Offset(player.mappingRatioOffset.dx * parentWidth,
-          player.mappingRatioOffset.dy * parentWidth);
-    } else {
+    if (player.isManualOffset) {
       // プレイヤー初期位置
       const betweenWidthRatio = 0.5;
       const numberOfRow = 5;
@@ -160,6 +157,9 @@ class SuspicionMapping extends StatelessWidget {
               (PlayerWidget.size.width * betweenWidthRatio) *
                   (index % numberOfRow - numberOfRow / 2),
           PlayerWidget.size.height * numberOfLine);
+    } else {
+      offset = Offset(player.mappingRatioOffset.dx * parentWidth,
+          player.mappingRatioOffset.dy * parentWidth);
     }
     return Positioned(
       top: offset.dy,

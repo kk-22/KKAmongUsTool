@@ -14,6 +14,7 @@ class Player with ChangeNotifier {
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
   Offset mappingRatioOffset = defaultRatioOffset; // 割合。画像の幅があるため1.0にはならない
+  bool isManualOffset = true; // true なら容疑者情報に応じて自動配置する
 
   Player(this._name, this.color) {
     resetOffset();
@@ -46,12 +47,14 @@ class Player with ChangeNotifier {
 
   void changeSuspicion(Offset ratioOffset) {
     mappingRatioOffset = ratioOffset;
+    isManualOffset = false;
     notifyListeners();
   }
 
   void resetOffset() {
     offsets = List.filled(RoundViewModel.maxRound, Offset.zero);
     mappingRatioOffset = defaultRatioOffset;
+    isManualOffset = true;
   }
 
   void rename(String newName) {
@@ -84,6 +87,7 @@ class Player with ChangeNotifier {
       deathInfo!.whitePlayers.add(player);
     }
     notifyListeners();
+    player.notifyListeners(); // 疑惑度マッピングを更新するため
   }
 }
 
