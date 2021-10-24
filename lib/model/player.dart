@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class Player with ChangeNotifier {
+  static const defaultRatioOffset = Offset(0.5, 0);
+
   String _name;
   final PlayerColor color;
 
@@ -11,7 +13,7 @@ class Player with ChangeNotifier {
   DeathInfo? _deathInfo;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
-  Offset mappingOffset = Offset.zero; // 初期値は0なため、ソート不可
+  Offset mappingRatioOffset = defaultRatioOffset; // 割合。画像の幅があるため1.0にはならない
 
   Player(this._name, this.color) {
     resetOffset();
@@ -42,14 +44,14 @@ class Player with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeSuspicion(Offset offset) {
-    mappingOffset = offset;
+  void changeSuspicion(Offset ratioOffset) {
+    mappingRatioOffset = ratioOffset;
     notifyListeners();
   }
 
   void resetOffset() {
     offsets = List.filled(RoundViewModel.maxRound, Offset.zero);
-    mappingOffset = Offset.zero;
+    mappingRatioOffset = defaultRatioOffset;
   }
 
   void rename(String newName) {

@@ -78,30 +78,32 @@ class SuspicionMapping extends StatelessWidget {
   }
 
   Widget headerChart(double parentWidth) {
-    final ignoreMinX = parentWidth * 0.25;
-    final ignoreMaxX = parentWidth * 0.75 - PlayerWidget.size.width;
+    const ignoreMinX = 0.25;
+    final ignoreMaxX = 0.75 - PlayerWidget.size.width / parentWidth;
     return Consumer<PlayerViewModel>(builder: (context, model, child) {
       var players = model.survivingPlayers(false).where((element) {
         if (element.isMyself) return false;
-        final dx = element.mappingOffset.dx;
-        return 0 < dx && (dx < ignoreMinX || ignoreMaxX < dx);
+        final dx = element.mappingRatioOffset.dx;
+        return dx < ignoreMinX || ignoreMaxX < dx;
       }).toList();
 
       final maxPlayerCount = parentWidth ~/ PlayerWidget.size.width;
       if (maxPlayerCount < players.length) {
         // 中央に近いPlayerを取り除く
-        final centerDx = parentWidth / 2 - PlayerWidget.size.width / 2;
         players.sort((a, b) {
-          return (centerDx - a.mappingOffset.dx)
+          final bAbs =
+              Player.defaultRatioOffset.dx - b.mappingRatioOffset.dx.abs();
+          return (Player.defaultRatioOffset.dx - a.mappingRatioOffset.dx)
               .abs()
-              .compareTo((centerDx - b.mappingOffset.dx).abs());
+              .compareTo(bAbs);
         });
         players = players.sublist(players.length - maxPlayerCount);
       }
 
-      players.sort((a, b) => a.mappingOffset.dx.compareTo(b.mappingOffset.dx));
+      players.sort(
+          (a, b) => a.mappingRatioOffset.dx.compareTo(b.mappingRatioOffset.dx));
       var expandIndex = players
-          .indexWhere((element) => ignoreMaxX <= element.mappingOffset.dx);
+          .indexWhere((element) => ignoreMaxX <= element.mappingRatioOffset.dx);
 
       final playerCount = min(maxPlayerCount, players.length);
       if (expandIndex == -1) expandIndex = playerCount; // 全プレイヤー黒位置のケース
@@ -144,8 +146,11 @@ class SuspicionMapping extends StatelessWidget {
 
   Widget playerItem(
       Player player, int index, PlayerViewModel model, double parentWidth) {
-    var offset = player.mappingOffset;
-    if (offset == Offset.zero) {
+    var offset = player.mappingRatioOffset;
+    if (offset != Player.defaultRatioOffset) {
+      offset = Offset(player.mappingRatioOffset.dx * parentWidth,
+          player.mappingRatioOffset.dy * parentWidth);
+    } else {
       // プレイヤー初期位置
       const betweenWidthRatio = 0.5;
       const numberOfRow = 5;
@@ -175,12 +180,12 @@ class SuspicionMapping extends StatelessWidget {
               _mappingKey.currentContext?.findRenderObject() as RenderBox;
           final offset = box.globalToLocal(details.offset);
           // マッピング外に配置されないように位置を補正。
-          // 初期位置(Offset.zero)と同じにならないように、最小値は1.0とする。
           final lastDx = min(
-              box.size.width - PlayerWidget.size.width, max(1.0, offset.dx));
+              box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
           final lastDy = min(
-              box.size.height - PlayerWidget.size.height, max(1.0, offset.dy));
-          model.updateSuspicion(player, Offset(lastDx, lastDy));
+              box.size.height - PlayerWidget.size.height, max(0.0, offset.dy));
+          model.updateSuspicion(
+              player, Offset(lastDx / parentWidth, lastDy / parentWidth));
         },
       ),
     );
