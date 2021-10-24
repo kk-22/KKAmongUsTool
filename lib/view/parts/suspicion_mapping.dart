@@ -58,7 +58,7 @@ class SuspicionMapping extends StatelessWidget {
               ),
               child:
                   Consumer<PlayerViewModel>(builder: (context, model, child) {
-                final players = model.allPlayer;
+                final players = model.survivingPlayers(false);
                 return Stack(
                   key: _mappingKey,
                   children: List.generate(players.length, (index) {
