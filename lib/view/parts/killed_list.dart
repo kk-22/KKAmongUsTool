@@ -57,7 +57,7 @@ class KilledList extends StatelessWidget {
                       itemCount: killers.length,
                       itemBuilder: (context, index) {
                         final killer = killers[index];
-                        final isWhite = killedPlayer.deathInfo!.whitePlayers
+                        final isWhite = killedPlayer.caseOfDeath!.whitePlayers
                             .contains(killer);
 
                         return SizedBox(
@@ -100,8 +100,8 @@ class KilledList extends StatelessWidget {
       return true;
     }).toList();
     killers.sort((a, b) {
-      if (killedPlayer.deathInfo!.whitePlayers.contains(a)) return 1;
-      if (killedPlayer.deathInfo!.whitePlayers.contains(b)) return -1;
+      if (killedPlayer.caseOfDeath!.whitePlayers.contains(a)) return 1;
+      if (killedPlayer.caseOfDeath!.whitePlayers.contains(b)) return -1;
       if (a.status == PlayerStatus.ejected) return -1;
       if (b.status == PlayerStatus.ejected) return 1;
       return 0;

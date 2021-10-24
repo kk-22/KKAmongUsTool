@@ -10,7 +10,7 @@ class Player with ChangeNotifier {
   final PlayerColor color;
 
   var isMyself = false;
-  DeathInfo? _deathInfo;
+  CauseOfDeath? _caseOfDeath;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
   Offset mappingRatioOffset = defaultRatioOffset; // 割合。画像の幅があるため1.0にはならない
@@ -24,17 +24,17 @@ class Player with ChangeNotifier {
   int? get usedButtonOrder => _usedButtonOrder;
 
   PlayerStatus get status =>
-      _deathInfo == null ? PlayerStatus.survive : _deathInfo!.status;
+      _caseOfDeath == null ? PlayerStatus.survive : _caseOfDeath!.status;
 
-  int? get diedRound => _deathInfo?.round;
+  int? get diedRound => _caseOfDeath?.round;
 
-  DeathInfo? get deathInfo => _deathInfo;
+  CauseOfDeath? get caseOfDeath => _caseOfDeath;
 
   bool isSurviving(int round) =>
       round <= (diedRound ?? RoundViewModel.maxRound);
 
   void resetWithNewRound() {
-    _deathInfo = null;
+    _caseOfDeath = null;
     _usedButtonOrder = null;
     resetOffset();
     notifyListeners();
@@ -65,11 +65,11 @@ class Player with ChangeNotifier {
   void changedStatus(PlayerStatus status, int currentRound) {
     switch (status) {
       case PlayerStatus.survive:
-        _deathInfo = null;
+        _caseOfDeath = null;
         break;
       case PlayerStatus.killed:
       case PlayerStatus.ejected:
-        _deathInfo = DeathInfo(status, currentRound);
+      _caseOfDeath = CauseOfDeath(status, currentRound);
         break;
     }
     notifyListeners();
@@ -81,10 +81,10 @@ class Player with ChangeNotifier {
   }
 
   void toggleWhiteList(Player player) {
-    if (deathInfo!.whitePlayers.contains(player)) {
-      deathInfo!.whitePlayers.remove(player);
+    if (caseOfDeath!.whitePlayers.contains(player)) {
+      caseOfDeath!.whitePlayers.remove(player);
     } else {
-      deathInfo!.whitePlayers.add(player);
+      caseOfDeath!.whitePlayers.add(player);
     }
     notifyListeners();
     player.notifyListeners(); // 疑惑度マッピングを更新するため
@@ -165,10 +165,10 @@ extension PlayerColorExtension on PlayerColor {
   }
 }
 
-class DeathInfo with ChangeNotifier {
+class CauseOfDeath with ChangeNotifier {
   final PlayerStatus status;
   final int round;
   final List<Player> whitePlayers = <Player>[]; // キルができないプレイヤー
 
-  DeathInfo(this.status, this.round);
+  CauseOfDeath(this.status, this.round);
 }
