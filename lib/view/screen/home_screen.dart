@@ -6,7 +6,7 @@ import 'package:kk_amongus_tool/view/parts/button_history.dart';
 import 'package:kk_amongus_tool/view/parts/cool_time_list.dart';
 import 'package:kk_amongus_tool/view/parts/field_map.dart';
 import 'package:kk_amongus_tool/view/parts/kill_timer.dart';
-import 'package:kk_amongus_tool/view/parts/killed_list.dart';
+import 'package:kk_amongus_tool/view/parts/killed_chart.dart';
 import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: const [
               SuspicionChart(),
-              Expanded(child: KilledList()),
+              Expanded(child: KilledChart()),
             ],
           ),
         ),

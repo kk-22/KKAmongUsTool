@@ -8,8 +8,8 @@ import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
-class KilledList extends StatelessWidget {
-  const KilledList({Key? key}) : super(key: key);
+class KilledChart extends StatelessWidget {
+  const KilledChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
