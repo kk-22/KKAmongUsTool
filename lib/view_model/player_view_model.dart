@@ -137,13 +137,11 @@ class PlayerViewModel extends ChangeNotifier {
       for (final blackList in blackLists) {
         if (blackList.contains(player)) {
           isNotSuspect = false;
-          score -= 5; // 容疑者である
-        } else {
-          score += 1; // 容疑者ではない
+          score -= 2; // 容疑者である
         }
       }
       if (isNotSuspect && hasAllWhiteAdditionalPoint) {
-        score += 10; // 全死体の容疑者ではない
+        score += 2; // 全死体の容疑者ではない
       }
       player.suspicionScore = score;
     }

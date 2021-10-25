@@ -16,69 +16,47 @@ class SuspicionChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return Container(
-        height: HomeScreen.overlayBarHeight,
-        color: Colors.white,
-        child: headerChart(constraints.maxWidth),
-      );
-    });
+          return Container(
+            height: HomeScreen.overlayBarHeight,
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            child: headerChart(constraints.maxWidth),
+          );
+        });
   }
 
   Widget headerChart(double parentWidth) {
-    final ignoreMaxX = 0.75 - PlayerWidget.size.width / parentWidth;
     return Consumer<PlayerViewModel>(builder: (context, model, child) {
       var players = model.playersWithScore();
-
-      final maxPlayerCount = parentWidth ~/ PlayerWidget.size.width;
-      if (maxPlayerCount < players.length) {
-        // 中央に近いPlayerを取り除く
-        players.sort((a, b) {
-          final bAbs = b.suspicionScore.abs();
-          return (a.suspicionScore).abs().compareTo(bAbs);
-        });
-        players = players.sublist(players.length - maxPlayerCount);
-      }
-
       players.sort((a, b) => a.suspicionScore.compareTo(b.suspicionScore));
-      var expandIndex =
-          players.indexWhere((element) => ignoreMaxX <= element.suspicionScore);
-
-      final playerCount = min(maxPlayerCount, players.length);
-      if (expandIndex == -1) expandIndex = playerCount; // 全プレイヤー黒位置のケース
-
-      return Stack(children: [
-        Row(
-          children: [
-            Container(
-              width: expandIndex * PlayerWidget.size.width,
-              color: Colors.black,
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            Container(
-              width: (playerCount - expandIndex) * PlayerWidget.size.width,
-              color: Colors.white,
-            ),
-          ],
-        ),
-        Row(
-          children: List.generate(playerCount + 1, (index) {
-            if (index == expandIndex) {
-              return const Expanded(
-                child: SizedBox(),
-              );
-            }
-            final playerIndex = (index < expandIndex ? index : index - 1);
+      final mostLowScore = players.first.suspicionScore;
+      return FittedBox(
+        child: Row(
+          children: List.generate(players.length, (index) {
             return ChangeNotifierProvider<Player>.value(
-              value: players[playerIndex],
-              child: const PlayerWidget(RoundViewModel.maxRound, true),
+              value: players[index],
+              builder: (context, child) {
+                final player = Provider.of<Player>(context, listen: false);
+                Color color;
+                if (2 <= player.suspicionScore) {
+                  color = Colors.white;
+                } else if (1 == player.suspicionScore) {
+                  color = Colors.black12;
+                } else if (0 == player.suspicionScore) {
+                  color = Colors.black26;
+                } else {
+                  double ratio = min(1.0,
+                      max(0.0, ((player.suspicionScore) / mostLowScore).abs()));
+                  color = Color.fromARGB((ratio * 255).toInt(), 0, 0, 0);
+                }
+                return Container(
+                    color: color,
+                    child: const PlayerWidget(RoundViewModel.maxRound, true));
+              },
             );
           }),
         ),
-      ]);
+      );
     });
   }
 }

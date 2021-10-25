@@ -56,7 +56,6 @@ class KilledChart extends StatelessWidget {
                         children: killers.map((killer) {
                           final isWhite = killedPlayer.caseOfDeath!.whitePlayers
                               .contains(killer);
-
                           return SizedBox(
                             width: 40,
                             child: ElevatedButton(
@@ -98,12 +97,16 @@ class KilledChart extends StatelessWidget {
       }
       return true;
     }).toList();
+    final whitePlayers = killedPlayer.caseOfDeath!.whitePlayers;
     killers.sort((a, b) {
-      if (killedPlayer.caseOfDeath!.whitePlayers.contains(a)) return 1;
-      if (killedPlayer.caseOfDeath!.whitePlayers.contains(b)) return -1;
+      final aIsWhite = whitePlayers.contains(a);
+      final bIsWhite = whitePlayers.contains(b);
+      if (aIsWhite != bIsWhite) {
+        return aIsWhite ? 1 : -1;
+      }
       if (a.status == PlayerStatus.ejected) return -1;
       if (b.status == PlayerStatus.ejected) return 1;
-      return 0;
+      return a.suspicionScore.compareTo(b.suspicionScore);
     });
     return killers;
   }
