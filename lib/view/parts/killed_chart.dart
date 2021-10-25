@@ -49,35 +49,35 @@ class KilledChart extends StatelessWidget {
                       child: Text("${killedRound + 1}"),
                     ),
                   ),
-                  SizedBox(
+                  Container(
                     width: HomeScreen.rightAreaWidth - 60,
                     height: PlayerWidget.size.height,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: killers.length,
-                      itemBuilder: (context, index) {
-                        final killer = killers[index];
-                        final isWhite = killedPlayer.caseOfDeath!.whitePlayers
-                            .contains(killer);
+                    alignment: Alignment.centerLeft,
+                    child: FittedBox(
+                      child: Row(
+                        children: killers.map((killer) {
+                          final isWhite = killedPlayer.caseOfDeath!.whitePlayers
+                              .contains(killer);
 
-                        return SizedBox(
-                          width: 40,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              killedPlayer.toggleWhiteList(killer);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              primary: isWhite ? Colors.white : Colors.black,
+                          return SizedBox(
+                            width: 40,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                killedPlayer.toggleWhiteList(killer);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                primary: isWhite ? Colors.white : Colors.black,
+                              ),
+                              child: ChangeNotifierProvider<Player>.value(
+                                value: killer,
+                                child: const PlayerWidget(
+                                    RoundViewModel.maxRound, true),
+                              ),
                             ),
-                            child: ChangeNotifierProvider<Player>.value(
-                              value: killer,
-                              child: const PlayerWidget(
-                                  RoundViewModel.maxRound, true),
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ],
@@ -89,7 +89,7 @@ class KilledChart extends StatelessWidget {
     );
   }
 
-  killersOf(Player killedPlayer, PlayerViewModel playerModel) {
+  List<Player> killersOf(Player killedPlayer, PlayerViewModel playerModel) {
     final killers = playerModel.allPlayer.where((player) {
       if (player.status == PlayerStatus.killed) return false;
       if (player.diedRound != null &&
