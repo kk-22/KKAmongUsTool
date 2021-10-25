@@ -16,7 +16,7 @@ import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const leftAreaWidth = 500.0;
+  static const rightAreaWidth = 550.0;
   static const buttonBarWidth = 300.0;
   static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
   static const overlayBarHeight = 50.0;
@@ -30,42 +30,51 @@ class HomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: leftAreaWidth,
-          child: Column(
-            children: const [
-              ButtonHistory(),
-              Divider(color: Colors.black),
-              Expanded(child: KilledList()),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width - leftAreaWidth,
+          width: MediaQuery.of(context).size.width - rightAreaWidth,
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
               // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
               Container(
                 height: MediaQuery.of(context).size.height,
-                margin: const EdgeInsets.only(
-                    top: overlayBarHeight + buttonBarHeight * 2),
+                margin: const EdgeInsets.only(top: totalBarHeight),
                 child: FieldMap(GlobalKey()),
               ),
-              Container(
-                width: buttonBarWidth,
-                margin: const EdgeInsets.only(
-                    top: overlayBarHeight + buttonBarHeight),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Expanded(child: RouteController()),
-                    partitionLine(buttonBarHeight),
-                    const Expanded(child: RoundSelector()),
-                  ],
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(child: ButtonHistory()),
+                  Stack(
+                    children: [
+                      Container(
+                        width: buttonBarWidth,
+                        margin: const EdgeInsets.only(
+                            top: overlayBarHeight + buttonBarHeight),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Expanded(child: RouteController()),
+                            partitionLine(buttonBarHeight),
+                            const Expanded(child: RoundSelector()),
+                          ],
+                        ),
+                      ),
+                      blueButtonBar(context),
+                      overlayBar(),
+                    ],
+                  ),
+                ],
               ),
-              blueButtonBar(context),
-              overlayBar(),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: rightAreaWidth,
+          child: Column(
+            children: [
+              SuspicionMapping(),
+              const Divider(color: Colors.black),
+              const Expanded(child: KilledList()),
             ],
           ),
         ),
@@ -154,7 +163,6 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(child: SuspicionMapping()),
       ],
     );
   }

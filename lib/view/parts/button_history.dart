@@ -7,6 +7,8 @@ import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ButtonHistory extends StatelessWidget {
+  static const widgetHeight = 150.0;
+
   const ButtonHistory({Key? key}) : super(key: key);
 
   @override
@@ -21,19 +23,23 @@ class ButtonHistory extends StatelessWidget {
       return a.usedButtonOrder!.compareTo(b.usedButtonOrder!);
     });
 
-    return GridView.count(
-      crossAxisCount: 8,
-      childAspectRatio: 0.8,
-      crossAxisSpacing: 1,
-      shrinkWrap: true,
-      children: List.generate(
-        players.length,
-        (index) {
-          return ChangeNotifierProvider<Player>.value(
-            value: players[index],
-            child: PlayerButton(playerModel),
-          );
-        },
+    return Container(
+      height: widgetHeight,
+      color: Colors.white,
+      child: GridView.count(
+        crossAxisCount: 8,
+        childAspectRatio: 0.7,
+        crossAxisSpacing: 1,
+        shrinkWrap: true,
+        children: List.generate(
+          players.length,
+          (index) {
+            return ChangeNotifierProvider<Player>.value(
+              value: players[index],
+              child: PlayerButton(playerModel),
+            );
+          },
+        ),
       ),
     );
   }

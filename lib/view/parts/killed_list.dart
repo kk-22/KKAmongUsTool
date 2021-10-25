@@ -50,7 +50,7 @@ class KilledList extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: HomeScreen.leftAreaWidth - 60,
+                    width: HomeScreen.rightAreaWidth - 60,
                     height: PlayerWidget.size.height,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,

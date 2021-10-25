@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
+import 'package:kk_amongus_tool/view/parts/button_history.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
-import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
@@ -13,8 +13,8 @@ import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FieldMap extends StatelessWidget {
-  static final topPadding =
-      SuspicionMapping.widgetHeight - HomeScreen.totalBarHeight;
+  static const topPadding =
+      ButtonHistory.widgetHeight - HomeScreen.totalBarHeight;
 
   final GlobalKey _globalKey;
 
@@ -27,7 +27,7 @@ class FieldMap extends StatelessWidget {
       return Container(
           color: Colors.black,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(top: topPadding, right: 40),
+          padding: const EdgeInsets.only(top: topPadding + 60),
           alignment: Alignment.centerLeft,
           child: Image.asset(value.mapPath, fit: BoxFit.contain));
     });
@@ -67,7 +67,7 @@ class MapPlayerIcon extends StatelessWidget {
     if (offset == Offset.zero) {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
-      offset = Offset(10.0 + 50 * (index % 5), 10.0 + 50 * numberOfLine);
+      offset = Offset(485 + 50 * (index % 5), 10.0 + 50 * numberOfLine);
     }
     return Positioned(
       top: offset.dy,
