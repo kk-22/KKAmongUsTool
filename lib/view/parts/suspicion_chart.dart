@@ -25,32 +25,23 @@ class SuspicionChart extends StatelessWidget {
   }
 
   Widget headerChart(double parentWidth) {
-    const ignoreMinX = 0.25;
     final ignoreMaxX = 0.75 - PlayerWidget.size.width / parentWidth;
     return Consumer<PlayerViewModel>(builder: (context, model, child) {
-      var players = model.survivingPlayers(false).where((element) {
-        if (element.isMyself) return false;
-        final dx = element.mappingRatioOffset.dx;
-        return dx < ignoreMinX || ignoreMaxX < dx;
-      }).toList();
+      var players = model.playersWithScore();
 
       final maxPlayerCount = parentWidth ~/ PlayerWidget.size.width;
       if (maxPlayerCount < players.length) {
         // 中央に近いPlayerを取り除く
         players.sort((a, b) {
-          final bAbs =
-              Player.defaultRatioOffset.dx - b.mappingRatioOffset.dx.abs();
-          return (Player.defaultRatioOffset.dx - a.mappingRatioOffset.dx)
-              .abs()
-              .compareTo(bAbs);
+          final bAbs = b.suspicionScore.abs();
+          return (a.suspicionScore).abs().compareTo(bAbs);
         });
         players = players.sublist(players.length - maxPlayerCount);
       }
 
-      players.sort(
-          (a, b) => a.mappingRatioOffset.dx.compareTo(b.mappingRatioOffset.dx));
-      var expandIndex = players
-          .indexWhere((element) => ignoreMaxX <= element.mappingRatioOffset.dx);
+      players.sort((a, b) => a.suspicionScore.compareTo(b.suspicionScore));
+      var expandIndex =
+          players.indexWhere((element) => ignoreMaxX <= element.suspicionScore);
 
       final playerCount = min(maxPlayerCount, players.length);
       if (expandIndex == -1) expandIndex = playerCount; // 全プレイヤー黒位置のケース

@@ -52,12 +52,6 @@ class PlayerViewModel extends ChangeNotifier {
     player.move(_roundModel.currentRound, offset);
   }
 
-  void updateSuspicion(Player player, Offset offset) {
-    player.changeSuspicion(offset);
-    // `headerChart` の一覧に影響するためここで通知
-    notifyListeners();
-  }
-
   List<int> numberOfPlayerEachStatus() {
     return [
       _players
@@ -75,6 +69,12 @@ class PlayerViewModel extends ChangeNotifier {
     final round =
         isCurrentRound ? _roundModel.currentRound : RoundViewModel.maxRound;
     return _players.where((element) => element.isSurviving(round)).toList();
+  }
+
+  List<Player> killedPlayers() {
+    return _players
+        .where((element) => element.status == PlayerStatus.killed)
+        .toList();
   }
 
   void changeMySelf(PlayerColor? nextColor, PlayerColor? prevColor) {
@@ -116,5 +116,42 @@ class PlayerViewModel extends ChangeNotifier {
     for (var i = 0; i < usedPlayers.length; i++) {
       usedPlayers[i].useButton(i);
     }
+  }
+
+  // スコアを設定したプレイヤーの一覧を返す
+  List<Player> playersWithScore() {
+    final players = survivingPlayers(false).where((element) {
+      return !element.isMyself;
+    }).toList();
+    final blackLists = killedPlayers().map((killedPlayer) {
+      return players
+          .where((e) => !killedPlayer.caseOfDeath!.whitePlayers.contains(e))
+          .toList();
+    }).toList();
+
+    final imposterCount = _players.length <= 6 ? 1 : _players.length ~/ 6 + 1;
+    final hasAllWhiteAdditionalPoint = imposterCount * 2 <= blackLists.length;
+    for (final player in players) {
+      var score = 0;
+      var isNotSuspect = true; // 容疑者に一切入ってなければ true
+      for (final blackList in blackLists) {
+        if (blackList.contains(player)) {
+          isNotSuspect = false;
+          score -= 5; // 容疑者である
+        } else {
+          score += 1; // 容疑者ではない
+        }
+      }
+      if (isNotSuspect && hasAllWhiteAdditionalPoint) {
+        score += 10; // 全死体の容疑者ではない
+      }
+      player.suspicionScore = score;
+    }
+    return players;
+  }
+
+  void toggleWhiteList(Player killedPlayer, Player killer) {
+    killedPlayer.toggleWhiteList(killer);
+    notifyListeners();
   }
 }

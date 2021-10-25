@@ -14,9 +14,7 @@ class KilledChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerModel = Provider.of<PlayerViewModel>(context);
-    final killedPlayers = playerModel.allPlayer
-        .where((element) => element.status == PlayerStatus.killed)
-        .toList();
+    final killedPlayers = playerModel.killedPlayers();
     killedPlayers.sort((a, b) => a.diedRound!.compareTo(b.diedRound!));
     final roundModel = Provider.of<RoundViewModel>(context, listen: false);
     return SizedBox(
@@ -63,7 +61,8 @@ class KilledChart extends StatelessWidget {
                             width: 40,
                             child: ElevatedButton(
                               onPressed: () {
-                                killedPlayer.toggleWhiteList(killer);
+                                playerModel.toggleWhiteList(
+                                    killedPlayer, killer);
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
