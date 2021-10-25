@@ -71,10 +71,9 @@ class HomeScreen extends StatelessWidget {
         SizedBox(
           width: rightAreaWidth,
           child: Column(
-            children: [
+            children: const [
               SuspicionMapping(),
-              const Divider(color: Colors.black),
-              const Expanded(child: KilledList()),
+              Expanded(child: KilledList()),
             ],
           ),
         ),

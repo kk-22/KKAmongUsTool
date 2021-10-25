@@ -10,69 +10,16 @@ import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionMapping extends StatelessWidget {
-  static final widgetHeight = HomeScreen.overlayBarHeight + 2 + _stackHeight;
-  static final _stackHeight = PlayerWidget.size.height * 3;
-
-  final _mappingKey = GlobalKey();
-
-  SuspicionMapping({Key? key}) : super(key: key);
+  const SuspicionMapping({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       return Container(
+        height: HomeScreen.overlayBarHeight,
         color: Colors.white,
-        height: widgetHeight,
-        child: Column(
-          children: [
-            SizedBox(
-              height: HomeScreen.overlayBarHeight,
-              child: headerChart(constraints.maxWidth),
-            ),
-            Container(
-              height: _stackHeight,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                  colors: [
-                    Colors.black,
-                    Colors.white,
-                  ],
-                ),
-                border: Border(
-                  left: BorderSide(
-                    color: Colors.white,
-                    width: 1,
-                  ),
-                  top: BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                  ),
-                  bottom: BorderSide(
-                    color: Colors.white,
-                    width: 1,
-                  ),
-                ),
-              ),
-              child:
-                  Consumer<PlayerViewModel>(builder: (context, model, child) {
-                final players = model.survivingPlayers(false);
-                return Stack(
-                  key: _mappingKey,
-                  children: List.generate(players.length, (index) {
-                    return ChangeNotifierProvider<Player>.value(
-                      value: players[index],
-                      child: playerItem(
-                          players[index], index, model, constraints.maxWidth),
-                    );
-                  }),
-                );
-              }),
-            ),
-          ],
-        ),
+        child: headerChart(constraints.maxWidth),
       );
     });
   }
@@ -142,52 +89,5 @@ class SuspicionMapping extends StatelessWidget {
         ),
       ]);
     });
-  }
-
-  Widget playerItem(
-      Player player, int index, PlayerViewModel model, double parentWidth) {
-    var offset = player.mappingRatioOffset;
-    if (player.isManualOffset) {
-      // プレイヤー初期位置
-      const betweenWidthRatio = 0.5;
-      const numberOfRow = 5;
-      final numberOfLine = index ~/ numberOfRow;
-      offset = Offset(
-          (parentWidth / 2 - PlayerWidget.size.width * betweenWidthRatio / 2) +
-              (PlayerWidget.size.width * betweenWidthRatio) *
-                  (index % numberOfRow - numberOfRow / 2),
-          PlayerWidget.size.height * numberOfLine);
-    } else {
-      offset = Offset(player.mappingRatioOffset.dx * parentWidth,
-          player.mappingRatioOffset.dy * parentWidth);
-    }
-    return Positioned(
-      top: offset.dy,
-      left: offset.dx,
-      child: Draggable(
-        child: const PlayerWidget(RoundViewModel.maxRound, true),
-        feedback: Material(
-          color: Colors.transparent,
-          child: ChangeNotifierProvider<Player>.value(
-            value: player,
-            child: const PlayerWidget(RoundViewModel.maxRound, true),
-          ),
-        ),
-        data: player.name,
-        childWhenDragging: const SizedBox.shrink(),
-        onDragEnd: (details) {
-          final box =
-              _mappingKey.currentContext?.findRenderObject() as RenderBox;
-          final offset = box.globalToLocal(details.offset);
-          // マッピング外に配置されないように位置を補正。
-          final lastDx = min(
-              box.size.width - PlayerWidget.size.width, max(0.0, offset.dx));
-          final lastDy = min(
-              box.size.height - PlayerWidget.size.height, max(0.0, offset.dy));
-          model.updateSuspicion(
-              player, Offset(lastDx / parentWidth, lastDy / parentWidth));
-        },
-      ),
-    );
   }
 }
