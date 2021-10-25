@@ -10,7 +10,7 @@ import 'package:kk_amongus_tool/view/parts/killed_list.dart';
 import 'package:kk_amongus_tool/view/parts/player_counter.dart';
 import 'package:kk_amongus_tool/view/parts/round_selector.dart';
 import 'package:kk_amongus_tool/view/parts/route_controller.dart';
-import 'package:kk_amongus_tool/view/parts/suspicion_mapping.dart';
+import 'package:kk_amongus_tool/view/parts/suspicion_chart.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
           width: rightAreaWidth,
           child: Column(
             children: const [
-              SuspicionMapping(),
+              SuspicionChart(),
               Expanded(child: KilledList()),
             ],
           ),
