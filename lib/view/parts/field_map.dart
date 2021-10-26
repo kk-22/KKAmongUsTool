@@ -42,6 +42,27 @@ class FieldMap extends StatelessWidget {
       });
       list.insert(0, mapImage);
       list.insert(1, const RouteBoard());
+      list.add(ChangeNotifierProvider<SelectingColor>.value(
+        value: model.selectingColor,
+        builder: (context, child) {
+          final color = context.watch<SelectingColor>().value;
+          if (color == null) {
+            return const SizedBox.shrink();
+          }
+          final player = model.playerOfColor(color);
+          var offset =
+              player!.offsets[context.read<RoundViewModel>().currentRound];
+          return Positioned(
+            top: offset.dy + PlayerWidget.size.height,
+            left: offset.dx,
+            child: Container(
+              width: 150,
+              height: 150,
+              color: Colors.blue,
+            ),
+          );
+        },
+      ));
       return Stack(
         children: list,
       );
@@ -68,6 +89,7 @@ class MapPlayerIcon extends StatelessWidget {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
       offset = Offset(485 + 50 * (index % 5), 10.0 + 50 * numberOfLine);
+      player.offsets[_roundModel.currentRound] = offset;
     }
     return Positioned(
       top: offset.dy,
@@ -83,6 +105,7 @@ class MapPlayerIcon extends StatelessWidget {
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),
+        onDragStarted: () => _playerModel.selectingColor.value = null,
         onDragEnd: (details) {
           final box = mapKey.currentContext?.findRenderObject() as RenderBox;
           final offset = box.globalToLocal(details.offset);

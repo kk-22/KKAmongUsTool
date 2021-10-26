@@ -7,10 +7,14 @@ import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 class PlayerViewModel extends ChangeNotifier {
   final RoundViewModel _roundModel;
   final RouteViewModel _movingRoute;
+  final SelectingColor _selectingColor =
+      SelectingColor(); // プレイヤー毎のステータス変更Widget表示用
   List<Player> _players = [];
 
   // インスタンスをそのまま返すため、呼び出し元でsortメソッドはNG
   List<Player> get allPlayer => _players;
+
+  SelectingColor get selectingColor => _selectingColor;
 
   Player? playerOfColor(PlayerColor color) =>
       _players.firstWhereOrNull((player) => player.color == color);
@@ -39,15 +43,18 @@ class PlayerViewModel extends ChangeNotifier {
     }
     _roundModel.reset();
     _movingRoute.clear(true);
+    _selectingColor.value = null;
     notifyListeners();
   }
 
   void touchedPlayer(Player player) {
+    selectingColor.value =
+        (selectingColor.value == player.color) ? null : player.color;
     _movingRoute.selectingColor = player.color;
   }
 
   void movePlayer(Player player, Offset offset) {
-    touchedPlayer(player);
+    _movingRoute.selectingColor = player.color;
     _roundModel.updateLastRoundIfNeeded();
     player.move(_roundModel.currentRound, offset);
   }
@@ -150,6 +157,19 @@ class PlayerViewModel extends ChangeNotifier {
 
   void toggleWhiteList(Player killedPlayer, Player killer) {
     killedPlayer.toggleWhiteList(killer);
+    notifyListeners();
+  }
+}
+
+class SelectingColor with ChangeNotifier {
+  PlayerColor? _value;
+
+  SelectingColor();
+
+  PlayerColor? get value => _value;
+
+  set value(PlayerColor? value) {
+    _value = value;
     notifyListeners();
   }
 }

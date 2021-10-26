@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
-import 'package:kk_amongus_tool/view/dialog/status_changer.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
@@ -53,12 +52,6 @@ class PlayerWidget extends StatelessWidget {
                       final playerModel =
                           Provider.of<PlayerViewModel>(context, listen: false);
                       playerModel.touchedPlayer(player);
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return StatusChanger(player, playerModel);
-                        },
-                      );
                     },
               icon: Image.asset(
                 player.color.imageName,

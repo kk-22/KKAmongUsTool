@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -84,6 +85,7 @@ class _RoundSelectorState extends State<RoundSelector> {
                 ? TextButton.styleFrom(backgroundColor: Colors.blue)
                 : TextButton.styleFrom(),
             onPressed: () {
+              context.read<PlayerViewModel>().selectingColor.value = null;
               roundModel.changeRound(index);
             },
           ),
