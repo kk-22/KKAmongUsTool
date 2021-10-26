@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kk_amongus_tool/model/player.dart';
+import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,10 @@ class RouteBoard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: GestureDetector(
-        onPanStart: (details) => route.addPaint(details.localPosition),
+        onPanStart: (details) {
+          context.read<PlayerViewModel>().cancelSelectingColor();
+          route.addPaint(details.localPosition);
+        },
         onPanUpdate: (details) => route.updatePaint(details.localPosition),
         onPanEnd: (_) => route.endPaint(),
         child: Consumer2<RouteViewModel, RoundViewModel>(
