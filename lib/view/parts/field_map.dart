@@ -23,47 +23,52 @@ class FieldMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapImage =
-        Consumer<SettingViewModel>(builder: (context, value, child) {
-      return Container(
-          color: Colors.black,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.only(top: topPadding + 60),
-          alignment: Alignment.centerLeft,
-          child: Image.asset(value.mapPath, fit: BoxFit.contain));
-    });
-    return Consumer2<PlayerViewModel, RoundViewModel>(
-        builder: (context, model, round, child) {
-      final players = model.survivingPlayers(true);
-      List<Widget> list = List.generate(players.length, (index) {
-        return ChangeNotifierProvider<Player>.value(
-          value: players[index],
-          child: MapPlayerIcon(index, model, round, _globalKey),
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final mapImage =
+          Consumer<SettingViewModel>(builder: (context, value, child) {
+        return Container(
+            color: Colors.black,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.only(top: topPadding + 60),
+            alignment: Alignment.centerLeft,
+            child: Image.asset(value.mapPath, fit: BoxFit.contain));
+      });
+      return Consumer2<PlayerViewModel, RoundViewModel>(
+          builder: (context, model, round, child) {
+        final players = model.survivingPlayers(true);
+        List<Widget> list = List.generate(players.length, (index) {
+          return ChangeNotifierProvider<Player>.value(
+            value: players[index],
+            child: MapPlayerIcon(index, model, round, _globalKey),
+          );
+        });
+        list.insert(0, mapImage);
+        list.insert(1, const RouteBoard());
+        list.add(ChangeNotifierProvider<SelectingColor>.value(
+          value: model.selectingColor,
+          builder: (context, child) {
+            final color = context.watch<SelectingColor>().value;
+            if (color == null) {
+              return const SizedBox.shrink();
+            }
+            final player = model.playerOfColor(color);
+            var offset =
+                player!.offsets[context.read<RoundViewModel>().currentRound];
+            final centerDy =
+                offset.dx + (PlayerWidget.size.width - StatusChanger.width) / 2;
+            return Positioned(
+              top: offset.dy + PlayerWidget.size.height,
+              left: max(
+                  0, min(constraints.maxWidth - StatusChanger.width, centerDy)),
+              child: StatusChanger(player),
+            );
+          },
+        ));
+        return Stack(
+          children: list,
         );
       });
-      list.insert(0, mapImage);
-      list.insert(1, const RouteBoard());
-      list.add(ChangeNotifierProvider<SelectingColor>.value(
-        value: model.selectingColor,
-        builder: (context, child) {
-          final color = context.watch<SelectingColor>().value;
-          if (color == null) {
-            return const SizedBox.shrink();
-          }
-          final player = model.playerOfColor(color);
-          var offset =
-              player!.offsets[context.read<RoundViewModel>().currentRound];
-          return Positioned(
-            top: offset.dy + PlayerWidget.size.height,
-            left:
-                offset.dx + (PlayerWidget.size.width - StatusChanger.width) / 2,
-            child: StatusChanger(player),
-          );
-        },
-      ));
-      return Stack(
-        children: list,
-      );
     });
   }
 }
