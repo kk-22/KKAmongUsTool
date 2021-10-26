@@ -85,7 +85,7 @@ class _RoundSelectorState extends State<RoundSelector> {
                 ? TextButton.styleFrom(backgroundColor: Colors.blue)
                 : TextButton.styleFrom(),
             onPressed: () {
-              context.read<PlayerViewModel>().selectingColor.value = null;
+              context.read<PlayerViewModel>().cancelSelectingColor();
               roundModel.changeRound(index);
             },
           ),

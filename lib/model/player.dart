@@ -84,6 +84,19 @@ enum PlayerStatus {
   ejected,
 }
 
+extension PlayerStatusExtension on PlayerStatus {
+  String imageName(PlayerColor color) {
+    switch (this) {
+      case PlayerStatus.survive:
+        return color.imageName;
+      case PlayerStatus.killed:
+        return "assets/icon/skull.png";
+      case PlayerStatus.ejected:
+        return "assets/icon/cross.png";
+    }
+  }
+}
+
 enum PlayerColor {
   red,
   blue,

@@ -43,13 +43,20 @@ class PlayerViewModel extends ChangeNotifier {
     }
     _roundModel.reset();
     _movingRoute.clear(true);
-    _selectingColor.value = null;
+    cancelSelectingColor();
     notifyListeners();
   }
 
+  void cancelSelectingColor() {
+    selectingColor.value = null;
+  }
+
   void touchedPlayer(Player player) {
-    selectingColor.value =
-        (selectingColor.value == player.color) ? null : player.color;
+    if (selectingColor.value == player.color) {
+      cancelSelectingColor();
+    } else {
+      selectingColor.value = player.color;
+    }
     _movingRoute.selectingColor = player.color;
   }
 
@@ -111,6 +118,8 @@ class PlayerViewModel extends ChangeNotifier {
   void changePlayerStatus(Player player, PlayerStatus status) {
     player.changedStatus(status, _roundModel.currentRound);
     _roundModel.updateLastRoundIfNeeded();
+
+    cancelSelectingColor();
     // survivingPlayers メソッドの戻り値に影響するためここで通知
     notifyListeners();
   }

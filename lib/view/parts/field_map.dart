@@ -6,6 +6,7 @@ import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/other/route_board.dart';
 import 'package:kk_amongus_tool/view/parts/button_history.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
+import 'package:kk_amongus_tool/view/parts/status_changer.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
@@ -54,12 +55,9 @@ class FieldMap extends StatelessWidget {
               player!.offsets[context.read<RoundViewModel>().currentRound];
           return Positioned(
             top: offset.dy + PlayerWidget.size.height,
-            left: offset.dx,
-            child: Container(
-              width: 150,
-              height: 150,
-              color: Colors.blue,
-            ),
+            left:
+                offset.dx + (PlayerWidget.size.width - StatusChanger.width) / 2,
+            child: StatusChanger(player),
           );
         },
       ));
@@ -105,7 +103,7 @@ class MapPlayerIcon extends StatelessWidget {
         ),
         data: player.name,
         childWhenDragging: const SizedBox.shrink(),
-        onDragStarted: () => _playerModel.selectingColor.value = null,
+        onDragStarted: () => _playerModel.cancelSelectingColor(),
         onDragEnd: (details) {
           final box = mapKey.currentContext?.findRenderObject() as RenderBox;
           final offset = box.globalToLocal(details.offset);
