@@ -106,7 +106,7 @@ class KilledChart extends StatelessWidget {
       }
       if (a.status == PlayerStatus.ejected) return -1;
       if (b.status == PlayerStatus.ejected) return 1;
-      return a.suspicionScore.compareTo(b.suspicionScore);
+      return a.totalSuspicionScore.compareTo(b.totalSuspicionScore);
     });
     return killers;
   }

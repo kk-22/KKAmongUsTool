@@ -134,6 +134,11 @@ class PlayerViewModel extends ChangeNotifier {
     }
   }
 
+  void addSubjectiveScore(Player player, int score) {
+    player.subjectiveSuspicionScore += score;
+    notifyListeners();
+  }
+
   // スコアを設定したプレイヤーの一覧を返す
   List<Player> playersWithScore() {
     final players = survivingPlayers(false).where((element) {
@@ -159,7 +164,8 @@ class PlayerViewModel extends ChangeNotifier {
       if (isNotSuspect && hasAllWhiteAdditionalPoint) {
         score += 2; // 全死体の容疑者ではない
       }
-      player.suspicionScore = score;
+      score += player.subjectiveSuspicionScore;
+      player.totalSuspicionScore = score;
     }
     return players;
   }

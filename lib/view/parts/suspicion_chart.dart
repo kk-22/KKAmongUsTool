@@ -28,8 +28,9 @@ class SuspicionChart extends StatelessWidget {
   Widget headerChart(double parentWidth) {
     return Consumer<PlayerViewModel>(builder: (context, model, child) {
       var players = model.playersWithScore();
-      players.sort((a, b) => a.suspicionScore.compareTo(b.suspicionScore));
-      final mostLowScore = players.first.suspicionScore;
+      players.sort(
+          (a, b) => a.totalSuspicionScore.compareTo(b.totalSuspicionScore));
+      final mostLowScore = players.first.totalSuspicionScore;
       return FittedBox(
         child: Row(
           children: List.generate(players.length, (index) {
@@ -38,15 +39,17 @@ class SuspicionChart extends StatelessWidget {
               builder: (context, child) {
                 final player = Provider.of<Player>(context, listen: false);
                 Color color;
-                if (2 <= player.suspicionScore) {
+                if (2 <= player.totalSuspicionScore) {
                   color = Colors.white;
-                } else if (1 == player.suspicionScore) {
+                } else if (1 == player.totalSuspicionScore) {
                   color = Colors.black12;
-                } else if (0 == player.suspicionScore) {
+                } else if (0 == player.totalSuspicionScore) {
                   color = Colors.black26;
                 } else {
-                  double ratio = min(1.0,
-                      max(0.0, ((player.suspicionScore) / mostLowScore).abs()));
+                  double ratio = min(
+                      1.0,
+                      max(0.0,
+                          ((player.totalSuspicionScore) / mostLowScore).abs()));
                   color = Color.fromARGB((ratio * 255).toInt(), 0, 0, 0);
                 }
                 return Container(

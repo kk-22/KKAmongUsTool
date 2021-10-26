@@ -8,7 +8,8 @@ class Player with ChangeNotifier {
   final PlayerColor color;
 
   var isMyself = false;
-  var suspicionScore = 0;
+  var totalSuspicionScore = 0;
+  var subjectiveSuspicionScore = 0;
   CauseOfDeath? _caseOfDeath;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置
@@ -33,6 +34,7 @@ class Player with ChangeNotifier {
   void resetWithNewRound() {
     _caseOfDeath = null;
     _usedButtonOrder = null;
+    subjectiveSuspicionScore = 0;
     resetOffset();
     notifyListeners();
   }
