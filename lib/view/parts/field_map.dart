@@ -29,7 +29,7 @@ class FieldMap extends StatelessWidget {
           Consumer<SettingViewModel>(builder: (context, value, child) {
         return Container(
             color: Colors.black,
-            width: MediaQuery.of(context).size.width,
+            width: constraints.maxWidth,
             padding: const EdgeInsets.only(top: topPadding + 60),
             alignment: Alignment.centerLeft,
             child: Image.asset(value.mapPath, fit: BoxFit.contain));
@@ -40,7 +40,8 @@ class FieldMap extends StatelessWidget {
         List<Widget> list = List.generate(players.length, (index) {
           return ChangeNotifierProvider<Player>.value(
             value: players[index],
-            child: MapPlayerIcon(index, model, round, _globalKey),
+            child: MapPlayerIcon(
+                index, model, round, _globalKey, constraints.maxWidth),
           );
         });
         list.insert(0, mapImage);
@@ -78,9 +79,10 @@ class MapPlayerIcon extends StatelessWidget {
   final PlayerViewModel _playerModel;
   final RoundViewModel _roundModel;
   final GlobalKey mapKey;
+  final double _maxWidth;
 
-  const MapPlayerIcon(
-      this.index, this._playerModel, this._roundModel, this.mapKey,
+  const MapPlayerIcon(this.index, this._playerModel, this._roundModel,
+      this.mapKey, this._maxWidth,
       {Key? key})
       : super(key: key);
 
@@ -91,7 +93,9 @@ class MapPlayerIcon extends StatelessWidget {
     if (offset == Offset.zero) {
       // プレイヤー初期位置
       int numberOfLine = index ~/ 5;
-      offset = Offset(485 + 50 * (index % 5), 10.0 + 50 * numberOfLine);
+      final startDx = _maxWidth - PlayerWidget.size.width * 5;
+      offset = Offset(startDx + PlayerWidget.size.width * (index % 5),
+          10.0 + 50 * numberOfLine);
       player.offsets[_roundModel.currentRound] = offset;
     }
     return Positioned(
