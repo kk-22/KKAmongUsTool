@@ -5,7 +5,7 @@ import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:provider/src/provider.dart';
 
 class StatusChanger extends StatelessWidget {
-  static const width = 150.0;
+  static const width = 152.0;
   final Player _player;
 
   const StatusChanger(this._player, {Key? key}) : super(key: key);
@@ -70,7 +70,10 @@ class StatusChanger extends StatelessWidget {
         ),
         Container(
           width: width,
-          color: Colors.white,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black),
+          ),
           child: Row(
             children: scoreWidgets,
           ),
