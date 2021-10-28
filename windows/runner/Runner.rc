@@ -90,7 +90,7 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "jp.co.kk22.amongustool" "\0"
-            VALUE "FileDescription", "A new Flutter project." "\0"
+            VALUE "FileDescription", "KKAmongUsTool." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "kk_amongus_tool" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2021 jp.co.kk22.amongustool. All rights reserved." "\0"
