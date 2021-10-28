@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/util/hwnd_util.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/view/dialog/name_register.dart';
 import 'package:kk_amongus_tool/view/parts/button_history.dart';
@@ -26,56 +27,65 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return MouseRegion(
+      onExit: (event) {
+        HwndUtil.shrinkWnd();
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width - rightAreaWidth,
+            height: MediaQuery.of(context).size.height,
+            child: _stackedWidget(context),
+          ),
+          SizedBox(
+            width: rightAreaWidth,
+            child: Column(
+              children: const [
+                SuspicionChart(),
+                Expanded(child: KilledChart()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _stackedWidget(BuildContext context) {
+    return Stack(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width - rightAreaWidth,
+        // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
+        Container(
           height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              // 各Widgetの上に描画されるように、Y座標の高いWidgetから順に配置
-              Container(
-                height: MediaQuery.of(context).size.height,
-                margin: const EdgeInsets.only(top: totalBarHeight),
-                child: FieldMap(GlobalKey()),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Expanded(child: ButtonHistory()),
-                  Stack(
+          margin: const EdgeInsets.only(top: totalBarHeight),
+          child: FieldMap(GlobalKey()),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Expanded(child: ButtonHistory()),
+            Stack(
+              children: [
+                Container(
+                  width: buttonBarWidth,
+                  margin: const EdgeInsets.only(
+                      top: overlayBarHeight + buttonBarHeight),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: buttonBarWidth,
-                        margin: const EdgeInsets.only(
-                            top: overlayBarHeight + buttonBarHeight),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Expanded(child: RouteController()),
-                            partitionLine(buttonBarHeight),
-                            const Expanded(child: RoundSelector()),
-                          ],
-                        ),
-                      ),
-                      blueButtonBar(context),
-                      overlayBar(),
+                      const Expanded(child: RouteController()),
+                      partitionLine(buttonBarHeight),
+                      const Expanded(child: RoundSelector()),
                     ],
                   ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: rightAreaWidth,
-          child: Column(
-            children: const [
-              SuspicionChart(),
-              Expanded(child: KilledChart()),
-            ],
-          ),
+                ),
+                blueButtonBar(context),
+                overlayBar(),
+              ],
+            ),
+          ],
         ),
       ],
     );

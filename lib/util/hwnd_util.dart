@@ -1,9 +1,37 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:flutter/services.dart';
+import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:win32/win32.dart';
 
+extension RECTExtension on RECT {
+  int width() => right - left;
+
+  int height() => bottom - top;
+}
+
 class HwndUtil {
+  static void shrinkWnd() {
+    final desktopWnd = GetDesktopWindow();
+    final desktopRect = calloc<RECT>();
+    GetClientRect(desktopWnd, desktopRect);
+
+    final appWnd = FindWindowEx(0, 0, nullptr, TEXT("kk_amongus_tool"));
+    final appRect = calloc<RECT>();
+    GetWindowRect(appWnd, appRect);
+
+    int dx = -appRect.ref.width() ~/ 3 - 20;
+    int dy = desktopRect.ref.height() - HomeScreen.overlayBarHeight.toInt();
+    SetWindowPos(
+        appWnd, 0, dx, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+  }
+
+  static void expandWnd() {
+    SetCursorPos(600, 500);
+    const MethodChannel('jp.co.kk22/amongustool').invokeMethod("expandHwnd");
+  }
+
   static int findHwnd(String className) {
     final hwnd = FindWindowEx(0, 0, TEXT(className), nullptr);
     if (hwnd > 0) {
@@ -83,8 +111,8 @@ class HwndUtil {
       GetDIBits(hdcWindow, hbmScreen, 0, bmpScreen.ref.bmHeight, lpBitmap,
           bitmapInfoHeader.cast(), DIB_RGB_COLORS);
 
-      final hFile = CreateFile(TEXT('capture.bmp'), GENERIC_WRITE, 0,
-          nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+      final hFile = CreateFile(TEXT('capture.bmp'), GENERIC_WRITE, 0, nullptr,
+          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
       final dwSizeOfDIB =
           dwBmpSize + sizeOf<BITMAPFILEHEADER>() + sizeOf<BITMAPINFOHEADER>();
