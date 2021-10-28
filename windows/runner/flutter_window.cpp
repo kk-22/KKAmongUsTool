@@ -3,6 +3,10 @@
 #include <optional>
 
 #include "flutter/generated_plugin_registrant.h"
+#include "flutter/method_channel.h"
+#include "flutter/standard_method_codec.h"
+
+#define GetMonitorRect(rc)  SystemParametersInfo(SPI_GETWORKAREA,0,rc,0)
 
 FlutterWindow::FlutterWindow(const flutter::DartProject& project)
     : project_(project) {}
@@ -25,6 +29,7 @@ bool FlutterWindow::OnCreate() {
     return false;
   }
   RegisterPlugins(flutter_controller_->engine());
+  setMethodChannel(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
   return true;
 }
@@ -58,4 +63,28 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
   }
 
   return Win32Window::MessageHandler(hwnd, message, wparam, lparam);
+}
+
+void FlutterWindow::setMethodChannel(flutter::FlutterEngine *engine) {
+  const std::string test_channel("jp.co.kk22/amongustool");
+  const flutter::StandardMethodCodec& codec = flutter::StandardMethodCodec::GetInstance();
+
+  flutter::MethodChannel method_channel_(engine->messenger(), test_channel, &codec);
+  method_channel_.SetMethodCallHandler([&](const auto& call, auto result) {
+    std::string name = call.method_name();
+    if (name.compare("expandHwnd") == 0) {
+      RECT monitorRect, wndRect;
+      GetMonitorRect(&monitorRect);
+      GetWindowRect(contentHwnd, &wndRect);
+      INT monitorHeight = (monitorRect.bottom - monitorRect.top);
+      INT wndHeight = (wndRect.bottom - wndRect.top);
+      INT pointY = (monitorHeight - wndHeight) / 2;
+      // `-8` is instead of `monitorRect.left`.
+      SetWindowPos(contentHwnd, NULL, -8, pointY, 0, 0,
+        (SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER));
+      result->Success();
+    } else {
+	    std::cout << "No register method. name=" << name << std::endl;
+    }
+  });
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
@@ -16,13 +17,19 @@ class SuspicionChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return Container(
-            height: HomeScreen.overlayBarHeight,
-            color: Colors.white,
-            alignment: Alignment.centerLeft,
-            child: headerChart(constraints.maxWidth),
-          );
-        });
+      return TextButton(
+        onPressed: () {
+          const MethodChannel('jp.co.kk22/amongustool')
+              .invokeMethod("expandHwnd");
+        },
+        child: Container(
+          height: HomeScreen.overlayBarHeight,
+          color: Colors.white,
+          alignment: Alignment.centerLeft,
+          child: headerChart(constraints.maxWidth),
+        ),
+      );
+    });
   }
 
   Widget headerChart(double parentWidth) {

@@ -1,5 +1,7 @@
 # Original
 capture.bmp
+windows/out/
+.vs/
 
 # Miscellaneous
 *.class
