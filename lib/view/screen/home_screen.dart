@@ -28,8 +28,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onExit: (event) {
-        HwndUtil.shrinkWnd();
+      onExit: (event) async {
+        if (!(await HwndUtil.isDeveloping())) {
+          HwndUtil.shrinkWnd();
+        }
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

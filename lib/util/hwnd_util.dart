@@ -12,6 +12,11 @@ extension RECTExtension on RECT {
 }
 
 class HwndUtil {
+  static Future<bool> isDeveloping() async {
+    return await const MethodChannel('jp.co.kk22/amongustool')
+        .invokeMethod("isDeveloping");
+  }
+
   static void shrinkWnd() {
     final desktopWnd = GetDesktopWindow();
     final desktopRect = calloc<RECT>();
@@ -100,11 +105,11 @@ class HwndUtil {
         ..ref.biCompression = BI_RGB;
 
       final dwBmpSize =
-          ((bmpScreen.ref.bmWidth * bitmapInfoHeader.ref.biBitCount + 31) /
-                  32 *
-                  4 *
-                  bmpScreen.ref.bmHeight)
-              .toInt();
+      ((bmpScreen.ref.bmWidth * bitmapInfoHeader.ref.biBitCount + 31) /
+          32 *
+          4 *
+          bmpScreen.ref.bmHeight)
+          .toInt();
 
       final lpBitmap = calloc<Uint8>(dwBmpSize);
 

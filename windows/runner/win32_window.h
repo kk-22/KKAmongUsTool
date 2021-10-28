@@ -7,6 +7,14 @@
 #include <memory>
 #include <string>
 
+#define USE_DEVELOP_MODE
+
+#ifdef USE_DEVELOP_MODE
+#define IS_DEVELOPING true
+#else
+#define IS_DEVELOPING false
+#endif
+
 // A class abstraction for a high DPI-aware Win32 Window. Intended to be
 // inherited from by classes that wish to specialize with custom
 // rendering and input handling

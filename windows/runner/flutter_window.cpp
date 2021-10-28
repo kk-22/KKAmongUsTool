@@ -83,6 +83,8 @@ void FlutterWindow::setMethodChannel(flutter::FlutterEngine *engine) {
       SetWindowPos(contentHwnd, NULL, -8, pointY, 0, 0,
         (SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER));
       result->Success();
+    } else if (name.compare("isDeveloping") == 0) {
+      result->Success(IS_DEVELOPING);
     } else {
 	    std::cout << "No register method. name=" << name << std::endl;
     }
