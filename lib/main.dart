@@ -7,7 +7,7 @@ import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
-import 'home_screen.dart';
+import 'view/screen/home_screen.dart';
 
 void main() {
   runApp(MyApp());
