@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
     final timerModel = context.read<TimerViewModel>();
     return MouseRegion(
       onExit: (event) {
+        //if (!_isDeveloping && ModalRoute.of(context)?.isCurrent) {
         if (!_isDeveloping) {
           HwndUtil.shrinkWnd();
           timerModel.didShrinkApp();
