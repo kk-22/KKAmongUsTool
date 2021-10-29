@@ -72,18 +72,7 @@ void FlutterWindow::setMethodChannel(flutter::FlutterEngine *engine) {
   flutter::MethodChannel method_channel_(engine->messenger(), test_channel, &codec);
   method_channel_.SetMethodCallHandler([&](const auto& call, auto result) {
     std::string name = call.method_name();
-    if (name.compare("expandHwnd") == 0) {
-      RECT monitorRect, wndRect;
-      GetMonitorRect(&monitorRect);
-      GetWindowRect(contentHwnd, &wndRect);
-      INT monitorHeight = (monitorRect.bottom - monitorRect.top);
-      INT wndHeight = (wndRect.bottom - wndRect.top);
-      INT pointY = (monitorHeight - wndHeight) / 2;
-      // `-8` is instead of `monitorRect.left`.
-      SetWindowPos(contentHwnd, NULL, -8, pointY, 0, 0,
-        (SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER));
-      result->Success();
-    } else if (name.compare("isDeveloping") == 0) {
+    if (name.compare("isDeveloping") == 0) {
       result->Success(IS_DEVELOPING);
     } else {
 	    std::cout << "No register method. name=" << name << std::endl;

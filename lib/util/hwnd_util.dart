@@ -21,7 +21,6 @@ class HwndUtil {
     final desktopWnd = GetDesktopWindow();
     final desktopRect = calloc<RECT>();
     GetClientRect(desktopWnd, desktopRect);
-
     final appWnd = FindWindowEx(0, 0, nullptr, TEXT("kk_amongus_tool"));
     final appRect = calloc<RECT>();
     GetWindowRect(appWnd, appRect);
@@ -33,8 +32,20 @@ class HwndUtil {
   }
 
   static void expandWnd() {
-    SetCursorPos(600, 500);
-    const MethodChannel('jp.co.kk22/amongustool').invokeMethod("expandHwnd");
+    final desktopWnd = GetDesktopWindow();
+    final desktopRect = calloc<RECT>();
+    GetClientRect(desktopWnd, desktopRect);
+
+    final appWnd = FindWindowEx(0, 0, nullptr, TEXT("kk_amongus_tool"));
+    final appRect = calloc<RECT>();
+    GetWindowRect(appWnd, appRect);
+
+    int dy = (desktopRect.ref.height() - appRect.ref.height()) ~/ 2;
+
+    SetCursorPos(appRect.ref.width() ~/ 2,
+        desktopRect.ref.height() ~/ 2); // カーソルがアプリから外れないように事前に移動
+    SetWindowPos(
+        appWnd, 0, 0, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
   }
 
   static int findHwnd(String className) {
