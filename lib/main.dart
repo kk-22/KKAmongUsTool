@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             create: (_) => SettingViewModel(),
           ),
         ],
-        child: const Scaffold(
+        child: Scaffold(
           body: HomeScreen(),
         ),
       ),

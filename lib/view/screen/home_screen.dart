@@ -23,13 +23,17 @@ class HomeScreen extends StatelessWidget {
   static const overlayBarHeight = 50.0;
   static const buttonBarHeight = 28.0;
 
-  const HomeScreen({Key? key}) : super(key: key);
+  var _isDeveloping = false;
+
+  HomeScreen({Key? key}) : super(key: key) {
+    HwndUtil.isDeveloping().then((value) => _isDeveloping = value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onExit: (event) async {
-        if (!(await HwndUtil.isDeveloping())) {
+      onExit: (event) {
+        if (!_isDeveloping) {
           HwndUtil.shrinkWnd();
         }
       },
