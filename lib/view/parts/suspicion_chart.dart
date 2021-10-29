@@ -8,6 +8,7 @@ import 'package:kk_amongus_tool/view/parts/player_widget.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
+import 'package:kk_amongus_tool/view_model/timer_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SuspicionChart extends StatelessWidget {
@@ -20,6 +21,8 @@ class SuspicionChart extends StatelessWidget {
       return TextButton(
         onPressed: () {
           HwndUtil.expandWnd();
+          final timerModel = context.read<TimerViewModel>();
+          timerModel.didExpandApp();
         },
         child: Container(
           height: HomeScreen.overlayBarHeight,

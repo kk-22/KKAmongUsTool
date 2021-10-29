@@ -14,6 +14,7 @@ import 'package:kk_amongus_tool/view/parts/route_controller.dart';
 import 'package:kk_amongus_tool/view/parts/suspicion_chart.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
+import 'package:kk_amongus_tool/view_model/timer_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -31,10 +32,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final timerModel = context.read<TimerViewModel>();
     return MouseRegion(
       onExit: (event) {
         if (!_isDeveloping) {
           HwndUtil.shrinkWnd();
+          timerModel.didShrinkApp();
         }
       },
       child: Row(
