@@ -29,6 +29,12 @@ class HwndUtil {
     int dy = desktopRect.ref.height() - HomeScreen.overlayBarHeight.toInt();
     SetWindowPos(
         appWnd, 0, dx, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+
+    // AmongUs をアクティブウィンドウにする
+    int gameWnd = FindWindowEx(0, 0, nullptr, TEXT("Among Us"));
+    if (0 < gameWnd) {
+      SetForegroundWindow(gameWnd);
+    }
   }
 
   static void expandWnd() {
@@ -116,11 +122,11 @@ class HwndUtil {
         ..ref.biCompression = BI_RGB;
 
       final dwBmpSize =
-      ((bmpScreen.ref.bmWidth * bitmapInfoHeader.ref.biBitCount + 31) /
-          32 *
-          4 *
-          bmpScreen.ref.bmHeight)
-          .toInt();
+          ((bmpScreen.ref.bmWidth * bitmapInfoHeader.ref.biBitCount + 31) /
+                  32 *
+                  4 *
+                  bmpScreen.ref.bmHeight)
+              .toInt();
 
       final lpBitmap = calloc<Uint8>(dwBmpSize);
 
