@@ -136,7 +136,24 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 13),
             ),
             onPressed: () {
-              playerModel.resetRound();
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("全リセット"),
+                    content: const Text("位置・死亡状況・ルート線をリセットしますか？"),
+                    actions: [
+                      ElevatedButton(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          playerModel.resetRound();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
           ElevatedButton(
