@@ -46,11 +46,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
             ChangeNotifierProvider<RoundViewModel>.value(value: _roundModel),
             ChangeNotifierProvider<RouteViewModel>.value(value: _route),
+            ChangeNotifierProvider<TimerViewModel>.value(value: _timerModel),
             ChangeNotifierProvider<SettingViewModel>(
               create: (_) => SettingViewModel(),
-            ),
-            ChangeNotifierProvider<TimerViewModel>(
-              create: (_) => TimerViewModel(),
             ),
           ],
           child: Scaffold(
