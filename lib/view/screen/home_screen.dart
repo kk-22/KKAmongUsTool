@@ -35,8 +35,8 @@ class HomeScreen extends StatelessWidget {
     final timerModel = context.read<TimerViewModel>();
     return MouseRegion(
       onExit: (event) {
-        //if (!_isDeveloping && ModalRoute.of(context)?.isCurrent) {
-        if (!_isDeveloping) {
+        // ダイアログ表示中はonExitが呼ばれてしまうため、表示中か判定する
+        if (!_isDeveloping && (ModalRoute.of(context)?.isCurrent ?? false)) {
           HwndUtil.shrinkWnd();
           timerModel.didShrinkApp();
         }
