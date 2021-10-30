@@ -172,8 +172,8 @@ class HomeScreen extends StatelessWidget {
               partitionLine(overlayBarHeight),
               Column(
                 children: const [
-                  CoolTimeList(CoolTimeType.button, "ボタン：", 10, 60, 5),
-                  CoolTimeList(CoolTimeType.kill, "キル：", 10, 60, 2.5),
+                  CoolTimeList(CoolTimeType.button, "ボタン", 10, 60, 5),
+                  CoolTimeList(CoolTimeType.kill, "キル", 10, 60, 2.5),
                 ],
               ),
               partitionLine(overlayBarHeight),

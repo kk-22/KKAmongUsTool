@@ -1,98 +1,64 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
+import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
-class CoolTimeList extends StatefulWidget {
+class CoolTimeList extends StatelessWidget {
   final CoolTimeType type;
   final String title;
   final int min;
   final int max;
   final double increment;
 
+  static const _minHeight = HomeScreen.overlayBarHeight / 2;
+
   const CoolTimeList(this.type, this.title, this.min, this.max, this.increment,
       {Key? key})
       : super(key: key);
 
   @override
-  State<CoolTimeList> createState() {
-    return _CoolTimeListState();
-  }
-}
-
-class _CoolTimeListState extends State<CoolTimeList> {
-  var _isExpanding = false;
-
-  static const _minHeight = HomeScreen.overlayBarHeight / 2;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final setting = Provider.of<SettingViewModel>(context, listen: false);
+    final setting = Provider.of<SettingViewModel>(context);
     return Container(
       color: Colors.white,
       width: 85,
-      child: GestureDetector(
-        child: MouseRegion(
-          onEnter: (_) => setState(() {
-            _isExpanding = true;
-          }),
-          onExit: (_) => setState(() {
-            _isExpanding = false;
-          }),
-          child: Column(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: _minHeight,
-                child: Text(
-                  "${widget.title}${setting.coolTimeSec(widget.type)}秒",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 15,
-                    decoration:
-                        _isExpanding ? TextDecoration.underline : null,
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
-              if (_isExpanding) valueList(),
-            ],
+      height: _minHeight,
+      child: TextButton(
+        onPressed: () async {
+          final int? value = await showDialog<int>(
+            context: context,
+            builder: (context) {
+              int count = (max - min) ~/ increment + 1;
+              return SimpleDialog(
+                title: Text(title),
+                children: List.generate(count, (index) {
+                  final value = min + (increment * index).toInt();
+                  return SimpleDialogOption(
+                    onPressed: () => Navigator.pop(context, value),
+                    child: Text("$value"),
+                  );
+                }),
+              );
+            },
+          );
+          if (value != null) {
+            final setting = context.read<SettingViewModel>();
+            setting.updateCoolTimeSec(type, value);
+          }
+        },
+        child: SizedBox(
+          width: 85,
+          child: Text(
+            "$title：${setting.coolTimeSec(type)}s",
+            textAlign: TextAlign.end,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.blue,
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget valueList() {
-    int count = (widget.max - widget.min) ~/ widget.increment + 1;
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: count,
-      itemBuilder: (context, index) {
-        final value = widget.min + (widget.increment * index).toInt();
-        return SizedBox(
-          child: TextButton(
-            child: Text(
-              "$value",
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
-            onPressed: () {
-              final setting =
-                  Provider.of<SettingViewModel>(context, listen: false);
-              setting.updateCoolTimeSec(widget.type, value);
-              setState(() {});
-            },
-          ),
-        );
-      },
     );
   }
 }
