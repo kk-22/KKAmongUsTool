@@ -50,12 +50,12 @@ class FieldMap extends StatelessWidget {
           value: model.selectingColor,
           builder: (context, child) {
             final color = context.watch<SelectingColor>().value;
-            if (color == null) {
-              return const SizedBox.shrink();
-            }
+            if (color == null) return const SizedBox.shrink();
             final player = model.playerOfColor(color);
+            if (player == null) return const SizedBox.shrink();
+
             var offset =
-                player!.offsets[context.read<RoundViewModel>().currentRound];
+                player.offsets[context.read<RoundViewModel>().currentRound];
             final centerDy =
                 offset.dx + (PlayerWidget.size.width - StatusChanger.width) / 2;
             return Positioned(
