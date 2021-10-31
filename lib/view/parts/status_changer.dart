@@ -14,7 +14,8 @@ class StatusChanger extends StatelessWidget {
   Widget build(BuildContext context) {
     final statusList = PlayerStatus.values
         .where((element) => element != _player.status)
-        .toList();
+        .toList()
+        .reversed;
     final List<Widget> scoreWidgets = [-10, -1, 1, 10].map((score) {
       return Expanded(
         child: TextButton(
