@@ -6,6 +6,7 @@ import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:kk_amongus_tool/view_model/route_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view_model/timer_view_model.dart';
+import 'package:kk_amongus_tool/view_model/wnd_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'view/screen/home_screen.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<TimerViewModel>(
             create: (_) => TimerViewModel(),
+          ),
+          ChangeNotifierProvider<WndViewModel>(
+            create: (_) => WndViewModel(),
           ),
         ],
         child: Scaffold(

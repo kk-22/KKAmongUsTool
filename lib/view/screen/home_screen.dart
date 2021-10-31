@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kk_amongus_tool/util/hwnd_util.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
 import 'package:kk_amongus_tool/view/dialog/name_register.dart';
 import 'package:kk_amongus_tool/view/parts/button_history.dart';
@@ -15,6 +14,7 @@ import 'package:kk_amongus_tool/view/parts/suspicion_chart.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
 import 'package:kk_amongus_tool/view_model/timer_view_model.dart';
+import 'package:kk_amongus_tool/view_model/wnd_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,20 +24,17 @@ class HomeScreen extends StatelessWidget {
   static const overlayBarHeight = 50.0;
   static const buttonBarHeight = 28.0;
 
-  var _isDeveloping = false;
-
-  HomeScreen({Key? key}) : super(key: key) {
-    HwndUtil.isDeveloping().then((value) => _isDeveloping = value);
-  }
+  HomeScreen({Key? key}) : super(key: key) {}
 
   @override
   Widget build(BuildContext context) {
     final timerModel = context.read<TimerViewModel>();
+    final wndModel = context.read<WndViewModel>();
     return MouseRegion(
       onExit: (event) {
         // ダイアログ表示中はonExitが呼ばれてしまうため、表示中か判定する
-        if (!_isDeveloping && (ModalRoute.of(context)?.isCurrent ?? false)) {
-          HwndUtil.shrinkWnd();
+        if ((ModalRoute.of(context)?.isCurrent ?? false) &&
+            wndModel.shrinkWndIfNeeded()) {
           timerModel.didShrinkApp();
         }
       },
