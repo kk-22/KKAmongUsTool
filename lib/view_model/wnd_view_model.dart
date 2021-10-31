@@ -8,7 +8,10 @@ import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:win32/win32.dart';
 
 class WndViewModel with ChangeNotifier {
+  static const _minShrinkIntervalMsec = 300;
+
   var _isDeveloping = false;
+  var _dateToStopShrinking = DateTime.now(); // この日時より前なら縮小させない
 
   WndViewModel() {
     const MethodChannel('jp.co.kk22/amongustool')
@@ -17,7 +20,7 @@ class WndViewModel with ChangeNotifier {
   }
 
   bool shrinkWndIfNeeded() {
-    if (!_isDeveloping) {
+    if (!_isDeveloping && DateTime.now().isAfter(_dateToStopShrinking)) {
       _shrinkWnd();
       return true;
     }
@@ -45,6 +48,9 @@ class WndViewModel with ChangeNotifier {
   }
 
   void expandWnd() {
+    _dateToStopShrinking = DateTime.now()
+        .add(const Duration(milliseconds: _minShrinkIntervalMsec));
+
     final desktopWnd = GetDesktopWindow();
     final desktopRect = calloc<RECT>();
     GetClientRect(desktopWnd, desktopRect);
@@ -57,7 +63,7 @@ class WndViewModel with ChangeNotifier {
 
     // カーソルがアプリから外れないように事前に移動
     SetCursorPos(appRect.ref.width() ~/ 2,
-        (desktopRect.ref.height().toInt() * 0.7).toInt());
+        (desktopRect.ref.height().toInt() * 0.35).toInt());
     SetWindowPos(
         appWnd, 0, 0, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
   }
