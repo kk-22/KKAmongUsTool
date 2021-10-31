@@ -48,8 +48,9 @@ class HwndUtil {
 
     int dy = (desktopRect.ref.height() - appRect.ref.height()) ~/ 2;
 
+    // カーソルがアプリから外れないように事前に移動
     SetCursorPos(appRect.ref.width() ~/ 2,
-        desktopRect.ref.height() ~/ 2); // カーソルがアプリから外れないように事前に移動
+        (desktopRect.ref.height().toInt() * 0.7).toInt());
     SetWindowPos(
         appWnd, 0, 0, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
   }
