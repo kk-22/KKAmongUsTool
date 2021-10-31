@@ -59,7 +59,7 @@ class _NameRegisterState extends State<NameRegister> {
             crossAxisCount: 6,
             childAspectRatio: 0.85,
             crossAxisSpacing: 1,
-            children: List.generate(PlayerColorExtension.count, (index) {
+            children: List.generate(PlayerColorEx.count, (index) {
               return gridChild(items[index]);
             }),
           ),
@@ -108,7 +108,7 @@ class _NameRegisterState extends State<NameRegister> {
         const SizedBox(height: 10),
         Container(
           color:
-          item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
+              item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
           height: 65,
           width: MediaQuery.of(context).size.width,
           child: IconButton(
@@ -185,6 +185,7 @@ class _NameRegisterState extends State<NameRegister> {
                         }
                       }
                       Navigator.pop(context);
+                      Navigator.pop(context); // プレイヤー登録ダイアログも閉じる
                     },
                     child: const Text("15人登録"),
                   ),
@@ -192,7 +193,7 @@ class _NameRegisterState extends State<NameRegister> {
                     onPressed: () {
                       for (var i = 0; i < PlayerColor.values.length; i++) {
                         final item = items[i];
-                        item.controller.clear();
+                        if (!item.isMyself) item.controller.clear();
                       }
                       Navigator.pop(context);
                     },

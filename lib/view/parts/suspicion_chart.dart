@@ -37,6 +37,7 @@ class SuspicionChart extends StatelessWidget {
   Widget headerChart(double parentWidth) {
     return Consumer<PlayerViewModel>(builder: (context, model, child) {
       var players = model.playersWithScore();
+      if (players.isEmpty) return const SizedBox.shrink();
       players.sort(
           (a, b) => a.totalSuspicionScore.compareTo(b.totalSuspicionScore));
       final mostLowScore = players.first.totalSuspicionScore;

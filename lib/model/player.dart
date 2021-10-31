@@ -120,7 +120,8 @@ enum PlayerColor {
   coral,
 }
 
-extension PlayerColorExtension on PlayerColor {
+extension PlayerColorEx on PlayerColor {
+  static const myselfColor = PlayerColor.cyan;
   static const int count = 18;
 
   String get imageName => "assets/player/${describeEnum(this)}.png";
