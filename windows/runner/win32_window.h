@@ -7,9 +7,8 @@
 #include <memory>
 #include <string>
 
-#define USE_DEVELOP_MODE
-
-#ifdef USE_DEVELOP_MODE
+#define MODE_DN
+#ifdef MODE_D
 #define IS_DEVELOPING true
 #else
 #define IS_DEVELOPING false
