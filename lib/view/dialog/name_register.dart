@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
+import 'package:kk_amongus_tool/view_model/wnd_view_model.dart';
+import 'package:provider/provider.dart';
 
 class NameRegister extends StatefulWidget {
   final PlayerViewModel _playerModel;
@@ -15,11 +17,16 @@ class NameRegister extends StatefulWidget {
 }
 
 class _NameRegisterState extends State<NameRegister> {
+  static const size = Size(500, 450);
   late List<FieldItem> items;
+  late WndViewModel _wndModel;
 
   @override
   void initState() {
     super.initState();
+    _wndModel = context.read<WndViewModel>();
+    _wndModel.moveWndToRightDown(size.width.toInt(), size.height.toInt());
+
     items = PlayerColor.values.map((color) {
       var player = widget._playerModel.playerOfColor(color);
       final controller = TextEditingController(text: player?.name ?? "");
@@ -50,42 +57,86 @@ class _NameRegisterState extends State<NameRegister> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      children: [
-        SizedBox(
-          width: 660,
-          height: 410,
-          child: GridView.count(
-            crossAxisCount: 6,
-            childAspectRatio: 0.85,
-            crossAxisSpacing: 1,
-            children: List.generate(PlayerColorEx.count, (index) {
-              return gridChild(items[index]);
-            }),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final buttonSkipFocus = FocusNode();
+    buttonSkipFocus.skipTraversal = true;
+    return Scaffold(
+      body: Container(
+        width: size.width,
+        height: size.height,
+        alignment: Alignment.topLeft,
+        child: Column(
           children: [
             SizedBox(
-              width: 100,
-              child: debugButton(),
-            ),
-            Center(
-              child: Text(
-                "プレイヤー数：${widget._playerModel.numberOfPlayers()}",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+              height: 400,
+              child: GridView.count(
+                crossAxisCount: 6,
+                childAspectRatio: 0.65,
+                crossAxisSpacing: 1,
+                children: List.generate(PlayerColorEx.count, (index) {
+                  return gridChild(items[index]);
+                }),
               ),
             ),
-            const SizedBox(
-              width: 100,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: ElevatedButton(
+                    focusNode: buttonSkipFocus,
+                    onPressed: () {
+                      var count = widget._playerModel.numberOfPlayers();
+                      for (final item in items) {
+                        if (item.controller.text.isEmpty) {
+                          item.controller.text = "デバッグ";
+                          count++;
+                          if (15 <= count) {
+                            break;
+                          }
+                        }
+                      }
+                      backToPrevScreen();
+                    },
+                    child: const Text("15人登録"),
+                  ),
+                ),
+                SizedBox(
+                  width: 100,
+                  child: ElevatedButton(
+                    focusNode: buttonSkipFocus,
+                    onPressed: () {
+                      for (var i = 0; i < PlayerColor.values.length; i++) {
+                        final item = items[i];
+                        if (!item.isMyself) item.controller.clear();
+                      }
+                    },
+                    child: const Text("全解除"),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "プレイヤー数：${widget._playerModel.numberOfPlayers()}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 100,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      backToPrevScreen();
+                    },
+                    child: const Text("閉じる"),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 
@@ -95,8 +146,7 @@ class _NameRegisterState extends State<NameRegister> {
     return Column(
       children: [
         SizedBox(
-          height: 35,
-          width: 90,
+          height: 25,
           child: TextField(
             controller: item.controller,
             focusNode: item.focusNode,
@@ -106,29 +156,29 @@ class _NameRegisterState extends State<NameRegister> {
           ),
         ),
         const SizedBox(height: 10),
-        Container(
-          color:
-              item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
-          height: 65,
-          width: MediaQuery.of(context).size.width,
-          child: IconButton(
-            focusNode: skipFocus,
-            onPressed: () {
-              if (item.controller.text.isEmpty) {
-                item.focusNode.requestFocus();
-                item.controller.text = "dummy";
-              } else {
-                item.controller.clear();
-              }
-            },
-            icon: Image.asset(
-              item.color.imageName,
-              fit: BoxFit.contain,
+        Expanded(
+          child: Container(
+            color:
+                item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
+            width: MediaQuery.of(context).size.width,
+            child: IconButton(
+              focusNode: skipFocus,
+              onPressed: () {
+                if (item.controller.text.isEmpty) {
+                  item.focusNode.requestFocus();
+                  item.controller.text = "dummy";
+                } else {
+                  item.controller.clear();
+                }
+              },
+              icon: Image.asset(
+                item.color.imageName,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),
-        SizedBox(
-          height: 20,
+        FittedBox(
           child: Row(
             children: [
               const Text("自キャラ"),
@@ -162,49 +212,9 @@ class _NameRegisterState extends State<NameRegister> {
     );
   }
 
-  Widget debugButton() {
-    return ElevatedButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return SimpleDialog(
-                title: const Text("デバッグ"),
-                children: <Widget>[
-                  // コンテンツ領域
-                  SimpleDialogOption(
-                    onPressed: () {
-                      var count = widget._playerModel.numberOfPlayers();
-                      for (final item in items) {
-                        if (item.controller.text.isEmpty) {
-                          item.controller.text = "デバッグ";
-                          count++;
-                          if (15 <= count) {
-                            break;
-                          }
-                        }
-                      }
-                      Navigator.pop(context);
-                      Navigator.pop(context); // プレイヤー登録ダイアログも閉じる
-                    },
-                    child: const Text("15人登録"),
-                  ),
-                  SimpleDialogOption(
-                    onPressed: () {
-                      for (var i = 0; i < PlayerColor.values.length; i++) {
-                        final item = items[i];
-                        if (!item.isMyself) item.controller.clear();
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: const Text("全解除"),
-                  ),
-                ],
-              );
-            });
-      },
-      child: const Text("デバッグ"),
-    );
+  void backToPrevScreen() {
+    Navigator.of(context).pop();
+    _wndModel.expandWnd();
   }
 }
 

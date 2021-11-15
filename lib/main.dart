@@ -27,25 +27,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'provider demo',
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
-          ChangeNotifierProvider<RoundViewModel>.value(value: _roundModel),
-          ChangeNotifierProvider<RouteViewModel>.value(value: _route),
-          ChangeNotifierProvider<SettingViewModel>(
-            create: (_) => SettingViewModel(),
-          ),
-          ChangeNotifierProvider<TimerViewModel>(
-            create: (_) => TimerViewModel(),
-          ),
-          ChangeNotifierProvider<WndViewModel>(
-            create: (_) => WndViewModel(),
-          ),
-        ],
-        child: Scaffold(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
+        ChangeNotifierProvider<RoundViewModel>.value(value: _roundModel),
+        ChangeNotifierProvider<RouteViewModel>.value(value: _route),
+        ChangeNotifierProvider<SettingViewModel>(
+          create: (_) => SettingViewModel(),
+        ),
+        ChangeNotifierProvider<TimerViewModel>(
+          create: (_) => TimerViewModel(),
+        ),
+        ChangeNotifierProvider<WndViewModel>(
+          create: (_) => WndViewModel(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'provider demo',
+        home: Scaffold(
           body: HomeScreen(),
         ),
       ),

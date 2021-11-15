@@ -66,4 +66,24 @@ class WndViewModel with ChangeNotifier {
     SetWindowPos(
         appWnd, 0, -1, -1, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
   }
+
+  void moveWndToRightDown(int width, int height) {
+    _dateToStopShrinking = DateTime.now()
+        .add(const Duration(milliseconds: _minShrinkIntervalMsec));
+
+    final desktopWnd = GetDesktopWindow();
+    final desktopRect = calloc<RECT>();
+    GetClientRect(desktopWnd, desktopRect);
+
+    final appWnd = FindWindowEx(0, 0, nullptr, TEXT("kk_amongus_tool"));
+    final appRect = calloc<RECT>();
+    GetWindowRect(appWnd, appRect);
+
+    int dx = desktopRect.ref.width() - width;
+    int dy = desktopRect.ref.height() - height;
+    // 移動後に操作しやすいようにカーソル移動
+    SetCursorPos(dx + width ~/ 2, dy + height ~/ 2);
+    SetWindowPos(
+        appWnd, 0, dx, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+  }
 }

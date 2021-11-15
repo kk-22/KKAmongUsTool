@@ -160,12 +160,9 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 13),
             ),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return NameRegister(playerModel);
-                },
-              );
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return NameRegister(playerModel);
+              }));
             },
           ),
         ],
