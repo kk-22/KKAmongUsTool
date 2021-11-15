@@ -8,8 +8,8 @@ class Player with ChangeNotifier {
   final PlayerColor color;
 
   var isMyself = false;
-  var totalSuspicionScore = 0;
-  var subjectiveSuspicionScore = 0;
+  var totalSuspicionScore = 0; // subjectiveSuspicionScore を含む
+  var subjectiveSuspicionScore = 0; // 主観疑惑度ポイント
   CauseOfDeath? _caseOfDeath;
   int? _usedButtonOrder; // ボタンを使用した順番。未使用ならnull。1番目の値は0
   List<Offset> offsets = <Offset>[]; // ラウンド毎の位置

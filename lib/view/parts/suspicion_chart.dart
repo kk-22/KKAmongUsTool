@@ -49,17 +49,19 @@ class SuspicionChart extends StatelessWidget {
               builder: (context, child) {
                 final player = Provider.of<Player>(context, listen: false);
                 Color color;
-                if (2 <= player.totalSuspicionScore) {
-                  color = Colors.white;
-                } else if (1 == player.totalSuspicionScore) {
-                  color = Colors.black12;
-                } else if (0 == player.totalSuspicionScore) {
-                  color = Colors.black26;
+                final score = player.totalSuspicionScore;
+                if (1 <= score) {
+                  color = Colors.white; // 自分目線白確定
+                } else if (mostLowScore == 0) {
+                  color = Colors.grey; // 事件未発生
+                } else if (mostLowScore == score) {
+                  color = Colors.black; // 筆頭容疑者
                 } else {
-                  double ratio = min(
-                      1.0,
-                      max(0.0,
-                          ((player.totalSuspicionScore) / mostLowScore).abs()));
+                  var ratio = max(0.1, (score / mostLowScore).abs());
+                  if (-10 < mostLowScore) {
+                    // 色の違いが目立つようにマイナス補正
+                    ratio = max(0.1, ratio - 0.2);
+                  }
                   color = Color.fromARGB((ratio * 255).toInt(), 0, 0, 0);
                 }
                 return Container(

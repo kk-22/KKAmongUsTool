@@ -152,19 +152,12 @@ class PlayerViewModel extends ChangeNotifier {
           .toList();
     }).toList();
 
-    final imposterCount = _players.length <= 6 ? 1 : _players.length ~/ 6 + 1;
-    final hasAllWhiteAdditionalPoint = imposterCount * 2 <= blackLists.length;
     for (final player in players) {
       var score = 0;
-      var isNotSuspect = true; // 容疑者に一切入ってなければ true
       for (final blackList in blackLists) {
         if (blackList.contains(player)) {
-          isNotSuspect = false;
           score -= 2; // 容疑者である
         }
-      }
-      if (isNotSuspect && hasAllWhiteAdditionalPoint) {
-        score += 2; // 全死体の容疑者ではない
       }
       score += player.subjectiveSuspicionScore;
       player.totalSuspicionScore = score;
