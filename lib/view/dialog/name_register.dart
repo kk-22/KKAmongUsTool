@@ -153,9 +153,6 @@ class _NameRegisterState extends State<NameRegister> {
           child: TextField(
             controller: item.controller,
             focusNode: item.focusNode,
-            decoration: const InputDecoration(
-              hintText: "name",
-            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -168,7 +165,7 @@ class _NameRegisterState extends State<NameRegister> {
               onPressed: () {
                 if (isEmpty) {
                   item.focusNode.requestFocus();
-                  item.controller.text = "dummy";
+                  item.controller.text = "Name";
                 } else {
                   item.controller.clear();
                 }
