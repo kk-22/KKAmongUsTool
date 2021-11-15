@@ -56,6 +56,12 @@ class _NameRegisterState extends State<NameRegister> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    items.first.focusNode.requestFocus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final buttonSkipFocus = FocusNode();
     buttonSkipFocus.skipTraversal = true;
