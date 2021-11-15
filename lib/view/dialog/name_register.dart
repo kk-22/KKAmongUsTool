@@ -143,6 +143,7 @@ class _NameRegisterState extends State<NameRegister> {
   Widget gridChild(FieldItem item) {
     final skipFocus = FocusNode();
     skipFocus.skipTraversal = true;
+    final isEmpty = item.controller.text.isEmpty;
     return Column(
       children: [
         SizedBox(
@@ -158,13 +159,12 @@ class _NameRegisterState extends State<NameRegister> {
         const SizedBox(height: 10),
         Expanded(
           child: Container(
-            color:
-                item.controller.text.isEmpty ? Colors.grey : Colors.transparent,
+            color: isEmpty ? Colors.grey : Colors.transparent,
             width: MediaQuery.of(context).size.width,
             child: IconButton(
               focusNode: skipFocus,
               onPressed: () {
-                if (item.controller.text.isEmpty) {
+                if (isEmpty) {
                   item.focusNode.requestFocus();
                   item.controller.text = "dummy";
                 } else {
@@ -178,35 +178,40 @@ class _NameRegisterState extends State<NameRegister> {
             ),
           ),
         ),
-        FittedBox(
-          child: Row(
-            children: [
-              const Text("自キャラ"),
-              Switch(
-                value: item.isMyself,
-                focusNode: skipFocus,
-                onChanged: item.controller.text.isEmpty
-                    ? null
-                    : (bool value) {
-                        setState(() {
-                          PlayerColor? prevColor, nextColor;
-                          if (value) {
-                            nextColor = item.color;
-                            final prevItem = items.firstWhereOrNull(
-                                (element) => element.isMyself);
-                            prevItem?.isMyself = false;
-                            prevColor = prevItem?.color;
-                          } else {
-                            prevColor = item.color;
-                          }
-                          item.isMyself = value;
-                          widget._playerModel
-                              .changeMySelf(nextColor, prevColor);
-                        });
-                      },
-              ),
-            ],
-          ),
+        SizedBox(
+          height: 30,
+          child: isEmpty
+              ? const SizedBox.shrink()
+              : FittedBox(
+                  child: Row(
+                    children: [
+                      const Text("自キャラ"),
+                      Switch(
+                        value: item.isMyself,
+                        focusNode: skipFocus,
+                        onChanged: item.controller.text.isEmpty
+                            ? null
+                            : (bool value) {
+                                setState(() {
+                                  PlayerColor? prevColor, nextColor;
+                                  if (value) {
+                                    nextColor = item.color;
+                                    final prevItem = items.firstWhereOrNull(
+                                        (element) => element.isMyself);
+                                    prevItem?.isMyself = false;
+                                    prevColor = prevItem?.color;
+                                  } else {
+                                    prevColor = item.color;
+                                  }
+                                  item.isMyself = value;
+                                  widget._playerModel
+                                      .changeMySelf(nextColor, prevColor);
+                                });
+                              },
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ],
     );
