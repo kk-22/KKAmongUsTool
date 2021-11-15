@@ -59,12 +59,11 @@ class WndViewModel with ChangeNotifier {
     final appRect = calloc<RECT>();
     GetWindowRect(appWnd, appRect);
 
-    int dy = (desktopRect.ref.height() - appRect.ref.height()) ~/ 2;
-
     // カーソルがアプリから外れないように事前に移動
     SetCursorPos(appRect.ref.width() ~/ 2,
         (desktopRect.ref.height().toInt() * 0.35).toInt());
+    // 画面左上に隙間無く配置するために-1ずらす
     SetWindowPos(
-        appWnd, 0, 0, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        appWnd, 0, -1, -1, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
   }
 }
