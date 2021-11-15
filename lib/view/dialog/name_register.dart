@@ -62,12 +62,14 @@ class _NameRegisterState extends State<NameRegister> {
     return Scaffold(
       body: Container(
         width: size.width,
-        height: size.height,
+        height: size.height - 40,
+        margin: const EdgeInsets.only(bottom: 40),
+        // Windowの下部バーとボタンが重ならないようにする
         alignment: Alignment.topLeft,
         child: Column(
           children: [
             SizedBox(
-              height: 400,
+              height: 380,
               child: GridView.count(
                 crossAxisCount: 6,
                 childAspectRatio: 0.65,
