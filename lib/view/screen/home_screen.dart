@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/dialog/map_selector.dart';
@@ -19,7 +21,7 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const rightAreaWidth = 550.0;
-  static const buttonBarWidth = 300.0;
+  static const buttonBarWidth = 320.0;
   static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
   static const overlayBarHeight = 50.0;
   static const buttonBarHeight = 28.0;
@@ -111,6 +113,31 @@ class HomeScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             child: const Text(
+              "終了",
+              style: TextStyle(fontSize: 13),
+            ),
+            onPressed: () async {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("終了確認"),
+                    content: const Text("AmongUsToolを終了しますか？"),
+                    actions: [
+                      ElevatedButton(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          exit(0);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          ElevatedButton(
+            child: const Text(
               "マップ変更",
               style: TextStyle(fontSize: 13),
             ),
@@ -123,7 +150,7 @@ class HomeScreen extends StatelessWidget {
               );
               if (mapPath != null) {
                 final setting =
-                    Provider.of<SettingViewModel>(context, listen: false);
+                Provider.of<SettingViewModel>(context, listen: false);
                 setting.changeMap(mapPath);
               }
             },
@@ -156,7 +183,7 @@ class HomeScreen extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text(
-              "プレイヤー登録",
+              "名前登録",
               style: TextStyle(fontSize: 13),
             ),
             onPressed: () {
