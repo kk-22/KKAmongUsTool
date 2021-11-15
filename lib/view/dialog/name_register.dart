@@ -32,6 +32,9 @@ class _NameRegisterState extends State<NameRegister> {
       final controller = TextEditingController(text: player?.name ?? "");
       controller.addListener(() {
         widget._playerModel.changeName(controller.text, color);
+        if (controller.text.isEmpty) {
+          items[color.index].isMyself = false;
+        }
         setState(() {});
       });
       final item = FieldItem(color, controller);
@@ -96,7 +99,7 @@ class _NameRegisterState extends State<NameRegister> {
                       var count = widget._playerModel.numberOfPlayers();
                       for (final item in items) {
                         if (item.controller.text.isEmpty) {
-                          item.controller.text = "デバッグ";
+                          item.controller.text = "Name";
                           count++;
                           if (15 <= count) {
                             break;
@@ -174,6 +177,7 @@ class _NameRegisterState extends State<NameRegister> {
                   item.controller.text = "Name";
                 } else {
                   item.controller.clear();
+                  item.isMyself = false;
                 }
               },
               icon: Image.asset(
