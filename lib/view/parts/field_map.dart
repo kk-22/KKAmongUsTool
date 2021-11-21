@@ -37,11 +37,30 @@ class FieldMap extends StatelessWidget {
       return Consumer2<PlayerViewModel, RoundViewModel>(
           builder: (context, model, round, child) {
         final players = model.survivingPlayers(true);
+        for (int i = 0; i < players.length; i++) {
+          // プレイヤー初期位置
+          final player = players[i];
+          var offset = player.offsets[round.currentRound];
+          if (offset != Offset.zero) {
+            continue;
+          }
+          int numberOfLine = i ~/ 5;
+          final startDx = constraints.maxWidth - PlayerWidget.size.width * 5;
+          offset = Offset(startDx + PlayerWidget.size.width * (i % 5),
+              10.0 + 50 * numberOfLine);
+          player.offsets[round.currentRound] = offset;
+          for (int j = i + 1; j < players.length; j++) {
+            final nextPlayer = players[j];
+            if (offset == nextPlayer.offsets[round.currentRound]) {
+              nextPlayer.offsets[round.currentRound] = Offset.zero;
+            }
+          }
+        }
+
         List<Widget> list = List.generate(players.length, (index) {
           return ChangeNotifierProvider<Player>.value(
             value: players[index],
-            child: MapPlayerIcon(
-                index, model, round, _globalKey, constraints.maxWidth),
+            child: MapPlayerIcon(index, model, round, _globalKey),
           );
         });
         list.insert(0, mapImage);
@@ -79,25 +98,16 @@ class MapPlayerIcon extends StatelessWidget {
   final PlayerViewModel _playerModel;
   final RoundViewModel _roundModel;
   final GlobalKey mapKey;
-  final double _maxWidth;
 
-  const MapPlayerIcon(this.index, this._playerModel, this._roundModel,
-      this.mapKey, this._maxWidth,
+  const MapPlayerIcon(
+      this.index, this._playerModel, this._roundModel, this.mapKey,
       {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final player = Provider.of<Player>(context);
-    var offset = player.offsets[_roundModel.currentRound];
-    if (offset == Offset.zero) {
-      // プレイヤー初期位置
-      int numberOfLine = index ~/ 5;
-      final startDx = _maxWidth - PlayerWidget.size.width * 5;
-      offset = Offset(startDx + PlayerWidget.size.width * (index % 5),
-          10.0 + 50 * numberOfLine);
-      player.offsets[_roundModel.currentRound] = offset;
-    }
+    final offset = player.offsets[_roundModel.currentRound];
     return Positioned(
       top: offset.dy,
       left: offset.dx,
