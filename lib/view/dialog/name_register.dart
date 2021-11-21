@@ -158,10 +158,14 @@ class _NameRegisterState extends State<NameRegister> {
     return Column(
       children: [
         SizedBox(
-          height: 25,
+          height: 22,
           child: TextField(
             controller: item.controller,
             focusNode: item.focusNode,
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+              isDense: true,
+            ),
           ),
         ),
         const SizedBox(height: 10),
