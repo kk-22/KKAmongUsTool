@@ -8,8 +8,11 @@ class TimerViewModel with ChangeNotifier {
   int _elapsedSec = _startSec;
   int _prevElapsedSec = 0;
   Timer? _timer;
+  final List<int> _logSecs = [];
 
   int get elapsedSec => _elapsedSec;
+
+  List<int> get logSecs => _logSecs;
 
   void didShrinkApp() {
     _startTimerIfNeeded();
@@ -23,13 +26,19 @@ class TimerViewModel with ChangeNotifier {
   }
 
   void addSec(int sec) {
-    // タイマー実行中の操作可能
-    if (_timer != null && _timer!.isActive) {
-      _updateSec(_elapsedSec + sec);
-      // 操作直後にタイマーで値が変わると違和感があるため再設定する
-      _timer?.cancel();
-      _fireTimer();
-    }
+    _updateSec(_elapsedSec + sec);
+    // 操作直後にタイマーで値が変わると違和感があるため再設定する
+    _timer?.cancel();
+    _fireTimer();
+  }
+
+  void resetTimer() {
+    _logSecs.clear();
+    _updateSec(0);
+  }
+
+  bool isActiveTimer() {
+    return _timer != null && _timer!.isActive;
   }
 
   void _startTimerIfNeeded() {
@@ -51,9 +60,11 @@ class TimerViewModel with ChangeNotifier {
   }
 
   void _stopTimerIfNeeded() {
-    if (_timer != null && _timer!.isActive) {
+    if (isActiveTimer()) {
       _timer?.cancel();
       _timer = null;
+
+      _logSecs.add(_elapsedSec);
     }
   }
 

@@ -10,7 +10,6 @@ class KillTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timerModel = context.read<TimerViewModel>();
     return SizedBox(
       height: HomeScreen.overlayBarHeight,
       width: 50,
@@ -48,7 +47,7 @@ class KillTimer extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => timerModel.addSec(-5),
+                  onPressed: () => didTapButton(context, false),
                   child: const SizedBox.shrink(),
                   style: ElevatedButton.styleFrom(
                     elevation: 0.0,
@@ -58,7 +57,7 @@ class KillTimer extends StatelessWidget {
               ),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => timerModel.addSec(5),
+                  onPressed: () => didTapButton(context, true),
                   child: const SizedBox.shrink(),
                   style: ElevatedButton.styleFrom(
                     elevation: 0.0,
@@ -70,6 +69,30 @@ class KillTimer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void didTapButton(BuildContext context, bool isRight) {
+    final timerModel = context.read<TimerViewModel>();
+    if (timerModel.isActiveTimer()) {
+      timerModel.addSec(isRight ? 5 : -5);
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (_) {
+        final logSecs = timerModel.logSecs;
+        return AlertDialog(
+          title: const Text("過去のキルタイマー"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: List.generate(logSecs.length, (index) {
+                return Text("${logSecs[index]}");
+              }),
+            ),
+          ),
+        );
+      },
     );
   }
 }

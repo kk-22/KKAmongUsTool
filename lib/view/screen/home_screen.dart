@@ -101,7 +101,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget blueButtonBar(BuildContext context) {
-    final playerModel = Provider.of<PlayerViewModel>(context, listen: false);
+    final timerModel = context.read<TimerViewModel>();
+    final playerModel = context.read<PlayerViewModel>();
     return Container(
       width: buttonBarWidth,
       height: buttonBarHeight,
@@ -172,6 +173,7 @@ class HomeScreen extends StatelessWidget {
                         child: const Text("OK"),
                         onPressed: () {
                           playerModel.resetRound();
+                          timerModel.resetTimer();
                           Navigator.pop(context);
                         },
                       ),
