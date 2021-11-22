@@ -18,12 +18,17 @@ class SuspicionChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return TextButton(
+      return ElevatedButton(
         onPressed: () {
           context.read<WndViewModel>().expandWnd();
           final timerModel = context.read<TimerViewModel>();
           timerModel.didExpandApp();
         },
+        style: ElevatedButton.styleFrom(
+          elevation: 0.0,
+          padding: const EdgeInsets.all(0),
+          primary: Colors.red.withOpacity(0),
+        ),
         child: Container(
           height: HomeScreen.overlayBarHeight,
           color: Colors.white,
