@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const rightAreaWidth = 550.0;
-  static const buttonBarWidth = 320.0;
+  static const buttonBarWidth = 300.0;
   static const totalBarHeight = overlayBarHeight + buttonBarHeight * 2;
   static const overlayBarHeight = 50.0;
   static const buttonBarHeight = 28.0;
@@ -84,6 +84,31 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      ElevatedButton(
+                        child: const Text(
+                          "終了",
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: const Text("終了確認"),
+                                content: const Text("AmongUsToolを終了しますか？"),
+                                actions: [
+                                  ElevatedButton(
+                                    child: const Text("OK"),
+                                    onPressed: () {
+                                      exit(0);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                       const Expanded(child: RouteController()),
                       partitionLine(buttonBarHeight),
                       const Expanded(child: RoundSelector()),
@@ -112,31 +137,6 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton(
-            child: const Text(
-              "終了",
-              style: TextStyle(fontSize: 13),
-            ),
-            onPressed: () async {
-              showDialog(
-                context: context,
-                builder: (_) {
-                  return AlertDialog(
-                    title: const Text("終了確認"),
-                    content: const Text("AmongUsToolを終了しますか？"),
-                    actions: [
-                      ElevatedButton(
-                        child: const Text("OK"),
-                        onPressed: () {
-                          exit(0);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
           ElevatedButton(
             child: const Text(
               "マップ変更",
@@ -209,6 +209,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              partitionLine(overlayBarHeight),
               const PlayerCounter(),
               partitionLine(overlayBarHeight),
               Column(
@@ -219,6 +220,7 @@ class HomeScreen extends StatelessWidget {
               ),
               partitionLine(overlayBarHeight),
               const KillTimer(),
+              partitionLine(overlayBarHeight),
             ],
           ),
         ),
