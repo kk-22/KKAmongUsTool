@@ -1,18 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 
 class TimerViewModel with ChangeNotifier {
   static const _startSec = -10;
   static const _minInterval = 15; // 下回ったら前回の秒数に戻す
+  final RoundViewModel _roundModel;
   int _elapsedSec = _startSec;
   int _prevElapsedSec = 0;
   Timer? _timer;
-  final List<int> _logSecs = [];
+  final List<String> _elapsedLogs = [];
+
+  TimerViewModel(this._roundModel);
 
   int get elapsedSec => _elapsedSec;
 
-  List<int> get logSecs => _logSecs;
+  List<String> get elapsedLogs => _elapsedLogs;
 
   void didShrinkApp() {
     _startTimerIfNeeded();
@@ -33,7 +37,7 @@ class TimerViewModel with ChangeNotifier {
   }
 
   void resetTimer() {
-    _logSecs.clear();
+    _elapsedLogs.clear();
     _updateSec(0);
   }
 
@@ -64,7 +68,7 @@ class TimerViewModel with ChangeNotifier {
       _timer?.cancel();
       _timer = null;
 
-      _logSecs.add(_elapsedSec);
+      _elapsedLogs.add("${_roundModel.lastRound + 2} : $_elapsedSec秒");
     }
   }
 

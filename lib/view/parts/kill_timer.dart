@@ -81,13 +81,13 @@ class KillTimer extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) {
-        final logSecs = timerModel.logSecs;
+        final logSecs = timerModel.elapsedLogs;
         return AlertDialog(
           title: const Text("過去のキルタイマー"),
           content: SingleChildScrollView(
             child: ListBody(
               children: List.generate(logSecs.length, (index) {
-                return Text("${logSecs[index]}");
+                return Text(logSecs[index]);
               }),
             ),
           ),

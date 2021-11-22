@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           create: (_) => SettingViewModel(),
         ),
         ChangeNotifierProvider<TimerViewModel>(
-          create: (_) => TimerViewModel(),
+          create: (_) => TimerViewModel(_roundModel),
         ),
         ChangeNotifierProvider<WndViewModel>(
           create: (_) => WndViewModel(),
