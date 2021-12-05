@@ -18,7 +18,7 @@ class RouteController extends StatelessWidget {
           IconButton(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
               constraints: const BoxConstraints(),
-              onPressed: () => route.clear(false),
+              onPressed: () => route.clearOfColor(),
               icon: Image.asset("assets/icon/trash_box.png")),
           IconButton(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),

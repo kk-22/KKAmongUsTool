@@ -44,7 +44,7 @@ class PlayerViewModel extends ChangeNotifier {
       player.resetWithNewRound();
     }
     _roundModel.reset();
-    _movingRoute.clear(true);
+    _movingRoute.clear();
     cancelSelectingColor();
     notifyListeners();
   }

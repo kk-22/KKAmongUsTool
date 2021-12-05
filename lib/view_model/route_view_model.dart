@@ -52,20 +52,26 @@ class RouteViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void clear(bool allRound) {
+  void clearOfColor() {
+    // 現在のラウンドから選択中の色を削除
+    _currentRoundRoute.undoStrokes.clear();
+    for (var i = _currentRoundRoute.strokes.length - 1; 0 <= i; i--) {
+      final stroke = _currentRoundRoute.strokes[i];
+      if (stroke.color == _selectingColor) {
+        _currentRoundRoute.strokes.remove(stroke);
+        // 間違えた場合に進むボタンで復元できるようにundoに残す
+        _currentRoundRoute.undoStrokes.add(stroke);
+      }
+    }
+    notifyListeners();
+  }
+
+  void clear() {
     if (isDragging) {
       return;
     }
-    if (allRound) {
-      for (var element in _roundRoutes) {
-        element.clear();
-      }
-    } else {
-      // 現在のラウンドだけ削除。間違えた場合に戻せるようにundoに残す
-      _currentRoundRoute.undoStrokes.clear();
-      _currentRoundRoute.undoStrokes
-          .addAll(_currentRoundRoute.strokes.reversed);
-      _currentRoundRoute.strokes.clear();
+    for (var element in _roundRoutes) {
+      element.clear();
     }
     notifyListeners();
   }
