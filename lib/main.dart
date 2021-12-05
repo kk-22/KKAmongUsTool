@@ -19,10 +19,12 @@ class MyApp extends StatelessWidget {
   final _roundModel = RoundViewModel();
   late final RouteViewModel _route;
   late final PlayerViewModel _playerModel;
+  late final WndViewModel _wndModel;
 
   MyApp({Key? key}) : super(key: key) {
     _route = RouteViewModel(_roundModel);
     _playerModel = PlayerViewModel(_roundModel, _route);
+    _wndModel = WndViewModel();
   }
 
   @override
@@ -32,14 +34,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<PlayerViewModel>.value(value: _playerModel),
         ChangeNotifierProvider<RoundViewModel>.value(value: _roundModel),
         ChangeNotifierProvider<RouteViewModel>.value(value: _route),
+        ChangeNotifierProvider<WndViewModel>.value(value: _wndModel),
         ChangeNotifierProvider<SettingViewModel>(
           create: (_) => SettingViewModel(),
         ),
         ChangeNotifierProvider<TimerViewModel>(
-          create: (_) => TimerViewModel(_roundModel),
-        ),
-        ChangeNotifierProvider<WndViewModel>(
-          create: (_) => WndViewModel(),
+          create: (_) => TimerViewModel(_roundModel, _wndModel),
         ),
       ],
       child: MaterialApp(

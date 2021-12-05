@@ -27,6 +27,14 @@ class WndViewModel with ChangeNotifier {
     return false;
   }
 
+  void activeGameWnd() {
+    // AmongUs をアクティブウィンドウにする
+    int gameWnd = FindWindowEx(0, 0, nullptr, TEXT("Among Us"));
+    if (0 < gameWnd) {
+      SetForegroundWindow(gameWnd);
+    }
+  }
+
   void _shrinkWnd() {
     final desktopWnd = GetDesktopWindow();
     final desktopRect = calloc<RECT>();
@@ -40,11 +48,7 @@ class WndViewModel with ChangeNotifier {
     SetWindowPos(
         appWnd, 0, dx, dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
 
-    // AmongUs をアクティブウィンドウにする
-    int gameWnd = FindWindowEx(0, 0, nullptr, TEXT("Among Us"));
-    if (0 < gameWnd) {
-      SetForegroundWindow(gameWnd);
-    }
+    activeGameWnd();
   }
 
   void expandWnd() {
