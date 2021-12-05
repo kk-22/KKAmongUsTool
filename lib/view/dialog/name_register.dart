@@ -34,6 +34,17 @@ class _NameRegisterState extends State<NameRegister> {
         widget._playerModel.changeName(controller.text, color);
         if (controller.text.isEmpty) {
           items[color.index].isMyself = false;
+        } else {
+          // 名前が重複したプレイヤーを探す
+          final sameNameItem = items.firstWhereOrNull((element) {
+            return element.controller.text == controller.text &&
+                element.color != color;
+          });
+          if (sameNameItem != null) {
+            // 名前が重複したプレイヤーを消す
+            items[color.index].isMyself = sameNameItem.isMyself;
+            sameNameItem.controller.text = "";
+          }
         }
         setState(() {});
       });
@@ -99,7 +110,7 @@ class _NameRegisterState extends State<NameRegister> {
                       var count = widget._playerModel.numberOfPlayers();
                       for (final item in items) {
                         if (item.controller.text.isEmpty) {
-                          item.controller.text = "Name";
+                          item.controller.text = "name${count + 1}";
                           count++;
                           if (15 <= count) {
                             break;
@@ -178,7 +189,7 @@ class _NameRegisterState extends State<NameRegister> {
               onPressed: () {
                 if (isEmpty) {
                   item.focusNode.requestFocus();
-                  item.controller.text = "Name";
+                  item.controller.text = "name";
                 } else {
                   item.controller.clear();
                   item.isMyself = false;
