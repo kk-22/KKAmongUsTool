@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kk_amongus_tool/view/screen/home_screen.dart';
 import 'package:kk_amongus_tool/view_model/setting_view_model.dart';
+import 'package:kk_amongus_tool/view_model/wnd_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CoolTimeList extends StatelessWidget {
@@ -20,12 +21,14 @@ class CoolTimeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final setting = Provider.of<SettingViewModel>(context);
+    final wnd = Provider.of<WndViewModel>(context);
     return Container(
       color: Colors.white,
       width: 85,
       height: _minHeight,
       child: TextButton(
         onPressed: () async {
+          if (wnd.isShrinking) return;
           final int? value = await showDialog<int>(
             context: context,
             builder: (context) {

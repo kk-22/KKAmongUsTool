@@ -12,6 +12,9 @@ class WndViewModel with ChangeNotifier {
 
   var _isDeveloping = false;
   var _dateToStopShrinking = DateTime.now(); // この日時より前なら縮小させない
+  var _isShrinking = false;
+
+  get isShrinking => _isShrinking;
 
   WndViewModel() {
     const MethodChannel('jp.co.kk22/amongustool')
@@ -36,6 +39,7 @@ class WndViewModel with ChangeNotifier {
   }
 
   void _shrinkWnd() {
+    _isShrinking = true;
     final desktopWnd = GetDesktopWindow();
     final desktopRect = calloc<RECT>();
     GetClientRect(desktopWnd, desktopRect);
@@ -52,6 +56,7 @@ class WndViewModel with ChangeNotifier {
   }
 
   void expandWnd() {
+    _isShrinking = false;
     _dateToStopShrinking = DateTime.now()
         .add(const Duration(milliseconds: _minShrinkIntervalMsec));
 
