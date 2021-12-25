@@ -48,6 +48,7 @@ class KillTimer extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () => didTapButton(context, false),
+                  onLongPress: () => didLongTapButton(context),
                   child: const SizedBox.shrink(),
                   style: ElevatedButton.styleFrom(
                     elevation: 0.0,
@@ -58,6 +59,7 @@ class KillTimer extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () => didTapButton(context, true),
+                  onLongPress: () => didLongTapButton(context),
                   child: const SizedBox.shrink(),
                   style: ElevatedButton.styleFrom(
                     elevation: 0.0,
@@ -94,5 +96,10 @@ class KillTimer extends StatelessWidget {
         );
       },
     );
+  }
+
+  void didLongTapButton(BuildContext context) {
+    final timerModel = context.read<TimerViewModel>();
+    timerModel.restartTimer();
   }
 }

@@ -26,7 +26,7 @@ class TimerViewModel with ChangeNotifier {
   }
 
   void didExpandApp() {
-    _stopTimerIfNeeded();
+    _finishTimerIfNeeded();
     if (_elapsedSec < _minInterval) {
       _updateSec(_prevElapsedSec);
     }
@@ -40,7 +40,12 @@ class TimerViewModel with ChangeNotifier {
     _wndModel.activeGameWnd();
   }
 
-  void resetTimer() {
+  void restartTimer() {
+    _stopTimerIfNeeded();
+    _startTimerIfNeeded();
+  }
+
+  void clearTimer() {
     _elapsedLogs.clear();
     _updateSec(0);
   }
@@ -61,17 +66,21 @@ class TimerViewModel with ChangeNotifier {
   void _fireTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
-          (Timer timer) {
+      (Timer timer) {
         _updateSec(_elapsedSec + 1);
       },
     );
   }
 
-  void _stopTimerIfNeeded() {
-    if (isActiveTimer()) {
-      _timer?.cancel();
-      _timer = null;
+  bool _stopTimerIfNeeded() {
+    if (!isActiveTimer()) return false;
+    _timer?.cancel();
+    _timer = null;
+    return true;
+  }
 
+  void _finishTimerIfNeeded() {
+    if (_stopTimerIfNeeded()) {
       if (_minInterval <= _elapsedSec) {
         _elapsedLogs.add("${_roundModel.lastRound + 2} : $_elapsedSec秒");
       }

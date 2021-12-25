@@ -173,7 +173,7 @@ class HomeScreen extends StatelessWidget {
                         child: const Text("OK"),
                         onPressed: () {
                           playerModel.resetRound();
-                          timerModel.resetTimer();
+                          timerModel.clearTimer();
                           Navigator.pop(context);
                         },
                       ),
