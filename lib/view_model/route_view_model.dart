@@ -34,6 +34,10 @@ class RouteViewModel with ChangeNotifier {
     if (isDragging || !canUndo) {
       return;
     }
+    if (clearOfColor(false)) {
+      // 選択中の色が描画されていればそれを削除
+      return;
+    }
     // _strokes の最後を _undoStrokes へ移動
     final _last = _currentRoundRoute.strokes.last;
     _currentRoundRoute.undoStrokes.add(_last);
@@ -52,18 +56,29 @@ class RouteViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearOfColor() {
-    // 現在のラウンドから選択中の色を削除
-    _currentRoundRoute.undoStrokes.clear();
+  // 現在のラウンドから選択中の色を削除
+  bool clearOfColor(bool isAll) {
+    if (isAll) {
+      _currentRoundRoute.undoStrokes.clear();
+    }
+    int clearCount = 0;
     for (var i = _currentRoundRoute.strokes.length - 1; 0 <= i; i--) {
       final stroke = _currentRoundRoute.strokes[i];
       if (stroke.color == _selectingColor) {
+        clearCount++;
         _currentRoundRoute.strokes.remove(stroke);
         // 間違えた場合に進むボタンで復元できるようにundoに残す
         _currentRoundRoute.undoStrokes.add(stroke);
+        if (!isAll) {
+          break;
+        }
       }
     }
-    notifyListeners();
+    if (0 < clearCount) {
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
   void clear() {
