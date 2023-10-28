@@ -6,6 +6,7 @@ class MapSelector extends StatelessWidget {
     "MIRA HQ",
     "Polus",
     "TheAirship",
+    "Fungle",
   ];
   static final defaultMapPath = _mapPath(_maps.last);
 
