@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'view/screen/home_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
