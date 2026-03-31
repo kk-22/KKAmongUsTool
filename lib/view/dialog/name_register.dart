@@ -31,6 +31,11 @@ class _NameRegisterState extends State<NameRegister> {
       var player = widget._playerModel.playerOfColor(color);
       final controller = TextEditingController(text: player?.name ?? "");
       controller.addListener(() {
+        final item = items[color.index];
+        if (!item.isEnabled) {
+          setState(() {});
+          return;
+        }
         widget._playerModel.changeName(controller.text, color);
         if (controller.text.isEmpty) {
           items[color.index].isMyself = false;
@@ -50,6 +55,7 @@ class _NameRegisterState extends State<NameRegister> {
       });
       final item = FieldItem(color, controller);
       item.isMyself = player?.isMyself ?? false;
+      item.isEnabled = player != null;
       item.focusNode.addListener(() {
         if (item.focusNode.hasFocus) {
           controller.selection = TextSelection(
@@ -166,6 +172,7 @@ class _NameRegisterState extends State<NameRegister> {
     final skipFocus = FocusNode();
     skipFocus.skipTraversal = true;
     final isEmpty = item.controller.text.isEmpty;
+    final isOff = isEmpty || !item.isEnabled;
     return Column(
       children: [
         SizedBox(
@@ -182,17 +189,25 @@ class _NameRegisterState extends State<NameRegister> {
         const SizedBox(height: 10),
         Expanded(
           child: Container(
-            color: isEmpty ? Colors.grey : Colors.transparent,
+            color: isOff ? Colors.grey : Colors.transparent,
             width: MediaQuery.of(context).size.width,
             child: IconButton(
               focusNode: skipFocus,
               onPressed: () {
                 if (isEmpty) {
+                  // 名前なし → フォーカスしてデフォルト名を入力
                   item.focusNode.requestFocus();
                   item.controller.text = "name";
-                } else {
-                  item.controller.clear();
+                  setState(() { item.isEnabled = true; });
+                } else if (item.isEnabled) {
+                  // 名前あり・オン → オフにする（名前は保持）
+                  setState(() { item.isEnabled = false; });
                   item.isMyself = false;
+                  widget._playerModel.changeName("", item.color);
+                } else {
+                  // 名前あり・オフ → オンにする
+                  setState(() { item.isEnabled = true; });
+                  widget._playerModel.changeName(item.controller.text, item.color);
                 }
               },
               icon: Image.asset(
@@ -204,7 +219,7 @@ class _NameRegisterState extends State<NameRegister> {
         ),
         SizedBox(
           height: 30,
-          child: isEmpty
+          child: (isEmpty || !item.isEnabled)
               ? const SizedBox.shrink()
               : FittedBox(
                   child: Row(
@@ -252,6 +267,7 @@ class FieldItem {
   final TextEditingController controller;
   final focusNode = FocusNode();
   var isMyself = false;
+  var isEnabled = false;
 
   FieldItem(this.color, this.controller);
 }
