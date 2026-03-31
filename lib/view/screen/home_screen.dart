@@ -48,10 +48,10 @@ class HomeScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: _stackedWidget(context),
           ),
-          SizedBox(
+          const SizedBox(
             width: rightAreaWidth,
             child: Column(
-              children: const [
+              children: [
                 SuspicionChart(),
                 Expanded(child: KilledChart()),
               ],
@@ -137,62 +137,71 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton(
-            child: const Text(
-              "マップ変更",
-              style: TextStyle(fontSize: 13),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+              child: const Text(
+                "マップ変更",
+                style: TextStyle(fontSize: 13),
+              ),
+              onPressed: () async {
+                final String? mapPath = await showDialog<String>(
+                  context: context,
+                  builder: (context) {
+                    return const MapSelector();
+                  },
+                );
+                if (mapPath != null) {
+                  final setting =
+                  Provider.of<SettingViewModel>(context, listen: false);
+                  setting.changeMap(mapPath);
+                }
+              },
             ),
-            onPressed: () async {
-              final String? mapPath = await showDialog<String>(
-                context: context,
-                builder: (context) {
-                  return const MapSelector();
-                },
-              );
-              if (mapPath != null) {
-                final setting =
-                Provider.of<SettingViewModel>(context, listen: false);
-                setting.changeMap(mapPath);
-              }
-            },
           ),
-          ElevatedButton(
-            child: const Text(
-              "全リセット",
-              style: TextStyle(fontSize: 13),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+              child: const Text(
+                "全リセット",
+                style: TextStyle(fontSize: 13),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: const Text("全リセット"),
+                      content: const Text("位置・死亡状況・ルート線をリセットしますか？"),
+                      actions: [
+                        ElevatedButton(
+                          child: const Text("OK"),
+                          onPressed: () {
+                            playerModel.resetRound();
+                            timerModel.clearTimer();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) {
-                  return AlertDialog(
-                    title: const Text("全リセット"),
-                    content: const Text("位置・死亡状況・ルート線をリセットしますか？"),
-                    actions: [
-                      ElevatedButton(
-                        child: const Text("OK"),
-                        onPressed: () {
-                          playerModel.resetRound();
-                          timerModel.clearTimer();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
-          ElevatedButton(
-            child: const Text(
-              "名前登録",
-              style: TextStyle(fontSize: 13),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+              child: const Text(
+                "名前登録",
+                style: TextStyle(fontSize: 13),
+              ),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return NameRegister(playerModel);
+                }));
+              },
             ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return NameRegister(playerModel);
-              }));
-            },
           ),
         ],
       ),
@@ -212,8 +221,8 @@ class HomeScreen extends StatelessWidget {
               partitionLine(overlayBarHeight),
               const PlayerCounter(),
               partitionLine(overlayBarHeight),
-              Column(
-                children: const [
+              const Column(
+                children: [
                   CoolTimeList(CoolTimeType.button, "ボタン", 10, 60, 5),
                   CoolTimeList(CoolTimeType.kill, "キル", 10, 60, 2.5),
                 ],

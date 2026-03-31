@@ -17,7 +17,7 @@ class NameRegister extends StatefulWidget {
 }
 
 class _NameRegisterState extends State<NameRegister> {
-  static const size = Size(500, 450);
+  static const size = Size(500, 460);
   late List<FieldItem> items;
   late WndViewModel _wndModel;
 
@@ -109,7 +109,7 @@ class _NameRegisterState extends State<NameRegister> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 100,
+                  width: 110,
                   child: ElevatedButton(
                     focusNode: buttonSkipFocus,
                     onPressed: () {
@@ -129,7 +129,7 @@ class _NameRegisterState extends State<NameRegister> {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
+                  width: 110,
                   child: ElevatedButton(
                     focusNode: buttonSkipFocus,
                     onPressed: () {
@@ -152,7 +152,7 @@ class _NameRegisterState extends State<NameRegister> {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
+                  width: 150,
                   child: ElevatedButton(
                     onPressed: () {
                       backToPrevScreen();

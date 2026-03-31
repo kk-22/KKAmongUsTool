@@ -59,6 +59,11 @@ class PlayerButton extends StatelessWidget {
         const PlayerWidget(RoundViewModel.maxRound, true),
         if (order != null)
           TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             onPressed: () {
               // 間違えて押した場合用に元に戻す
               _playerModel.resetButtonOrder(player);
@@ -79,7 +84,7 @@ class PlayerButton extends StatelessWidget {
                   .length;
               player.useButton(usedCount);
             },
-            icon: Image.asset("assets/icon/emergency_button.png"),
+            icon: Image.asset("assets/icon/emergency_button.png", height: 20),
           )
         else
           const Icon(Icons.clear),
