@@ -34,5 +34,6 @@
 
 https://user-images.githubusercontent.com/85630292/139568510-402ee214-aa94-40e3-bcd2-061b69a6ac2d.mp4
 
+# 使い方
 
-
+詳細は [USAGE.md](./USAGE.md) を参照してください。
