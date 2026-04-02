@@ -1,6 +1,7 @@
 //▼main.dart
 
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/app_config.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:kk_amongus_tool/view_model/route_view_model.dart';
@@ -11,9 +12,10 @@ import 'package:provider/provider.dart';
 
 import 'view/screen/home_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  final config = await AppConfig.load();
+  runApp(MyApp(config));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,10 +23,11 @@ class MyApp extends StatelessWidget {
   late final RouteViewModel _route;
   late final PlayerViewModel _playerModel;
   late final WndViewModel _wndModel;
+  final AppConfig _config;
 
-  MyApp({Key? key}) : super(key: key) {
+  MyApp(this._config, {Key? key}) : super(key: key) {
     _route = RouteViewModel(_roundModel);
-    _playerModel = PlayerViewModel(_roundModel, _route);
+    _playerModel = PlayerViewModel(_roundModel, _route, _config);
     _wndModel = WndViewModel();
   }
 

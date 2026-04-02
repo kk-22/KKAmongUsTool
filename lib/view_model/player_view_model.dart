@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/app_config.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/round_view_model.dart';
 import 'package:kk_amongus_tool/view_model/route_view_model.dart';
@@ -23,19 +24,12 @@ class PlayerViewModel extends ChangeNotifier {
 
   int numberOfPlayers() => _players.length;
 
-  PlayerViewModel(this._roundModel, this._movingRoute) {
-    // デバッグ用初期値
-    _players = [
-      Player("KK", PlayerColorEx.myselfColor),
-      Player("赤色", PlayerColor.red),
-      Player("みどり", PlayerColor.green),
-      Player("yellow", PlayerColor.yellow),
-      Player("TAN", PlayerColor.tan),
-      Player("むらさき色", PlayerColor.purple),
-      Player("BLACK", PlayerColor.black),
-      Player("白白白", PlayerColor.white),
-    ];
-    _players[0].isMyself = true;
+  PlayerViewModel(this._roundModel, this._movingRoute, AppConfig config) {
+    _players = config.players.map((p) {
+      final player = Player(p.name, p.color);
+      player.isMyself = p.isMyself;
+      return player;
+    }).toList();
     resetRound();
   }
 

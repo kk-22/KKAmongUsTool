@@ -63,3 +63,4 @@ flutter:
     - assets/player/
     - assets/map/
     - assets/icon/
+    - assets/config.json
