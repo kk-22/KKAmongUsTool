@@ -6,7 +6,9 @@ class PlayerConfig {
   final String name;
   final PlayerColor color;
   final bool isMyself;
-  PlayerConfig(this.name, this.color, {this.isMyself = false});
+  final bool isEnabled;
+  PlayerConfig(this.name, this.color,
+      {this.isMyself = false, this.isEnabled = false});
 }
 
 class AppConfig {
@@ -14,7 +16,7 @@ class AppConfig {
   AppConfig(this.players);
 
   static AppConfig get _fallback => AppConfig([
-        PlayerConfig("KK", PlayerColor.cyan, isMyself: true),
+        PlayerConfig("KK", PlayerColor.cyan, isMyself: true, isEnabled: true),
       ]);
 
   static Future<AppConfig> load() async {
@@ -30,8 +32,9 @@ class AppConfig {
               (c) => c.name == colorName,
               orElse: () => PlayerColor.red,
             );
+            final isMyself = e['isMyself'] as bool? ?? false;
             return PlayerConfig(name, color,
-                isMyself: e['isMyself'] as bool? ?? false);
+                isMyself: isMyself, isEnabled: isMyself);
           })
           .whereType<PlayerConfig>()
           .toList();

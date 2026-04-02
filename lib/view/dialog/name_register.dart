@@ -29,7 +29,8 @@ class _NameRegisterState extends State<NameRegister> {
 
     items = PlayerColor.values.map((color) {
       var player = widget._playerModel.playerOfColor(color);
-      final controller = TextEditingController(text: player?.name ?? "");
+      final controller = TextEditingController(
+          text: player?.name ?? widget._playerModel.inactiveNameOf(color));
       controller.addListener(() {
         final item = items[color.index];
         if (!item.isEnabled) {

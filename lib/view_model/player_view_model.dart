@@ -11,6 +11,7 @@ class PlayerViewModel extends ChangeNotifier {
   final SelectingColor _selectingColor =
       SelectingColor(); // プレイヤー毎のステータス変更Widget表示用
   List<Player> _players = [];
+  final Map<PlayerColor, String> _inactiveNames = {};
 
   // インスタンスをそのまま返すため、呼び出し元でsortメソッドはNG
   List<Player> get allPlayer => _players;
@@ -24,12 +25,18 @@ class PlayerViewModel extends ChangeNotifier {
 
   int numberOfPlayers() => _players.length;
 
+  String inactiveNameOf(PlayerColor color) => _inactiveNames[color] ?? '';
+
   PlayerViewModel(this._roundModel, this._movingRoute, AppConfig config) {
-    _players = config.players.map((p) {
-      final player = Player(p.name, p.color);
-      player.isMyself = p.isMyself;
-      return player;
-    }).toList();
+    for (final p in config.players) {
+      if (p.isEnabled) {
+        final player = Player(p.name, p.color);
+        player.isMyself = p.isMyself;
+        _players.add(player);
+      } else {
+        _inactiveNames[p.color] = p.name;
+      }
+    }
     resetRound();
   }
 
