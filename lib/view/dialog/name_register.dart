@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kk_amongus_tool/model/app_config.dart';
 import 'package:kk_amongus_tool/model/player.dart';
 import 'package:kk_amongus_tool/view_model/player_view_model.dart';
 import 'package:kk_amongus_tool/view_model/wnd_view_model.dart';
@@ -258,6 +259,15 @@ class _NameRegisterState extends State<NameRegister> {
   }
 
   void backToPrevScreen() {
+    final configs = items
+        .map((item) => PlayerConfig(
+              item.controller.text,
+              item.color,
+              isMyself: item.isMyself,
+              isEnabled: item.isEnabled,
+            ))
+        .toList();
+    AppConfig.save(configs);
     Navigator.of(context).pop();
     _wndModel.expandWnd();
   }
