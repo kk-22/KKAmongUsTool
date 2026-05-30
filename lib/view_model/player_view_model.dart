@@ -118,6 +118,10 @@ class PlayerViewModel extends ChangeNotifier {
     }
   }
 
+  void setInactiveName(PlayerColor color, String name) {
+    _inactiveNames[color] = name;
+  }
+
   void changePlayerStatus(Player player, PlayerStatus status) {
     player.changedStatus(status, _roundModel.currentRound);
     _roundModel.updateLastRoundIfNeeded();

@@ -205,6 +205,7 @@ class _NameRegisterState extends State<NameRegister> {
                   // 名前あり・オン → オフにする（名前は保持）
                   setState(() { item.isEnabled = false; });
                   item.isMyself = false;
+                  widget._playerModel.setInactiveName(item.color, item.controller.text);
                   widget._playerModel.changeName("", item.color);
                 } else {
                   // 名前あり・オフ → オンにする
